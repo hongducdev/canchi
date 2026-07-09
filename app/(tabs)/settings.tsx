@@ -4,6 +4,7 @@ import { Alert, Share, StyleSheet, Text, TextInput, View } from 'react-native';
 import { Card } from '../../src/components/Card';
 import { Screen } from '../../src/components/Screen';
 import { SettingRow } from '../../src/components/SettingRow';
+import { ToolTile } from '../../src/components/ToolTile';
 import { useTheme } from '../../src/hooks/useTheme';
 import { buildBackup, parseBackup, serializeBackup } from '../../src/lib/backup';
 import {
@@ -130,46 +131,50 @@ export default function SettingsScreen() {
       </View>
 
       <Text style={[styles.group, { color: colors.textMuted }]}>CÔNG CỤ</Text>
-      <Card padded={false} style={styles.card}>
-        <View style={styles.pad}>
-          <SettingRow
-            title="Tìm kiếm"
-            subtitle="Ngày, lễ hội, tiết khí"
-            onPress={() => router.push('/search')}
-          />
-          <SettingRow
-            title="Ngày tốt"
-            subtitle="Cưới hỏi, khai trương, xuất hành…"
-            onPress={() => router.push('/lucky')}
-          />
-          <SettingRow
-            title="Sự kiện cá nhân"
-            subtitle={`${personalEvents.length} sự kiện trên máy`}
-            onPress={() => router.push('/personal')}
-          />
-          <SettingRow
-            title="Phong thủy"
-            subtitle="Mệnh, màu, số, hướng theo năm sinh"
-            onPress={() => router.push('/fengshui')}
-          />
-          <SettingRow
-            title="Tính ngày lễ"
-            subtitle="Đầy tháng, 49 ngày, giỗ…"
-            onPress={() => router.push('/memorial')}
-          />
-          <SettingRow
-            title="Gia đình"
-            subtitle={`${familyMembers.length} thành viên trên máy`}
-            onPress={() => router.push('/family')}
-          />
-          <SettingRow
-            title="Thiên văn"
-            subtitle="Trăng, nhật thực, mưa sao băng"
-            onPress={() => router.push('/astronomy')}
-            isLast
-          />
-        </View>
-      </Card>
+      <View style={styles.toolsGrid}>
+        <ToolTile
+          title="Tìm kiếm"
+          subtitle="Ngày, lễ hội, tiết khí"
+          icon="search-outline"
+          onPress={() => router.push('/search')}
+        />
+        <ToolTile
+          title="Ngày tốt"
+          subtitle="Cưới hỏi, khai trương, xuất hành…"
+          icon="sparkles-outline"
+          onPress={() => router.push('/lucky')}
+        />
+        <ToolTile
+          title="Sự kiện cá nhân"
+          subtitle={`${personalEvents.length} sự kiện trên máy`}
+          icon="calendar-outline"
+          onPress={() => router.push('/personal')}
+        />
+        <ToolTile
+          title="Phong thủy"
+          subtitle="Mệnh, màu, số, hướng theo năm sinh"
+          icon="compass-outline"
+          onPress={() => router.push('/fengshui')}
+        />
+        <ToolTile
+          title="Tính ngày lễ"
+          subtitle="Đầy tháng, 49 ngày, giỗ…"
+          icon="flower-outline"
+          onPress={() => router.push('/memorial')}
+        />
+        <ToolTile
+          title="Gia đình"
+          subtitle={`${familyMembers.length} thành viên trên máy`}
+          icon="people-outline"
+          onPress={() => router.push('/family')}
+        />
+        <ToolTile
+          title="Thiên văn"
+          subtitle="Trăng, nhật thực, mưa sao băng"
+          icon="planet-outline"
+          onPress={() => router.push('/astronomy')}
+        />
+      </View>
 
       <Text style={[styles.group, { color: colors.textMuted }]}>GIAO DIỆN</Text>
       <Card padded={false} style={styles.card}>
@@ -321,6 +326,13 @@ const styles = StyleSheet.create({
   },
   pad: {
     paddingHorizontal: space.lg,
+  },
+  toolsGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    gap: space.sm,
+    marginBottom: space.sm,
   },
   restoreCard: {
     marginBottom: space.sm,
