@@ -18,6 +18,7 @@ import { dailyActivityScores, overallDayScore } from '../../src/lib/dailyScore';
 import { parseDateKey, isValidSolarDate } from '../../src/lib/lunar';
 import { isWeb } from '../../src/lib/platform';
 import { useNotesStore } from '../../src/store/notes';
+import { syncWidgets } from '../../src/widgets/syncWidgets';
 import { useTheme } from '../../src/hooks/useTheme';
 import { font, radius, space } from '../../src/theme/spacing';
 import { AppText, AppTextInput } from '../../src/components/AppText';
@@ -74,6 +75,7 @@ export default function DayDetailScreen() {
     addNote(String(date), title, body);
     setTitle('');
     setBody('');
+    void syncWidgets();
   };
 
   return (
@@ -316,7 +318,10 @@ export default function DayDetailScreen() {
                         {
                           text: 'Xóa',
                           style: 'destructive',
-                          onPress: () => deleteNote(n.id),
+                          onPress: () => {
+                            deleteNote(n.id);
+                            void syncWidgets();
+                          },
                         },
                       ])
                     }

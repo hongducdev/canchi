@@ -13,6 +13,7 @@ import {
   solarToLunar,
 } from '../lib/lunar';
 import type { SolarDate } from '../lib/types';
+import { useNotesStore } from '../store/notes';
 import type {
   ComboWidgetProps,
   DateMinimalWidgetProps,
@@ -24,13 +25,40 @@ import type {
 
 const WEEKDAY_LABELS_MON = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'] as const;
 
+const FESTIVAL_CATEGORIES = new Set(['tet', 'le', 'quoc-gia']);
+
 function nextLocalMidnight(from: Date): Date {
   const d = new Date(from);
   d.setHours(24, 0, 0, 0);
   return d;
 }
 
-function buildMonthCells(year: number, month: number, today: SolarDate): WidgetMonthCell[] {
+function isMarkedFestival(solar: SolarDate): boolean {
+  return buildDayInfo(solar).festivals.some((f) =>
+    FESTIVAL_CATEGORIES.has(f.category)
+  );
+}
+
+async function noteKeysInMonth(year: number, month: number): Promise<Set<string>> {
+  try {
+    await useNotesStore.persist.rehydrate();
+  } catch {
+    // Persist may already be hydrated or unavailable in headless context.
+  }
+  const prefix = `${year}-${String(month).padStart(2, '0')}-`;
+  const keys = new Set<string>();
+  for (const note of useNotesStore.getState().notes) {
+    if (note.dateKey.startsWith(prefix)) keys.add(note.dateKey);
+  }
+  return keys;
+}
+
+function buildMonthCells(
+  year: number,
+  month: number,
+  today: SolarDate,
+  noteKeys: Set<string>
+): WidgetMonthCell[] {
   const dim = daysInSolarMonth(year, month);
   // firstWeekdayOfMonth: 0=Sun … 6=Sat → Monday-first index
   let first = firstWeekdayOfMonth(year, month);
@@ -41,6 +69,8 @@ function buildMonthCells(year: number, month: number, today: SolarDate): WidgetM
     lunarLabel: null,
     isToday: false,
     isWeekend: false,
+    isFestival: false,
+    hasNote: false,
   };
   const cells: WidgetMonthCell[] = [];
   for (let i = 0; i < first; i++) {
@@ -60,6 +90,8 @@ function buildMonthCells(year: number, month: number, today: SolarDate): WidgetM
       lunarLabel,
       isToday: sameSolar(solar, today),
       isWeekend: col === 5 || col === 6,
+      isFestival: isMarkedFestival(solar),
+      hasNote: noteKeys.has(dateKey(solar)),
     });
   }
   while (cells.length % 7 !== 0) {
@@ -68,7 +100,7 @@ function buildMonthCells(year: number, month: number, today: SolarDate): WidgetM
   return cells;
 }
 
-export function buildWidgetPayload(now = new Date()): WidgetPayload {
+export async function buildWidgetPayload(now = new Date()): Promise<WidgetPayload> {
   const today: SolarDate = {
     day: now.getDate(),
     month: now.getMonth() + 1,
@@ -77,7 +109,8 @@ export function buildWidgetPayload(now = new Date()): WidgetPayload {
   const info = buildDayInfo(today, now);
   const quote = resolveQuote(info);
   const lunarShort = `${formatLunarShort(info)} ÂL`;
-  const cells = buildMonthCells(today.year, today.month, today);
+  const noteKeys = await noteKeysInMonth(today.year, today.month);
+  const cells = buildMonthCells(today.year, today.month, today, noteKeys);
   const weekdayLabels = [...WEEKDAY_LABELS_MON];
 
   const dayLore: DayLoreWidgetProps = {

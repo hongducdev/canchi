@@ -10,7 +10,7 @@ export async function widgetTaskHandler({
     case 'WIDGET_ADDED':
     case 'WIDGET_UPDATE':
     case 'WIDGET_RESIZED':
-      renderWidget(renderAndroidWidgetFamily(widgetInfo.widgetName));
+      renderWidget(await renderAndroidWidgetFamily(widgetInfo.widgetName));
       break;
     case 'WIDGET_DELETED':
     case 'WIDGET_CLICK':

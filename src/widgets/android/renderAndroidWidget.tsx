@@ -1,13 +1,12 @@
 import React from 'react';
 import { buildWidgetPayload } from '../buildWidgetPayload';
+import type { WidgetPayload } from '../types';
 import { ComboAndroidWidget } from './ComboAndroidWidget';
 import { DateMinimalAndroidWidget } from './DateMinimalAndroidWidget';
 import { DayLoreAndroidWidget } from './DayLoreAndroidWidget';
 import { MonthSmallAndroidWidget } from './MonthSmallAndroidWidget';
 
-export function renderAndroidWidgetFamily(widgetName: string, now = new Date()) {
-  const payload = buildWidgetPayload(now);
-
+function familyFromPayload(widgetName: string, payload: WidgetPayload) {
   switch (widgetName) {
     case 'DayLore':
       return {
@@ -39,6 +38,14 @@ export function renderAndroidWidgetFamily(widgetName: string, now = new Date()) 
         dark: <DayLoreAndroidWidget {...payload.dayLore} scheme="dark" />,
       };
   }
+}
+
+export async function renderAndroidWidgetFamily(
+  widgetName: string,
+  now = new Date()
+) {
+  const payload = await buildWidgetPayload(now);
+  return familyFromPayload(widgetName, payload);
 }
 
 export const ANDROID_WIDGET_NAMES = [

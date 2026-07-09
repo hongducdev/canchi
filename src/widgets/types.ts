@@ -6,6 +6,10 @@ export type WidgetMonthCell = {
   lunarLabel: string | null;
   isToday: boolean;
   isWeekend: boolean;
+  /** Traditional / national festival (tet, le, quoc-gia) */
+  isFestival: boolean;
+  /** User has at least one local note on this solar day */
+  hasNote: boolean;
 };
 
 export type DayLoreWidgetProps = {

@@ -17,7 +17,7 @@ export async function syncWidgets(now = new Date()): Promise<void> {
       ANDROID_WIDGET_NAMES.map((widgetName) =>
         requestWidgetUpdate({
           widgetName,
-          renderWidget: () => renderAndroidWidgetFamily(widgetName, now),
+          renderWidget: async () => renderAndroidWidgetFamily(widgetName, now),
         })
       )
     );

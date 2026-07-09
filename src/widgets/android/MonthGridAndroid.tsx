@@ -76,12 +76,17 @@ export function MonthGridAndroid({
               );
             }
 
-            const solarColor = cell.isToday
-              ? c.todayText
-              : cell.isWeekend
-                ? c.weekend
-                : c.text;
-            const lunarColor = cell.isToday ? c.todayText : c.muted;
+            // Priority: today → festival → note → weekend → default
+            let solarColor = c.text;
+            if (cell.isToday) solarColor = c.todayText;
+            else if (cell.isFestival) solarColor = c.festival;
+            else if (cell.hasNote) solarColor = c.note;
+            else if (cell.isWeekend) solarColor = c.weekend;
+
+            let lunarColor = c.muted;
+            if (cell.isToday) lunarColor = c.todayText;
+            else if (cell.isFestival) lunarColor = c.festival;
+            else if (cell.hasNote) lunarColor = c.note;
 
             return (
               <FlexWidget

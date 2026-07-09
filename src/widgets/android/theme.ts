@@ -8,6 +8,8 @@ export type WidgetPalette = {
   muted: ColorProp;
   accent: ColorProp;
   weekend: ColorProp;
+  festival: ColorProp;
+  note: ColorProp;
   todayBg: ColorProp;
   todayText: ColorProp;
   border: ColorProp;
@@ -21,6 +23,8 @@ export function widgetPalette(scheme: WidgetScheme): WidgetPalette {
       muted: '#6B7A8C',
       accent: '#A88B2E',
       weekend: '#B91C1C',
+      festival: '#A88B2E',
+      note: '#2F6B5A',
       todayBg: '#C23B22',
       todayText: '#FFFFFF',
       border: '#E5DFD4',
@@ -32,6 +36,8 @@ export function widgetPalette(scheme: WidgetScheme): WidgetPalette {
     muted: '#7A8899',
     accent: '#C9A227',
     weekend: '#E85A42',
+    festival: '#C9A227',
+    note: '#3D8B74',
     todayBg: '#E85A42',
     todayText: '#FFFFFF',
     border: 'rgba(255, 255, 255, 0.12)',
