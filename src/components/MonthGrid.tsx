@@ -1,6 +1,6 @@
-import { Link } from 'expo-router';
+import { router } from 'expo-router';
 import React, { useMemo } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import { WEEKDAYS_SHORT } from '../lib/canChi';
 import { buildDayInfo, formatLunarShort } from '../lib/dayInfo';
 import {
@@ -14,8 +14,10 @@ import {
 import type { SolarDate } from '../lib/types';
 import { useHaptics } from '../hooks/useHaptics';
 import { useTheme } from '../hooks/useTheme';
+import { isWeb } from '../lib/platform';
 import { useSettingsStore } from '../store/settings';
 import { font, radius, space } from '../theme/spacing';
+import { AppText } from './AppText';
 
 type Props = {
   year: number;
@@ -69,7 +71,15 @@ export function MonthGrid({
       <View style={styles.weekRow}>
         {weekdayLabels.map((w) => (
           <View key={w} style={styles.weekCell}>
-            <Text style={[styles.weekLabel, { color: colors.textMuted }]}>{w}</Text>
+            <AppText
+              style={[
+                styles.weekLabel,
+                isWeb && styles.weekLabelWeb,
+                { color: colors.textMuted },
+              ]}
+            >
+              {w}
+            </AppText>
           </View>
         ))}
       </View>
@@ -77,7 +87,12 @@ export function MonthGrid({
       <View style={styles.grid}>
         {cells.map((cell, idx) => {
           if (!cell.solar) {
-            return <View key={`e-${idx}`} style={styles.dayCell} />;
+            return (
+              <View
+                key={`e-${idx}`}
+                style={[styles.dayCell, isWeb && styles.dayCellWeb]}
+              />
+            );
           }
           const d = cell.solar;
           const isToday = sameSolar(d, today);
@@ -102,9 +117,13 @@ export function MonthGrid({
             <Pressable
               onPress={() => {
                 selection();
-                onSelect?.(d);
+                if (onSelect) {
+                  onSelect(d);
+                } else if (navigateOnPress) {
+                  router.push(`/day/${key}`);
+                }
               }}
-              style={[
+              style={StyleSheet.flatten([
                 styles.dayInner,
                 isToday && { backgroundColor: colors.today },
                 isSelected &&
@@ -113,13 +132,18 @@ export function MonthGrid({
                     borderWidth: 1.5,
                     borderColor: colors.text,
                   },
-              ]}
+              ])}
             >
-              <Text style={[styles.solarNum, { color: solarColor }]}>{d.day}</Text>
+              <AppText
+                style={[styles.solarNum, isWeb && styles.solarNumWeb, { color: solarColor }]}
+              >
+                {d.day}
+              </AppText>
               {showLunar ? (
-                <Text
+                <AppText
                   style={[
                     styles.lunarNum,
+                    isWeb && styles.lunarNumWeb,
                     {
                       color: isToday
                         ? 'rgba(255,255,255,0.85)'
@@ -130,7 +154,7 @@ export function MonthGrid({
                   ]}
                 >
                   {formatLunarShort(info)}
-                </Text>
+                </AppText>
               ) : null}
               {hasFest ? (
                 <View
@@ -146,14 +170,8 @@ export function MonthGrid({
           );
 
           return (
-            <View key={key} style={styles.dayCell}>
-              {navigateOnPress && !onSelect ? (
-                <Link href={`/day/${key}`} asChild>
-                  {inner}
-                </Link>
-              ) : (
-                inner
-              )}
+            <View key={key} style={[styles.dayCell, isWeb && styles.dayCellWeb]}>
+              {inner}
             </View>
           );
         })}
@@ -176,6 +194,9 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     letterSpacing: 0.4,
   },
+  weekLabelWeb: {
+    fontSize: font.sm,
+  },
   grid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -184,6 +205,10 @@ const styles = StyleSheet.create({
     width: '14.2857%',
     aspectRatio: 0.85,
     padding: 2,
+  },
+  dayCellWeb: {
+    aspectRatio: 1,
+    padding: 4,
   },
   dayInner: {
     flex: 1,
@@ -198,10 +223,18 @@ const styles = StyleSheet.create({
     fontSize: font.md,
     fontWeight: '600',
   },
+  solarNumWeb: {
+    fontSize: font.xl,
+    fontWeight: '700',
+  },
   lunarNum: {
     fontSize: 10,
     marginTop: 1,
     fontWeight: '500',
+  },
+  lunarNumWeb: {
+    fontSize: font.sm,
+    marginTop: 2,
   },
   dot: {
     width: 4,

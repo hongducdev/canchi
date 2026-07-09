@@ -1,9 +1,14 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { router, usePathname } from 'expo-router';
 import React from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import {
+  Pressable,
+  StyleSheet,
+  View
+} from 'react-native';
 import { useTheme } from '../hooks/useTheme';
 import { font, space } from '../theme/spacing';
+import { AppText } from './AppText';
 
 type NavItem = {
   href: '/(tabs)' | '/(tabs)/calendar' | '/(tabs)/events' | '/(tabs)/settings';
@@ -53,7 +58,7 @@ export function WebSidebar() {
         },
       ]}
     >
-      <Text style={[styles.brand, { color: colors.textMuted }]}>Lịch Âm</Text>
+      <AppText style={[styles.brand, { color: colors.textMuted }]}>Lịch Âm</AppText>
       <View style={styles.nav}>
         {NAV.map((item) => {
           const active = item.match(pathname);
@@ -61,21 +66,23 @@ export function WebSidebar() {
             <Pressable
               key={item.href}
               onPress={() => router.push(item.href)}
-              style={({ pressed }) => [
-                styles.item,
-                {
-                  borderLeftColor: active ? colors.accent : 'transparent',
-                  backgroundColor:
-                    active || pressed ? colors.bgMuted : 'transparent',
-                },
-              ]}
+              style={({ pressed }) =>
+                StyleSheet.flatten([
+                  styles.item,
+                  {
+                    borderLeftColor: active ? colors.accent : 'transparent',
+                    backgroundColor:
+                      active || pressed ? colors.bgMuted : 'transparent',
+                  },
+                ])
+              }
             >
               <Ionicons
                 name={item.icon}
                 size={20}
                 color={active ? colors.accent : colors.textSecondary}
               />
-              <Text
+              <AppText
                 style={[
                   styles.label,
                   { color: active ? colors.text : colors.textSecondary },
@@ -83,14 +90,14 @@ export function WebSidebar() {
                 ]}
               >
                 {item.label}
-              </Text>
+              </AppText>
             </Pressable>
           );
         })}
       </View>
-      <Text style={[styles.foot, { color: colors.textMuted }]}>
+      <AppText style={[styles.foot, { color: colors.textMuted }]}>
         Offline · trên trình duyệt
-      </Text>
+      </AppText>
     </View>
   );
 }

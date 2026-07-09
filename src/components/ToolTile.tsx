@@ -1,9 +1,14 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import React from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import {
+  Pressable,
+  StyleSheet,
+  View
+} from 'react-native';
 import { useTheme } from '../hooks/useTheme';
 import { font, radius, space } from '../theme/spacing';
 import { Card } from './Card';
+import { AppText } from './AppText';
 
 type Props = {
   title: string;
@@ -18,7 +23,9 @@ export function ToolTile({ title, subtitle, icon, onPress }: Props) {
   return (
     <Pressable
       onPress={onPress}
-      style={({ pressed }) => [styles.pressable, { opacity: pressed ? 0.7 : 1 }]}
+      style={({ pressed }) =>
+        StyleSheet.flatten([styles.pressable, { opacity: pressed ? 0.7 : 1 }])
+      }
     >
       <Card style={styles.card}>
         <View
@@ -26,15 +33,15 @@ export function ToolTile({ title, subtitle, icon, onPress }: Props) {
         >
           <Ionicons name={icon} size={20} color={colors.accentText} />
         </View>
-        <Text style={[styles.title, { color: colors.text }]} numberOfLines={1}>
+        <AppText style={[styles.title, { color: colors.text }]} numberOfLines={1}>
           {title}
-        </Text>
-        <Text
+        </AppText>
+        <AppText
           style={[styles.subtitle, { color: colors.textMuted }]}
           numberOfLines={2}
         >
           {subtitle}
-        </Text>
+        </AppText>
       </Card>
     </Pressable>
   );

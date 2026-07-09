@@ -1,7 +1,11 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import {
+  StyleSheet,
+  View
+} from 'react-native';
 import { useTheme } from '../hooks/useTheme';
 import { font, radius, space } from '../theme/spacing';
+import { AppText } from './AppText';
 
 type Props = {
   days: number;
@@ -23,18 +27,18 @@ export function TetCountdownCard({ days, dateLabel }: Props) {
     >
       <View style={[styles.accent, { backgroundColor: colors.accent }]} />
       <View style={styles.body}>
-        <Text style={[styles.eyebrow, { color: colors.accentText }]}>Đếm ngược Tết</Text>
+        <AppText style={[styles.eyebrow, { color: colors.accentText }]}>Đếm ngược Tết</AppText>
         <View style={styles.row}>
-          <Text style={[styles.days, { color: colors.text }]}>
+          <AppText style={[styles.days, { color: colors.text }]}>
             {days === 0 ? 'Hôm nay' : days}
-          </Text>
+          </AppText>
           {days > 0 ? (
-            <Text style={[styles.unit, { color: colors.textMuted }]}>ngày</Text>
+            <AppText style={[styles.unit, { color: colors.textMuted }]}>ngày</AppText>
           ) : null}
         </View>
-        <Text style={[styles.sub, { color: colors.textSecondary }]}>
+        <AppText style={[styles.sub, { color: colors.textSecondary }]}>
           Tết Nguyên Đán · {dateLabel}
-        </Text>
+        </AppText>
       </View>
     </View>
   );

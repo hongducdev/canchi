@@ -6,9 +6,7 @@ import {
   Pressable,
   StyleSheet,
   Switch,
-  Text,
-  TextInput,
-  View,
+  View
 } from 'react-native';
 import { Card } from '../src/components/Card';
 import { Screen } from '../src/components/Screen';
@@ -21,6 +19,7 @@ import {
 } from '../src/store/personalEvents';
 import type { PersonalEventKind } from '../src/lib/types';
 import { font, radius, space } from '../src/theme/spacing';
+import { AppText, AppTextInput } from '../src/components/AppText';
 
 const KINDS: PersonalEventKind[] = [
   'lunar-birthday',
@@ -100,15 +99,15 @@ export default function PersonalEventsScreen() {
   return (
     <Screen>
       <View style={styles.header}>
-        <Text style={[styles.title, { color: colors.text }]}>Sự kiện cá nhân</Text>
-        <Text style={[styles.sub, { color: colors.textMuted }]}>
+        <AppText style={[styles.title, { color: colors.text }]}>Sự kiện cá nhân</AppText>
+        <AppText style={[styles.sub, { color: colors.textMuted }]}>
           Sinh nhật · Giỗ · Nhắc việc · Offline
-        </Text>
+        </AppText>
       </View>
 
       <SectionHeader title="Thêm sự kiện" />
       <Card>
-        <TextInput
+        <AppTextInput
           placeholder="Tiêu đề"
           placeholderTextColor={colors.textMuted}
           value={title}
@@ -118,7 +117,7 @@ export default function PersonalEventsScreen() {
             { color: colors.text, borderColor: colors.border, backgroundColor: colors.bgMuted },
           ]}
         />
-        <TextInput
+        <AppTextInput
           placeholder="Ghi chú (tuỳ chọn)"
           placeholderTextColor={colors.textMuted}
           value={note}
@@ -129,7 +128,7 @@ export default function PersonalEventsScreen() {
           ]}
         />
 
-        <Text style={[styles.label, { color: colors.textMuted }]}>Loại</Text>
+        <AppText style={[styles.label, { color: colors.textMuted }]}>Loại</AppText>
         <View style={styles.chips}>
           {KINDS.map((k) => {
             const active = kind === k;
@@ -145,21 +144,21 @@ export default function PersonalEventsScreen() {
                   },
                 ]}
               >
-                <Text
+                <AppText
                   style={[
                     styles.chipText,
                     { color: active ? colors.accentText : colors.textSecondary },
                   ]}
                 >
                   {PERSONAL_KIND_LABEL[k]}
-                </Text>
+                </AppText>
               </Pressable>
             );
           })}
         </View>
 
         <View style={styles.rowBetween}>
-          <Text style={[styles.labelInline, { color: colors.textMuted }]}>Lịch Âm</Text>
+          <AppText style={[styles.labelInline, { color: colors.textMuted }]}>Lịch Âm</AppText>
           <Switch
             value={calendar === 'lunar'}
             onValueChange={(v) => setCalendar(v ? 'lunar' : 'solar')}
@@ -168,7 +167,7 @@ export default function PersonalEventsScreen() {
           />
         </View>
         <View style={styles.rowBetween}>
-          <Text style={[styles.labelInline, { color: colors.textMuted }]}>Lặp hàng năm</Text>
+          <AppText style={[styles.labelInline, { color: colors.textMuted }]}>Lặp hàng năm</AppText>
           <Switch
             value={recurring}
             onValueChange={setRecurring}
@@ -178,7 +177,7 @@ export default function PersonalEventsScreen() {
         </View>
 
         <View style={styles.dateRow}>
-          <TextInput
+          <AppTextInput
             placeholder="Ngày"
             placeholderTextColor={colors.textMuted}
             keyboardType="number-pad"
@@ -190,7 +189,7 @@ export default function PersonalEventsScreen() {
               { color: colors.text, borderColor: colors.border, backgroundColor: colors.bgMuted },
             ]}
           />
-          <TextInput
+          <AppTextInput
             placeholder="Tháng"
             placeholderTextColor={colors.textMuted}
             keyboardType="number-pad"
@@ -206,15 +205,15 @@ export default function PersonalEventsScreen() {
 
         <Pressable onPress={save} style={[styles.saveBtn, { backgroundColor: colors.accent }]}>
           <Ionicons name="add" size={18} color="#fff" />
-          <Text style={styles.saveText}>Lưu sự kiện</Text>
+          <AppText style={styles.saveText}>Lưu sự kiện</AppText>
         </Pressable>
       </Card>
 
       <SectionHeader title="Đã lưu" subtitle={`${sorted.length} sự kiện`} />
       {sorted.length === 0 ? (
-        <Text style={[styles.empty, { color: colors.textMuted }]}>
+        <AppText style={[styles.empty, { color: colors.textMuted }]}>
           Chưa có sự kiện cá nhân.
-        </Text>
+        </AppText>
       ) : (
         sorted.map((e) => (
           <View
@@ -225,17 +224,17 @@ export default function PersonalEventsScreen() {
             ]}
           >
             <View style={styles.itemBody}>
-              <Text style={[styles.itemKind, { color: colors.accentText }]}>
+              <AppText style={[styles.itemKind, { color: colors.accentText }]}>
                 {PERSONAL_KIND_LABEL[e.kind]}
                 {e.recurring ? ' · Lặp năm' : ''}
-              </Text>
-              <Text style={[styles.itemTitle, { color: colors.text }]}>{e.title}</Text>
-              <Text style={[styles.itemMeta, { color: colors.textMuted }]}>
+              </AppText>
+              <AppText style={[styles.itemTitle, { color: colors.text }]}>{e.title}</AppText>
+              <AppText style={[styles.itemMeta, { color: colors.textMuted }]}>
                 {e.calendar === 'lunar'
                   ? `Âm ${e.lunarDay}/${e.lunarMonth}`
                   : `Dương ${e.solarDay}/${e.solarMonth}`}
                 {e.note ? ` · ${e.note}` : ''}
-              </Text>
+              </AppText>
             </View>
             <Pressable
               onPress={() =>

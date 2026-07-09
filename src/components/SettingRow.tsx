@@ -1,7 +1,13 @@
 import React from 'react';
-import { Pressable, StyleSheet, Switch, Text, View } from 'react-native';
+import {
+  Pressable,
+  StyleSheet,
+  Switch,
+  View
+} from 'react-native';
 import { useTheme } from '../hooks/useTheme';
 import { font, space } from '../theme/spacing';
+import { AppText } from './AppText';
 
 type Props = {
   title: string;
@@ -32,9 +38,9 @@ export function SettingRow({
       ]}
     >
       <View style={styles.left}>
-        <Text style={[styles.title, { color: colors.text }]}>{title}</Text>
+        <AppText style={[styles.title, { color: colors.text }]}>{title}</AppText>
         {subtitle ? (
-          <Text style={[styles.sub, { color: colors.textMuted }]}>{subtitle}</Text>
+          <AppText style={[styles.sub, { color: colors.textMuted }]}>{subtitle}</AppText>
         ) : null}
       </View>
       {onValueChange != null && value != null ? (
@@ -45,14 +51,14 @@ export function SettingRow({
           thumbColor="#fff"
         />
       ) : rightLabel ? (
-        <Text style={[styles.right, { color: colors.textSecondary }]}>{rightLabel}</Text>
+        <AppText style={[styles.right, { color: colors.textSecondary }]}>{rightLabel}</AppText>
       ) : null}
     </View>
   );
 
   if (onPress) {
     return (
-      <Pressable onPress={onPress} style={({ pressed }) => [{ opacity: pressed ? 0.7 : 1 }]}>
+      <Pressable onPress={onPress} style={({ pressed }) => ({ opacity: pressed ? 0.7 : 1 })}>
         {content}
       </Pressable>
     );

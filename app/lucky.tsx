@@ -1,6 +1,10 @@
 import { router } from 'expo-router';
 import React, { useMemo, useState } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import {
+  Pressable,
+  StyleSheet,
+  View
+} from 'react-native';
 import { Screen } from '../src/components/Screen';
 import { SectionHeader } from '../src/components/SectionHeader';
 import { useTheme } from '../src/hooks/useTheme';
@@ -11,6 +15,7 @@ import {
   type LuckyActivity,
 } from '../src/lib/luckyDay';
 import { font, radius, space } from '../src/theme/spacing';
+import { AppText } from '../src/components/AppText';
 
 const ACTIVITIES = Object.keys(LUCKY_ACTIVITY_LABEL) as LuckyActivity[];
 
@@ -22,10 +27,10 @@ export default function LuckyDayScreen() {
   return (
     <Screen>
       <View style={styles.header}>
-        <Text style={[styles.title, { color: colors.text }]}>Ngày tốt</Text>
-        <Text style={[styles.sub, { color: colors.textMuted }]}>
+        <AppText style={[styles.title, { color: colors.text }]}>Ngày tốt</AppText>
+        <AppText style={[styles.sub, { color: colors.textMuted }]}>
           Chọn việc · xem ngày phù hợp (60 ngày tới)
-        </Text>
+        </AppText>
       </View>
 
       <View style={styles.chips}>
@@ -43,14 +48,14 @@ export default function LuckyDayScreen() {
                 },
               ]}
             >
-              <Text
+              <AppText
                 style={[
                   styles.chipText,
                   { color: active ? colors.accentText : colors.textSecondary },
                 ]}
               >
                 {LUCKY_ACTIVITY_LABEL[a]}
-              </Text>
+              </AppText>
             </Pressable>
           );
         })}
@@ -65,29 +70,31 @@ export default function LuckyDayScreen() {
         <Pressable
           key={dateKey(r.solar)}
           onPress={() => router.push(`/day/${dateKey(r.solar)}`)}
-          style={({ pressed }) => [
-            styles.row,
-            {
-              backgroundColor: colors.bgCard,
-              borderColor: colors.borderStrong,
-              opacity: pressed ? 0.92 : 1,
-            },
-          ]}
+          style={({ pressed }) =>
+            StyleSheet.flatten([
+              styles.row,
+              {
+                backgroundColor: colors.bgCard,
+                borderColor: colors.borderStrong,
+                opacity: pressed ? 0.92 : 1,
+              },
+            ])
+          }
         >
           <View style={styles.scoreCol}>
-            <Text style={[styles.score, { color: colors.text }]}>{r.score}</Text>
-            <Text style={[styles.scoreUnit, { color: colors.textMuted }]}>điểm</Text>
+            <AppText style={[styles.score, { color: colors.text }]}>{r.score}</AppText>
+            <AppText style={[styles.scoreUnit, { color: colors.textMuted }]}>điểm</AppText>
           </View>
           <View style={styles.body}>
-            <Text style={[styles.date, { color: colors.text }]}>
+            <AppText style={[styles.date, { color: colors.text }]}>
               {r.solar.day}/{r.solar.month}/{r.solar.year}
-            </Text>
-            <Text style={[styles.meta, { color: colors.textMuted }]}>
+            </AppText>
+            <AppText style={[styles.meta, { color: colors.textMuted }]}>
               {r.info.canChiDay} · Trực {r.info.lore.truc} · {r.info.moon.phaseName}
-            </Text>
-            <Text style={[styles.reasons, { color: colors.textSecondary }]} numberOfLines={2}>
+            </AppText>
+            <AppText style={[styles.reasons, { color: colors.textSecondary }]} numberOfLines={2}>
               {r.reasons.join(' · ')}
-            </Text>
+            </AppText>
           </View>
         </Pressable>
       ))}

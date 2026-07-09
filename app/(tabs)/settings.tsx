@@ -1,6 +1,11 @@
 import { router } from 'expo-router';
 import React, { useState } from 'react';
-import { Alert, Share, StyleSheet, Text, TextInput, View } from 'react-native';
+import {
+  Alert,
+  Share,
+  StyleSheet,
+  View
+} from 'react-native';
 import { Card } from '../../src/components/Card';
 import { Screen } from '../../src/components/Screen';
 import { SettingRow } from '../../src/components/SettingRow';
@@ -19,6 +24,7 @@ import { usePersonalEventsStore } from '../../src/store/personalEvents';
 import { useSettingsStore } from '../../src/store/settings';
 import type { ThemeMode } from '../../src/lib/types';
 import { font, radius, space } from '../../src/theme/spacing';
+import { AppText, AppTextInput } from '../../src/components/AppText';
 
 const THEME_CYCLE: ThemeMode[] = ['system', 'light', 'dark'];
 const THEME_LABEL: Record<ThemeMode, string> = {
@@ -132,15 +138,15 @@ export default function SettingsScreen() {
   return (
     <Screen>
       <View style={styles.header}>
-        <Text style={[styles.title, { color: colors.text }]}>Cài đặt</Text>
-        <Text style={[styles.sub, { color: colors.textMuted }]}>
+        <AppText style={[styles.title, { color: colors.text }]}>Cài đặt</AppText>
+        <AppText style={[styles.sub, { color: colors.textMuted }]}>
           {isWeb
             ? 'Lịch âm trên trình duyệt · dữ liệu cá nhân chỉ trên app'
             : 'Mọi dữ liệu chỉ lưu trên thiết bị'}
-        </Text>
+        </AppText>
       </View>
 
-      <Text style={[styles.group, { color: colors.textMuted }]}>CÔNG CỤ</Text>
+      <AppText style={[styles.group, { color: colors.textMuted }]}>CÔNG CỤ</AppText>
       <View style={styles.toolsGrid}>
         <ToolTile
           title="Tìm kiếm"
@@ -190,7 +196,7 @@ export default function SettingsScreen() {
         />
       </View>
 
-      <Text style={[styles.group, { color: colors.textMuted }]}>GIAO DIỆN</Text>
+      <AppText style={[styles.group, { color: colors.textMuted }]}>GIAO DIỆN</AppText>
       <Card padded={false} style={styles.card}>
         <View style={styles.pad}>
           <SettingRow
@@ -209,7 +215,7 @@ export default function SettingsScreen() {
         </View>
       </Card>
 
-      <Text style={[styles.group, { color: colors.textMuted }]}>LỊCH</Text>
+      <AppText style={[styles.group, { color: colors.textMuted }]}>LỊCH</AppText>
       <Card padded={false} style={styles.card}>
         <View style={styles.pad}>
           <SettingRow
@@ -237,7 +243,7 @@ export default function SettingsScreen() {
 
       {!isWeb ? (
         <>
-          <Text style={[styles.group, { color: colors.textMuted }]}>THÔNG BÁO</Text>
+          <AppText style={[styles.group, { color: colors.textMuted }]}>THÔNG BÁO</AppText>
           <Card padded={false} style={styles.card}>
             <View style={styles.pad}>
               <SettingRow
@@ -254,7 +260,7 @@ export default function SettingsScreen() {
             </View>
           </Card>
 
-          <Text style={[styles.group, { color: colors.textMuted }]}>DỮ LIỆU</Text>
+          <AppText style={[styles.group, { color: colors.textMuted }]}>DỮ LIỆU</AppText>
           <Card padded={false} style={styles.card}>
             <View style={styles.pad}>
               <SettingRow
@@ -277,8 +283,8 @@ export default function SettingsScreen() {
           </Card>
 
           <Card style={styles.restoreCard}>
-            <Text style={[styles.restoreTitle, { color: colors.text }]}>Khôi phục JSON</Text>
-            <TextInput
+            <AppText style={[styles.restoreTitle, { color: colors.text }]}>Khôi phục JSON</AppText>
+            <AppTextInput
               placeholder="Dán nội dung file sao lưu…"
               placeholderTextColor={colors.textMuted}
               value={restoreText}
@@ -303,17 +309,17 @@ export default function SettingsScreen() {
         </>
       ) : null}
 
-      <Text style={[styles.group, { color: colors.textMuted }]}>VỀ ỨNG DỤNG</Text>
+      <AppText style={[styles.group, { color: colors.textMuted }]}>VỀ ỨNG DỤNG</AppText>
       <Card>
-        <Text style={[styles.aboutTitle, { color: colors.text }]}>Lịch Âm</Text>
-        <Text style={[styles.aboutBody, { color: colors.textSecondary }]}>
+        <AppText style={[styles.aboutTitle, { color: colors.text }]}>Lịch Âm</AppText>
+        <AppText style={[styles.aboutBody, { color: colors.textSecondary }]}>
           Lịch âm dương Việt Nam, hoạt động hoàn toàn offline. Không tài khoản, không
           máy chủ, không theo dõi. Tính Can Chi, tiết khí, giờ hoàng đạo và lễ hội
           truyền thống ngay trên máy bạn.
-        </Text>
-        <Text style={[styles.version, { color: colors.textMuted }]}>
+        </AppText>
+        <AppText style={[styles.version, { color: colors.textMuted }]}>
           Phiên bản 1.0.0 · Riêng tư · Offline-first
-        </Text>
+        </AppText>
       </Card>
     </Screen>
   );

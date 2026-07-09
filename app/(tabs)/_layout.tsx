@@ -4,6 +4,7 @@ import React from 'react';
 import { Platform } from 'react-native';
 import { useWebDesktop } from '../../src/hooks/useWebDesktop';
 import { useTheme } from '../../src/hooks/useTheme';
+import { typeface } from '../../src/theme/fonts';
 
 export default function TabsLayout() {
   const { colors } = useTheme();
@@ -26,8 +27,8 @@ export default function TabsLayout() {
               paddingBottom: Platform.OS === 'ios' ? 28 : 10,
             },
         tabBarLabelStyle: {
+          ...typeface('600'),
           fontSize: 11,
-          fontWeight: '600',
           letterSpacing: 0.2,
         },
       }}

@@ -12,6 +12,11 @@ import { useFamilyStore } from '../src/store/family';
 import { useNotesStore } from '../src/store/notes';
 import { usePersonalEventsStore } from '../src/store/personalEvents';
 import { useSettingsStore } from '../src/store/settings';
+import {
+  enableGoogleSansFlexWeb,
+  googleSansFlexFaces,
+  typeface,
+} from '../src/theme/fonts';
 
 SplashScreen.preventAutoHideAsync().catch(() => {
   // Splash may already be hidden in some environments (e.g. web).
@@ -43,7 +48,7 @@ function RootNav() {
           screenOptions={{
             headerStyle: { backgroundColor: colors.bg },
             headerTintColor: colors.text,
-            headerTitleStyle: { fontWeight: '700' },
+            headerTitleStyle: typeface('700'),
             headerShadowVisible: false,
             contentStyle: { backgroundColor: colors.bg },
             animation: 'slide_from_right',
@@ -71,10 +76,16 @@ function RootNav() {
 }
 
 export default function RootLayout() {
-  const [fontsLoaded, fontError] = useFonts(Ionicons.font);
+  const [fontsLoaded, fontError] = useFonts({
+    ...Ionicons.font,
+    ...googleSansFlexFaces,
+  });
 
   useEffect(() => {
     if (fontsLoaded || fontError) {
+      if (fontsLoaded) {
+        enableGoogleSansFlexWeb();
+      }
       SplashScreen.hideAsync().catch(() => {});
     }
   }, [fontsLoaded, fontError]);

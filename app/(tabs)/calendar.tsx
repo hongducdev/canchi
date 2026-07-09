@@ -1,7 +1,11 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { router } from 'expo-router';
 import React, { useMemo, useState } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import {
+  Pressable,
+  StyleSheet,
+  View
+} from 'react-native';
 import { Card } from '../../src/components/Card';
 import { Chip } from '../../src/components/Chip';
 import { MonthGrid } from '../../src/components/MonthGrid';
@@ -13,6 +17,7 @@ import type { SolarDate } from '../../src/lib/types';
 import { useHaptics } from '../../src/hooks/useHaptics';
 import { useTheme } from '../../src/hooks/useTheme';
 import { font, radius, space } from '../../src/theme/spacing';
+import { AppText } from '../../src/components/AppText';
 
 export default function CalendarScreen() {
   const { colors } = useTheme();
@@ -49,12 +54,12 @@ export default function CalendarScreen() {
   return (
     <Screen>
       <View style={styles.header}>
-        <Text style={[styles.title, { color: colors.text }]}>Lịch tháng</Text>
+        <AppText style={[styles.title, { color: colors.text }]}>Lịch tháng</AppText>
         <Pressable
           onPress={goToday}
           style={[styles.todayBtn, { backgroundColor: colors.accentSoft }]}
         >
-          <Text style={[styles.todayBtnText, { color: colors.accentText }]}>Hôm nay</Text>
+          <AppText style={[styles.todayBtnText, { color: colors.accentText }]}>Hôm nay</AppText>
         </Pressable>
       </View>
 
@@ -67,9 +72,9 @@ export default function CalendarScreen() {
           >
             <Ionicons name="chevron-back" size={20} color={colors.text} />
           </Pressable>
-          <Text style={[styles.monthTitle, { color: colors.text }]}>
+          <AppText style={[styles.monthTitle, { color: colors.text }]}>
             Tháng {cursor.month}/{cursor.year}
-          </Text>
+          </AppText>
           <Pressable
             onPress={() => shiftMonth(1)}
             hitSlop={12}
@@ -90,23 +95,25 @@ export default function CalendarScreen() {
 
       <Pressable
         onPress={() => router.push(`/day/${dateKey(selected)}`)}
-        style={({ pressed }) => [
-          styles.preview,
-          {
-            backgroundColor: colors.bgCard,
-            borderColor: colors.border,
-            opacity: pressed ? 0.92 : 1,
-          },
-        ]}
+        style={({ pressed }) =>
+          StyleSheet.flatten([
+            styles.preview,
+            {
+              backgroundColor: colors.bgCard,
+              borderColor: colors.border,
+              opacity: pressed ? 0.92 : 1,
+            },
+          ])
+        }
       >
         <View style={styles.previewHead}>
           <View style={styles.previewCopy}>
-            <Text style={[styles.previewTitle, { color: colors.text }]}>
+            <AppText style={[styles.previewTitle, { color: colors.text }]}>
               {info.weekdayName}, {selected.day}/{selected.month}/{selected.year}
-            </Text>
-            <Text style={[styles.previewLunar, { color: colors.textSecondary }]}>
+            </AppText>
+            <AppText style={[styles.previewLunar, { color: colors.textSecondary }]}>
               {formatLunarLong(info)}
-            </Text>
+            </AppText>
           </View>
           <ZodiacIcon chi={info.lore.diaChi} size={40} />
         </View>
@@ -116,11 +123,11 @@ export default function CalendarScreen() {
           <Chip label={info.tietKhi} tone="gold" />
         </View>
         {info.festivals.length > 0 ? (
-          <Text style={[styles.fests, { color: colors.gold }]} numberOfLines={2}>
+          <AppText style={[styles.fests, { color: colors.gold }]} numberOfLines={2}>
             {info.festivals.map((f) => f.name).join(' · ')}
-          </Text>
+          </AppText>
         ) : null}
-        <Text style={[styles.link, { color: colors.accent }]}>Mở chi tiết ngày →</Text>
+        <AppText style={[styles.link, { color: colors.accent }]}>Mở chi tiết ngày →</AppText>
       </Pressable>
     </Screen>
   );

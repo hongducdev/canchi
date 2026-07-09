@@ -5,9 +5,7 @@ import {
   Alert,
   Pressable,
   StyleSheet,
-  Text,
-  TextInput,
-  View,
+  View
 } from 'react-native';
 import { Card } from '../../src/components/Card';
 import { Chip } from '../../src/components/Chip';
@@ -22,6 +20,7 @@ import { isWeb } from '../../src/lib/platform';
 import { useNotesStore } from '../../src/store/notes';
 import { useTheme } from '../../src/hooks/useTheme';
 import { font, radius, space } from '../../src/theme/spacing';
+import { AppText, AppTextInput } from '../../src/components/AppText';
 
 export default function DayDetailScreen() {
   const { date } = useLocalSearchParams<{ date: string }>();
@@ -60,7 +59,7 @@ export default function DayDetailScreen() {
   if (!info || !solar) {
     return (
       <Screen>
-        <Text style={{ color: colors.text }}>Ngày không hợp lệ.</Text>
+        <AppText style={{ color: colors.text }}>Ngày không hợp lệ.</AppText>
       </Screen>
     );
   }
@@ -88,17 +87,17 @@ export default function DayDetailScreen() {
       />
       <Screen>
         <View style={styles.heroBlock}>
-          <Text style={[styles.weekday, { color: colors.textMuted }]}>
+          <AppText style={[styles.weekday, { color: colors.textMuted }]}>
             {info.weekdayName}
             {info.isToday ? ' · Hôm nay' : ''}
-          </Text>
-          <Text style={[styles.bigDay, { color: colors.text }]}>{solar.day}</Text>
-          <Text style={[styles.solarLine, { color: colors.textSecondary }]}>
+          </AppText>
+          <AppText style={[styles.bigDay, { color: colors.text }]}>{solar.day}</AppText>
+          <AppText style={[styles.solarLine, { color: colors.textSecondary }]}>
             {formatSolarLong(solar)}
-          </Text>
-          <Text style={[styles.lunarLine, { color: colors.text }]}>
+          </AppText>
+          <AppText style={[styles.lunarLine, { color: colors.text }]}>
             {formatLunarLong(info)}
-          </Text>
+          </AppText>
           <View style={styles.chips}>
             <Chip label={`Ngày ${info.canChiDay}`} tone="accent" />
             {lore.nguHanh ? <Chip label={`Hành ${lore.nguHanh}`} tone="jade" /> : null}
@@ -127,11 +126,11 @@ export default function DayDetailScreen() {
                     },
                   ]}
                 >
-                  <Text style={[styles.festName, { color: colors.text }]}>{f.name}</Text>
+                  <AppText style={[styles.festName, { color: colors.text }]}>{f.name}</AppText>
                   {f.description ? (
-                    <Text style={[styles.festDesc, { color: colors.textSecondary }]}>
+                    <AppText style={[styles.festDesc, { color: colors.textSecondary }]}>
                       {f.description}
-                    </Text>
+                    </AppText>
                   ) : null}
                 </View>
               ))}
@@ -144,15 +143,15 @@ export default function DayDetailScreen() {
           <View style={styles.zodiacBanner}>
             <ZodiacIcon chi={lore.diaChi} size={52} />
             <View style={styles.zodiacCopy}>
-              <Text style={[styles.zodiacEyebrow, { color: colors.textMuted }]}>
+              <AppText style={[styles.zodiacEyebrow, { color: colors.textMuted }]}>
                 Con giáp ngày · {info.canChiDay}
-              </Text>
-              <Text style={[styles.zodiacTitle, { color: colors.text }]}>
+              </AppText>
+              <AppText style={[styles.zodiacTitle, { color: colors.text }]}>
                 {lore.zodiacDay}
-              </Text>
-              <Text style={[styles.zodiacSub, { color: colors.textSecondary }]}>
+              </AppText>
+              <AppText style={[styles.zodiacSub, { color: colors.textSecondary }]}>
                 Năm {lore.zodiacYear} · {info.canChiYear}
-              </Text>
+              </AppText>
             </View>
           </View>
           <Row label="Thiên Can" value={lore.thienCan} colors={colors} />
@@ -261,7 +260,7 @@ export default function DayDetailScreen() {
           <>
             <SectionHeader title="Ghi chú" subtitle="Lưu trên máy · offline" />
             <Card>
-              <TextInput
+              <AppTextInput
                 placeholder="Tiêu đề"
                 placeholderTextColor={colors.textMuted}
                 value={title}
@@ -275,7 +274,7 @@ export default function DayDetailScreen() {
                   },
                 ]}
               />
-              <TextInput
+              <AppTextInput
                 placeholder="Nội dung ghi chú..."
                 placeholderTextColor={colors.textMuted}
                 value={body}
@@ -296,7 +295,7 @@ export default function DayDetailScreen() {
                 style={[styles.saveBtn, { backgroundColor: colors.accent }]}
               >
                 <Ionicons name="save-outline" size={18} color="#fff" />
-                <Text style={styles.saveText}>Lưu ghi chú</Text>
+                <AppText style={styles.saveText}>Lưu ghi chú</AppText>
               </Pressable>
             </Card>
 
@@ -309,7 +308,7 @@ export default function DayDetailScreen() {
                 ]}
               >
                 <View style={styles.noteHead}>
-                  <Text style={[styles.noteTitle, { color: colors.text }]}>{n.title}</Text>
+                  <AppText style={[styles.noteTitle, { color: colors.text }]}>{n.title}</AppText>
                   <Pressable
                     onPress={() =>
                       Alert.alert('Xóa ghi chú?', n.title, [
@@ -327,7 +326,7 @@ export default function DayDetailScreen() {
                   </Pressable>
                 </View>
                 {n.body ? (
-                  <Text style={[styles.noteBody, { color: colors.textSecondary }]}>{n.body}</Text>
+                  <AppText style={[styles.noteBody, { color: colors.textSecondary }]}>{n.body}</AppText>
                 ) : null}
               </View>
             ))}
@@ -359,8 +358,8 @@ function Row({
         },
       ]}
     >
-      <Text style={[styles.rowLabel, { color: colors.textMuted }]}>{label}</Text>
-      <Text style={[styles.rowValue, { color: colors.text }]}>{value}</Text>
+      <AppText style={[styles.rowLabel, { color: colors.textMuted }]}>{label}</AppText>
+      <AppText style={[styles.rowValue, { color: colors.text }]}>{value}</AppText>
     </View>
   );
 }

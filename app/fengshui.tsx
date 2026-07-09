@@ -1,5 +1,8 @@
 import React, { useMemo, useState } from 'react';
-import { StyleSheet, Text, TextInput, View } from 'react-native';
+import {
+  StyleSheet,
+  View
+} from 'react-native';
 import { Card } from '../src/components/Card';
 import { Screen } from '../src/components/Screen';
 import { SectionHeader } from '../src/components/SectionHeader';
@@ -8,6 +11,7 @@ import { useTheme } from '../src/hooks/useTheme';
 import { buildFengShuiProfile } from '../src/lib/fengShui';
 import { ZODIAC_LABEL_VI, zodiacKeyFromYear } from '../src/lib/zodiac';
 import { font, radius, space } from '../src/theme/spacing';
+import { AppText, AppTextInput } from '../src/components/AppText';
 
 export default function FengShuiScreen() {
   const { colors } = useTheme();
@@ -21,13 +25,13 @@ export default function FengShuiScreen() {
   return (
     <Screen>
       <View style={styles.header}>
-        <Text style={[styles.title, { color: colors.text }]}>Phong thủy</Text>
-        <Text style={[styles.sub, { color: colors.textMuted }]}>
+        <AppText style={[styles.title, { color: colors.text }]}>Phong thủy</AppText>
+        <AppText style={[styles.sub, { color: colors.textMuted }]}>
           Mệnh · màu · số · hướng (theo năm sinh)
-        </Text>
+        </AppText>
       </View>
 
-      <TextInput
+      <AppTextInput
         placeholder="Năm sinh (dương lịch)"
         placeholderTextColor={colors.textMuted}
         keyboardType="number-pad"
@@ -50,15 +54,15 @@ export default function FengShuiScreen() {
             <View style={styles.zodiacBanner}>
               <ZodiacIcon year={profile.birthYear} size={52} />
               <View style={styles.zodiacCopy}>
-                <Text style={[styles.zodiacEyebrow, { color: colors.textMuted }]}>
+                <AppText style={[styles.zodiacEyebrow, { color: colors.textMuted }]}>
                   {profile.canChi}
-                </Text>
-                <Text style={[styles.zodiacTitle, { color: colors.text }]}>
+                </AppText>
+                <AppText style={[styles.zodiacTitle, { color: colors.text }]}>
                   {ZODIAC_LABEL_VI[zodiacKeyFromYear(profile.birthYear)]}
-                </Text>
-                <Text style={[styles.zodiacSub, { color: colors.textSecondary }]}>
+                </AppText>
+                <AppText style={[styles.zodiacSub, { color: colors.textSecondary }]}>
                   Mệnh {profile.element}
-                </Text>
+                </AppText>
               </View>
             </View>
             <Row label="Năm" value={String(profile.birthYear)} colors={colors} />
@@ -81,7 +85,7 @@ export default function FengShuiScreen() {
           </Card>
         </>
       ) : (
-        <Text style={{ color: colors.textMuted }}>Nhập năm sinh hợp lệ (1800–2199).</Text>
+        <AppText style={{ color: colors.textMuted }}>Nhập năm sinh hợp lệ (1800–2199).</AppText>
       )}
     </Screen>
   );
@@ -108,8 +112,8 @@ function Row({
         },
       ]}
     >
-      <Text style={[styles.rowLabel, { color: colors.textMuted }]}>{label}</Text>
-      <Text style={[styles.rowValue, { color: colors.text }]}>{value}</Text>
+      <AppText style={[styles.rowLabel, { color: colors.textMuted }]}>{label}</AppText>
+      <AppText style={[styles.rowValue, { color: colors.text }]}>{value}</AppText>
     </View>
   );
 }

@@ -1,5 +1,9 @@
 import React, { useMemo, useState } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import {
+  Pressable,
+  StyleSheet,
+  View
+} from 'react-native';
 import { FestivalRow } from '../../src/components/FestivalRow';
 import { Screen } from '../../src/components/Screen';
 import { upcomingFestivals } from '../../src/data/festivals';
@@ -7,6 +11,7 @@ import { todaySolar } from '../../src/lib/lunar';
 import type { Festival } from '../../src/lib/types';
 import { useTheme } from '../../src/hooks/useTheme';
 import { font, radius, space } from '../../src/theme/spacing';
+import { AppText } from '../../src/components/AppText';
 
 type Filter = 'all' | Festival['category'];
 
@@ -31,10 +36,10 @@ export default function EventsScreen() {
   return (
     <Screen>
       <View style={styles.header}>
-        <Text style={[styles.title, { color: colors.text }]}>Lễ hội</Text>
-        <Text style={[styles.sub, { color: colors.textMuted }]}>
+        <AppText style={[styles.title, { color: colors.text }]}>Lễ hội</AppText>
+        <AppText style={[styles.sub, { color: colors.textMuted }]}>
           Sự kiện Âm lịch & ngày lễ (offline)
-        </Text>
+        </AppText>
       </View>
 
       <View style={styles.filters}>
@@ -53,14 +58,14 @@ export default function EventsScreen() {
                 },
               ]}
             >
-              <Text
+              <AppText
                 style={[
                   styles.pillText,
                   { color: active ? colors.accentText : colors.textSecondary },
                 ]}
               >
                 {f.label}
-              </Text>
+              </AppText>
             </Pressable>
           );
         })}
@@ -68,9 +73,9 @@ export default function EventsScreen() {
 
       {items.length === 0 ? (
         <View style={styles.empty}>
-          <Text style={[styles.emptyText, { color: colors.textMuted }]}>
+          <AppText style={[styles.emptyText, { color: colors.textMuted }]}>
             Không có sự kiện phù hợp.
-          </Text>
+          </AppText>
         </View>
       ) : (
         items.map(({ festival, solar, lunar }) => (

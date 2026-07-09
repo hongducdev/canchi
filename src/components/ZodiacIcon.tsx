@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, type StyleProp, type ViewStyle } from 'react-native';
+import { AppText } from './AppText';
 import { useTheme } from '../hooks/useTheme';
 import {
   resolveZodiacKey,
@@ -70,9 +71,9 @@ export function ZodiacIcon({
         </Text>
       </View>
       {showLabel ? (
-        <Text style={[styles.label, { color: colors.textSecondary }]} numberOfLines={1}>
+        <AppText style={[styles.label, { color: colors.textSecondary }]} numberOfLines={1}>
           {ZODIAC_LABEL_VI[key]}
-        </Text>
+        </AppText>
       ) : null}
     </View>
   );

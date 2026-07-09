@@ -1,7 +1,11 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import {
+  StyleSheet,
+  View
+} from 'react-native';
 import { useTheme } from '../hooks/useTheme';
 import { font, radius, space } from '../theme/spacing';
+import { AppText } from './AppText';
 
 type Props = {
   label: string;
@@ -33,9 +37,9 @@ export function Chip({ label, tone = 'default' }: Props) {
 
   return (
     <View style={[styles.chip, { backgroundColor: bg }]}>
-      <Text style={[styles.text, { color: fg }]} numberOfLines={1}>
+      <AppText style={[styles.text, { color: fg }]} numberOfLines={1}>
         {label}
-      </Text>
+      </AppText>
     </View>
   );
 }

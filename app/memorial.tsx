@@ -1,6 +1,10 @@
 import { router } from 'expo-router';
 import React, { useMemo, useState } from 'react';
-import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import {
+  Pressable,
+  StyleSheet,
+  View
+} from 'react-native';
 import { Card } from '../src/components/Card';
 import { Screen } from '../src/components/Screen';
 import { SectionHeader } from '../src/components/SectionHeader';
@@ -13,6 +17,7 @@ import {
 } from '../src/lib/memorial';
 import { isValidSolarDate } from '../src/lib/lunar';
 import { font, radius, space } from '../src/theme/spacing';
+import { AppText, AppTextInput } from '../src/components/AppText';
 
 type Mode = 'birth' | 'death';
 
@@ -37,10 +42,10 @@ export default function MemorialScreen() {
   return (
     <Screen>
       <View style={styles.header}>
-        <Text style={[styles.title, { color: colors.text }]}>Tính ngày lễ</Text>
-        <Text style={[styles.sub, { color: colors.textMuted }]}>
+        <AppText style={[styles.title, { color: colors.text }]}>Tính ngày lễ</AppText>
+        <AppText style={[styles.sub, { color: colors.textMuted }]}>
           Đầy tháng · Thôi nôi · 49 ngày · Giỗ…
-        </Text>
+        </AppText>
       </View>
 
       <View style={styles.modeRow}>
@@ -58,20 +63,20 @@ export default function MemorialScreen() {
                 },
               ]}
             >
-              <Text
+              <AppText
                 style={[
                   styles.modeText,
                   { color: active ? colors.accentText : colors.textSecondary },
                 ]}
               >
                 {m === 'death' ? 'Từ ngày mất' : 'Từ ngày sinh'}
-              </Text>
+              </AppText>
             </Pressable>
           );
         })}
       </View>
 
-      <TextInput
+      <AppTextInput
         placeholder="Ngày gốc dd/mm/yyyy"
         placeholderTextColor={colors.textMuted}
         value={dateText}
@@ -91,28 +96,30 @@ export default function MemorialScreen() {
         <Pressable
           key={r.kind}
           onPress={() => router.push(`/day/${r.dateKey}`)}
-          style={({ pressed }) => [
-            styles.row,
-            {
-              backgroundColor: colors.bgCard,
-              borderColor: colors.borderStrong,
-              opacity: pressed ? 0.92 : 1,
-            },
-          ]}
+          style={({ pressed }) =>
+            StyleSheet.flatten([
+              styles.row,
+              {
+                backgroundColor: colors.bgCard,
+                borderColor: colors.borderStrong,
+                opacity: pressed ? 0.92 : 1,
+              },
+            ])
+          }
         >
-          <Text style={[styles.kind, { color: colors.accentText }]}>{r.label}</Text>
-          <Text style={[styles.date, { color: colors.text }]}>
+          <AppText style={[styles.kind, { color: colors.accentText }]}>{r.label}</AppText>
+          <AppText style={[styles.date, { color: colors.text }]}>
             {r.solar.day}/{r.solar.month}/{r.solar.year}
-          </Text>
-          <Text style={[styles.meta, { color: colors.textMuted }]}>
+          </AppText>
+          <AppText style={[styles.meta, { color: colors.textMuted }]}>
             Âm {r.lunar.day}/{r.lunar.month}
             {r.lunar.leap ? ' (nhuận)' : ''} · +{r.offsetDays} ngày
-          </Text>
+          </AppText>
         </Pressable>
       ))}
 
       {results.length === 0 ? (
-        <Text style={{ color: colors.textMuted }}>Nhập ngày hợp lệ dạng 15/8/2026.</Text>
+        <AppText style={{ color: colors.textMuted }}>Nhập ngày hợp lệ dạng 15/8/2026.</AppText>
       ) : null}
     </Screen>
   );

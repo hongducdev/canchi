@@ -1,7 +1,7 @@
 import { LinearGradient } from 'expo-linear-gradient';
-import { Link } from 'expo-router';
+import { router } from 'expo-router';
 import React from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import type { DayInfo } from '../lib/types';
 import { formatLunarLong } from '../lib/dayInfo';
 import { dateKey } from '../lib/lunar';
@@ -9,6 +9,7 @@ import { useTheme } from '../hooks/useTheme';
 import { font, radius, space } from '../theme/spacing';
 import { Chip } from './Chip';
 import { ZodiacIcon } from './ZodiacIcon';
+import { AppText } from './AppText';
 
 type Props = {
   info: DayInfo;
@@ -27,53 +28,54 @@ export function TodayHero({ info }: Props) {
   const festival = isDark ? '#C9A227' : colors.gold;
 
   return (
-    <Link href={`/day/${key}`} asChild>
-      <Pressable style={({ pressed }) => [{ opacity: pressed ? 0.92 : 1 }]}>
-        <LinearGradient
-          colors={colors.heroGradient}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-          style={[
-            styles.hero,
-            !isDark && {
-              borderWidth: StyleSheet.hairlineWidth,
-              borderColor: colors.borderStrong,
-            },
-          ]}
-        >
-          <View style={styles.topRow}>
-            <Text style={[styles.brand, { color: brand }]}>Lịch Âm</Text>
-            <View style={[styles.liveDot, { backgroundColor: colors.accent }]} />
-            <Text style={[styles.live, { color: live }]}>Hôm nay</Text>
-            <View style={styles.topSpacer} />
-            <ZodiacIcon chi={info.lore.diaChi} size={40} />
-          </View>
+    <Pressable
+      onPress={() => router.push(`/day/${key}`)}
+      style={({ pressed }) => ({ opacity: pressed ? 0.92 : 1 })}
+    >
+      <LinearGradient
+        colors={colors.heroGradient}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={StyleSheet.flatten([
+          styles.hero,
+          !isDark && {
+            borderWidth: StyleSheet.hairlineWidth,
+            borderColor: colors.borderStrong,
+          },
+        ])}
+      >
+        <View style={styles.topRow}>
+          <AppText style={[styles.brand, { color: brand }]}>Lịch Âm</AppText>
+          <View style={[styles.liveDot, { backgroundColor: colors.accent }]} />
+          <AppText style={[styles.live, { color: live }]}>Hôm nay</AppText>
+          <View style={styles.topSpacer} />
+          <ZodiacIcon chi={info.lore.diaChi} size={40} />
+        </View>
 
-          <Text style={[styles.weekday, { color: weekday }]}>{info.weekdayName}</Text>
-          <Text style={[styles.solarDay, { color: primary }]}>{info.solar.day}</Text>
-          <Text style={[styles.solarMonth, { color: secondary }]}>
-            Tháng {info.solar.month}, {info.solar.year}
-          </Text>
+        <AppText style={[styles.weekday, { color: weekday }]}>{info.weekdayName}</AppText>
+        <AppText style={[styles.solarDay, { color: primary }]}>{info.solar.day}</AppText>
+        <AppText style={[styles.solarMonth, { color: secondary }]}>
+          Tháng {info.solar.month}, {info.solar.year}
+        </AppText>
 
-          <View style={[styles.divider, { backgroundColor: divider }]} />
+        <View style={[styles.divider, { backgroundColor: divider }]} />
 
-          <Text style={[styles.lunar, { color: primary }]}>{formatLunarLong(info)}</Text>
-          <View style={styles.chips}>
-            <Chip label={`Ngày ${info.canChiDay}`} tone="accent" />
-            <Chip label={`Con giáp ngày · ${info.lore.zodiacDay}`} tone="jade" />
-            <Chip label={info.tietKhi} tone="gold" />
-          </View>
+        <AppText style={[styles.lunar, { color: primary }]}>{formatLunarLong(info)}</AppText>
+        <View style={styles.chips}>
+          <Chip label={`Ngày ${info.canChiDay}`} tone="accent" />
+          <Chip label={`Con giáp ngày · ${info.lore.zodiacDay}`} tone="jade" />
+          <Chip label={info.tietKhi} tone="gold" />
+        </View>
 
-          {info.festivals.length > 0 ? (
-            <Text style={[styles.festival, { color: festival }]} numberOfLines={2}>
-              {info.festivals.map((f) => f.name).join(' · ')}
-            </Text>
-          ) : null}
+        {info.festivals.length > 0 ? (
+          <AppText style={[styles.festival, { color: festival }]} numberOfLines={2}>
+            {info.festivals.map((f) => f.name).join(' · ')}
+          </AppText>
+        ) : null}
 
-          <Text style={[styles.cta, { color: colors.accent }]}>Xem chi tiết →</Text>
-        </LinearGradient>
-      </Pressable>
-    </Link>
+        <AppText style={[styles.cta, { color: colors.accent }]}>Xem chi tiết →</AppText>
+      </LinearGradient>
+    </Pressable>
   );
 }
 

@@ -1,5 +1,8 @@
 import React, { useMemo } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import {
+  StyleSheet,
+  View
+} from 'react-native';
 import { Card } from '../../src/components/Card';
 import { FestivalRow } from '../../src/components/FestivalRow';
 import { Screen } from '../../src/components/Screen';
@@ -13,6 +16,7 @@ import { todaySolar } from '../../src/lib/lunar';
 import { useTheme } from '../../src/hooks/useTheme';
 import { font, space } from '../../src/theme/spacing';
 import { HourStrip } from '../../src/components/HourStrip';
+import { AppText } from '../../src/components/AppText';
 
 export default function HomeScreen() {
   const { colors } = useTheme();
@@ -24,10 +28,10 @@ export default function HomeScreen() {
   return (
     <Screen>
       <View style={styles.header}>
-        <Text style={[styles.greeting, { color: colors.textMuted }]}>
+        <AppText style={[styles.greeting, { color: colors.textMuted }]}>
           Lịch Việt · Offline
-        </Text>
-        <Text style={[styles.title, { color: colors.text }]}>Hôm nay</Text>
+        </AppText>
+        <AppText style={[styles.title, { color: colors.text }]}>Hôm nay</AppText>
       </View>
 
       <TodayHero info={info} />
@@ -42,13 +46,13 @@ export default function HomeScreen() {
         <View style={styles.yearRow}>
           <ZodiacIcon chi={info.lore.diaChi} size={44} />
           <View style={styles.yearCopy}>
-            <Text style={[styles.yearLabel, { color: colors.textMuted }]}>Con giáp ngày</Text>
-            <Text style={[styles.yearValue, { color: colors.text }]}>
+            <AppText style={[styles.yearLabel, { color: colors.textMuted }]}>Con giáp ngày</AppText>
+            <AppText style={[styles.yearValue, { color: colors.text }]}>
               {info.lore.zodiacDay} · {info.canChiDay}
-            </Text>
-            <Text style={[styles.yearHint, { color: colors.textMuted }]}>
+            </AppText>
+            <AppText style={[styles.yearHint, { color: colors.textMuted }]}>
               Năm {info.lore.zodiacYear} ({info.canChiYear})
-            </Text>
+            </AppText>
           </View>
         </View>
         <View style={[styles.sep, { backgroundColor: colors.border }]} />
@@ -59,11 +63,11 @@ export default function HomeScreen() {
           <Meta label="Giờ" value={info.canChiHour} colors={colors} />
         </View>
         <View style={[styles.sep, { backgroundColor: colors.border }]} />
-        <Text style={[styles.tiet, { color: colors.textSecondary }]}>
-          Tiết khí: <Text style={{ color: colors.gold, fontWeight: '700' }}>{info.tietKhi}</Text>
+        <AppText style={[styles.tiet, { color: colors.textSecondary }]}>
+          Tiết khí: <AppText style={{ color: colors.gold, fontWeight: '700' }}>{info.tietKhi}</AppText>
           {' · '}
-          Trăng: <Text style={{ color: colors.text, fontWeight: '700' }}>{info.moon.phaseName}</Text>
-        </Text>
+          Trăng: <AppText style={{ color: colors.text, fontWeight: '700' }}>{info.moon.phaseName}</AppText>
+        </AppText>
       </Card>
 
       <SectionHeader title="Giờ Hoàng Đạo" subtitle="Giờ tốt trong ngày" />
@@ -93,8 +97,8 @@ function Meta({
 }) {
   return (
     <View style={styles.metaItem}>
-      <Text style={[styles.metaLabel, { color: colors.textMuted }]}>{label}</Text>
-      <Text style={[styles.metaValue, { color: colors.text }]}>{value}</Text>
+      <AppText style={[styles.metaLabel, { color: colors.textMuted }]}>{label}</AppText>
+      <AppText style={[styles.metaValue, { color: colors.text }]}>{value}</AppText>
     </View>
   );
 }

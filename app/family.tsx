@@ -5,9 +5,7 @@ import {
   Alert,
   Pressable,
   StyleSheet,
-  Text,
-  TextInput,
-  View,
+  View
 } from 'react-native';
 import { Card } from '../src/components/Card';
 import { Screen } from '../src/components/Screen';
@@ -23,6 +21,7 @@ import {
 } from '../src/store/family';
 import type { FamilyRelation } from '../src/lib/types';
 import { font, radius, space } from '../src/theme/spacing';
+import { AppText, AppTextInput } from '../src/components/AppText';
 
 const RELATIONS = Object.keys(FAMILY_RELATION_LABEL) as FamilyRelation[];
 
@@ -84,15 +83,15 @@ export default function FamilyScreen() {
   return (
     <Screen>
       <View style={styles.header}>
-        <Text style={[styles.title, { color: colors.text }]}>Gia đình</Text>
-        <Text style={[styles.sub, { color: colors.textMuted }]}>
+        <AppText style={[styles.title, { color: colors.text }]}>Gia đình</AppText>
+        <AppText style={[styles.sub, { color: colors.textMuted }]}>
           Thành viên · sinh nhật · chỉ trên máy
-        </Text>
+        </AppText>
       </View>
 
       <SectionHeader title="Thêm thành viên" />
       <Card>
-        <TextInput
+        <AppTextInput
           placeholder="Tên"
           placeholderTextColor={colors.textMuted}
           value={name}
@@ -103,7 +102,7 @@ export default function FamilyScreen() {
           ]}
         />
 
-        <Text style={[styles.label, { color: colors.textMuted }]}>Quan hệ</Text>
+        <AppText style={[styles.label, { color: colors.textMuted }]}>Quan hệ</AppText>
         <View style={styles.chips}>
           {RELATIONS.map((r) => {
             const active = relation === r;
@@ -119,20 +118,20 @@ export default function FamilyScreen() {
                   },
                 ]}
               >
-                <Text
+                <AppText
                   style={[
                     styles.chipText,
                     { color: active ? colors.accentText : colors.textSecondary },
                   ]}
                 >
                   {FAMILY_RELATION_LABEL[r]}
-                </Text>
+                </AppText>
               </Pressable>
             );
           })}
         </View>
 
-        <TextInput
+        <AppTextInput
           placeholder="Năm sinh (tuỳ chọn)"
           placeholderTextColor={colors.textMuted}
           keyboardType="number-pad"
@@ -144,7 +143,7 @@ export default function FamilyScreen() {
           ]}
         />
         <View style={styles.dateRow}>
-          <TextInput
+          <AppTextInput
             placeholder="Ngày SN"
             placeholderTextColor={colors.textMuted}
             keyboardType="number-pad"
@@ -156,7 +155,7 @@ export default function FamilyScreen() {
               { color: colors.text, borderColor: colors.border, backgroundColor: colors.bgMuted },
             ]}
           />
-          <TextInput
+          <AppTextInput
             placeholder="Tháng SN"
             placeholderTextColor={colors.textMuted}
             keyboardType="number-pad"
@@ -169,7 +168,7 @@ export default function FamilyScreen() {
             ]}
           />
         </View>
-        <TextInput
+        <AppTextInput
           placeholder="Ghi chú"
           placeholderTextColor={colors.textMuted}
           value={note}
@@ -182,13 +181,13 @@ export default function FamilyScreen() {
 
         <Pressable onPress={save} style={[styles.saveBtn, { backgroundColor: colors.accent }]}>
           <Ionicons name="person-add-outline" size={18} color="#fff" />
-          <Text style={styles.saveText}>Lưu thành viên</Text>
+          <AppText style={styles.saveText}>Lưu thành viên</AppText>
         </Pressable>
       </Card>
 
       <SectionHeader title="Thành viên" subtitle={`${sorted.length} người`} />
       {sorted.length === 0 ? (
-        <Text style={[styles.empty, { color: colors.textMuted }]}>Chưa có thành viên.</Text>
+        <AppText style={[styles.empty, { color: colors.textMuted }]}>Chưa có thành viên.</AppText>
       ) : (
         sorted.map((m) => (
           <View
@@ -202,13 +201,13 @@ export default function FamilyScreen() {
               <View style={styles.itemTop}>
                 {m.birthYear ? <ZodiacIcon year={m.birthYear} size={32} /> : null}
                 <View style={styles.itemText}>
-                  <Text style={[styles.itemKind, { color: colors.accentText }]}>
+                  <AppText style={[styles.itemKind, { color: colors.accentText }]}>
                     {FAMILY_RELATION_LABEL[m.relation]}
-                  </Text>
-                  <Text style={[styles.itemTitle, { color: colors.text }]}>{m.name}</Text>
+                  </AppText>
+                  <AppText style={[styles.itemTitle, { color: colors.text }]}>{m.name}</AppText>
                 </View>
               </View>
-              <Text style={[styles.itemMeta, { color: colors.textMuted }]}>
+              <AppText style={[styles.itemMeta, { color: colors.textMuted }]}>
                 {m.birthYear
                   ? `${m.birthYear} · ${canChiYear(m.birthYear)} (${ZODIAC_LABEL_VI[zodiacKeyFromYear(m.birthYear)]})`
                   : 'Chưa có năm sinh'}
@@ -216,7 +215,7 @@ export default function FamilyScreen() {
                   ? ` · SN ${m.solarBirthdayDay}/${m.solarBirthdayMonth}`
                   : ''}
                 {m.note ? ` · ${m.note}` : ''}
-              </Text>
+              </AppText>
             </View>
             <Pressable
               onPress={() =>

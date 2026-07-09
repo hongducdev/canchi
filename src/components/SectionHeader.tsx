@@ -1,7 +1,11 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import {
+  StyleSheet,
+  View
+} from 'react-native';
 import { useTheme } from '../hooks/useTheme';
 import { font, space } from '../theme/spacing';
+import { AppText } from './AppText';
 
 type Props = {
   title: string;
@@ -16,10 +20,10 @@ export function SectionHeader({ title, subtitle, right }: Props) {
       <View style={styles.left}>
         <View style={styles.titleRow}>
           <View style={[styles.rule, { backgroundColor: colors.accent }]} />
-          <Text style={[styles.title, { color: colors.text }]}>{title}</Text>
+          <AppText style={[styles.title, { color: colors.text }]}>{title}</AppText>
         </View>
         {subtitle ? (
-          <Text style={[styles.sub, { color: colors.textMuted }]}>{subtitle}</Text>
+          <AppText style={[styles.sub, { color: colors.textMuted }]}>{subtitle}</AppText>
         ) : null}
       </View>
       {right}

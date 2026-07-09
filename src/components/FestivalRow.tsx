@@ -1,11 +1,12 @@
-import { Link } from 'expo-router';
+import { router } from 'expo-router';
 import React, { useMemo } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import { CATEGORY_LABEL } from '../data/festivals';
 import { dateKey, getJulianDay, todaySolar } from '../lib/lunar';
 import type { Festival, LunarDate, SolarDate } from '../lib/types';
 import { useTheme } from '../hooks/useTheme';
 import { font, radius, space } from '../theme/spacing';
+import { AppText } from './AppText';
 
 type Props = {
   festival: Festival;
@@ -28,54 +29,55 @@ export function FestivalRow({ festival, solar, lunar }: Props) {
   const isToday = daysLeft <= 0;
 
   return (
-    <Link href={`/day/${key}`} asChild>
-      <Pressable
-        style={({ pressed }) => [
+    <Pressable
+      onPress={() => router.push(`/day/${key}`)}
+      style={({ pressed }) =>
+        StyleSheet.flatten([
           styles.row,
           {
             backgroundColor: colors.bgCard,
             borderColor: colors.borderStrong,
             opacity: pressed ? 0.92 : 1,
           },
-        ]}
-      >
-        <View style={[styles.accent, { backgroundColor: colors.accent }]} />
+        ])
+      }
+    >
+      <View style={[styles.accent, { backgroundColor: colors.accent }]} />
 
-        <View style={styles.content}>
-          <View style={styles.topLine}>
-            <Text style={[styles.dateLine, { color: colors.text }]}>
-              {solar.day}
-              <Text style={[styles.monthInline, { color: colors.textMuted }]}>
-                {'  '}THÁNG {solar.month}
-              </Text>
-            </Text>
+      <View style={styles.content}>
+        <View style={styles.topLine}>
+          <AppText style={[styles.dateLine, { color: colors.text }]}>
+            {solar.day}
+            <AppText style={[styles.monthInline, { color: colors.textMuted }]}>
+              {'  '}THÁNG {solar.month}
+            </AppText>
+          </AppText>
 
-            {isToday ? (
-              <Text style={[styles.todayLabel, { color: colors.accentText }]}>Hôm nay</Text>
-            ) : (
-              <Text style={[styles.countdownLine, { color: colors.text }]}>
-                {daysLeft}
-                <Text style={[styles.countdownUnit, { color: colors.textMuted }]}> ngày</Text>
-              </Text>
-            )}
-          </View>
-
-          <View style={[styles.rule, { backgroundColor: colors.border }]} />
-
-          <Text style={[styles.category, { color: colors.accentText }]}>
-            {CATEGORY_LABEL[festival.category]}
-          </Text>
-          <Text style={[styles.name, { color: colors.text }]} numberOfLines={2}>
-            {festival.name}
-          </Text>
-          <Text style={[styles.meta, { color: colors.textMuted }]} numberOfLines={1}>
-            {lunar ? `Âm ${lunar.day}/${lunar.month}` : ''}
-            {lunar ? ' · ' : ''}
-            {solar.day}/{solar.month}/{solar.year}
-          </Text>
+          {isToday ? (
+            <AppText style={[styles.todayLabel, { color: colors.accentText }]}>Hôm nay</AppText>
+          ) : (
+            <AppText style={[styles.countdownLine, { color: colors.text }]}>
+              {daysLeft}
+              <AppText style={[styles.countdownUnit, { color: colors.textMuted }]}> ngày</AppText>
+            </AppText>
+          )}
         </View>
-      </Pressable>
-    </Link>
+
+        <View style={[styles.rule, { backgroundColor: colors.border }]} />
+
+        <AppText style={[styles.category, { color: colors.accentText }]}>
+          {CATEGORY_LABEL[festival.category]}
+        </AppText>
+        <AppText style={[styles.name, { color: colors.text }]} numberOfLines={2}>
+          {festival.name}
+        </AppText>
+        <AppText style={[styles.meta, { color: colors.textMuted }]} numberOfLines={1}>
+          {lunar ? `Âm ${lunar.day}/${lunar.month}` : ''}
+          {lunar ? ' · ' : ''}
+          {solar.day}/{solar.month}/{solar.year}
+        </AppText>
+      </View>
+    </Pressable>
   );
 }
 

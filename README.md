@@ -44,6 +44,7 @@ Built with **React Native**, **Expo SDK 56**, and **TypeScript**. No backend, no
 | React Native | 0.85 |
 | Expo Router | 56 |
 | Web | Expo Web (`react-native-web`) · core + read-only tools |
+| Typeface | Google Sans Flex (app + web) |
 | State | Zustand + AsyncStorage |
 
 Home-screen widgets (`expo-widgets`) need a **development build** — not available in Expo Go.

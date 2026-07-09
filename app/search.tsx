@@ -1,6 +1,10 @@
 import { router } from 'expo-router';
 import React, { useMemo, useState } from 'react';
-import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import {
+  Pressable,
+  StyleSheet,
+  View
+} from 'react-native';
 import { Screen } from '../src/components/Screen';
 import { SectionHeader } from '../src/components/SectionHeader';
 import { useTheme } from '../src/hooks/useTheme';
@@ -12,6 +16,7 @@ import {
   type SearchHit,
 } from '../src/lib/search';
 import { font, radius, space } from '../src/theme/spacing';
+import { AppText, AppTextInput } from '../src/components/AppText';
 
 export default function SearchScreen() {
   const { colors } = useTheme();
@@ -35,13 +40,13 @@ export default function SearchScreen() {
   return (
     <Screen>
       <View style={styles.header}>
-        <Text style={[styles.title, { color: colors.text }]}>Tìm kiếm</Text>
-        <Text style={[styles.sub, { color: colors.textMuted }]}>
+        <AppText style={[styles.title, { color: colors.text }]}>Tìm kiếm</AppText>
+        <AppText style={[styles.sub, { color: colors.textMuted }]}>
           Ngày · Lễ hội · Tiết khí
-        </Text>
+        </AppText>
       </View>
 
-      <TextInput
+      <AppTextInput
         placeholder="VD: Trung Thu, 15/8/2026, Thanh minh…"
         placeholderTextColor={colors.textMuted}
         value={query}
@@ -63,27 +68,29 @@ export default function SearchScreen() {
         <Pressable
           key={`${hit.kind}-${hit.label}`}
           onPress={() => openHit(hit)}
-          style={({ pressed }) => [
-            styles.row,
-            {
-              backgroundColor: colors.bgCard,
-              borderColor: colors.borderStrong,
-              opacity: pressed ? 0.9 : 1,
-            },
-          ]}
+          style={({ pressed }) =>
+            StyleSheet.flatten([
+              styles.row,
+              {
+                backgroundColor: colors.bgCard,
+                borderColor: colors.borderStrong,
+                opacity: pressed ? 0.9 : 1,
+              },
+            ])
+          }
         >
           <View style={styles.body}>
-            <Text style={[styles.kind, { color: colors.accentText }]}>
+            <AppText style={[styles.kind, { color: colors.accentText }]}>
               {hit.kind === 'date' ? 'Ngày' : hit.kind === 'festival' ? 'Lễ hội' : 'Tiết khí'}
-            </Text>
-            <Text style={[styles.label, { color: colors.text }]}>{hit.label}</Text>
-            <Text style={[styles.detail, { color: colors.textMuted }]}>{hit.detail}</Text>
+            </AppText>
+            <AppText style={[styles.label, { color: colors.text }]}>{hit.label}</AppText>
+            <AppText style={[styles.detail, { color: colors.textMuted }]}>{hit.detail}</AppText>
           </View>
         </Pressable>
       ))}
 
       {query.length > 0 && hits.length === 0 ? (
-        <Text style={[styles.empty, { color: colors.textMuted }]}>Không tìm thấy.</Text>
+        <AppText style={[styles.empty, { color: colors.textMuted }]}>Không tìm thấy.</AppText>
       ) : null}
     </Screen>
   );
