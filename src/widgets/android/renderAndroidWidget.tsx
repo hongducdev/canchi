@@ -1,3 +1,5 @@
+'use no memo';
+
 import React from 'react';
 import { buildWidgetPayload } from '../buildWidgetPayload';
 import type { WidgetPayload } from '../types';
@@ -15,8 +17,22 @@ function familyFromPayload(widgetName: string, payload: WidgetPayload) {
       };
     case 'MonthSmall':
       return {
-        light: <MonthSmallAndroidWidget {...payload.monthSmall} scheme="light" />,
-        dark: <MonthSmallAndroidWidget {...payload.monthSmall} scheme="dark" />,
+        light: (
+          <MonthSmallAndroidWidget
+            title={payload.monthSmall.title}
+            weekdayLabels={payload.monthSmall.weekdayLabels}
+            cells={payload.monthSmall.cells}
+            scheme="light"
+          />
+        ),
+        dark: (
+          <MonthSmallAndroidWidget
+            title={payload.monthSmall.title}
+            weekdayLabels={payload.monthSmall.weekdayLabels}
+            cells={payload.monthSmall.cells}
+            scheme="dark"
+          />
+        ),
       };
     case 'DateMinimal':
       return {
@@ -29,8 +45,28 @@ function familyFromPayload(widgetName: string, payload: WidgetPayload) {
       };
     case 'Combo':
       return {
-        light: <ComboAndroidWidget {...payload.combo} scheme="light" />,
-        dark: <ComboAndroidWidget {...payload.combo} scheme="dark" />,
+        light: (
+          <ComboAndroidWidget
+            monthLabel={payload.combo.monthLabel}
+            day={payload.combo.day}
+            weekdayName={payload.combo.weekdayName}
+            lunarShort={payload.combo.lunarShort}
+            weekdayLabels={payload.combo.weekdayLabels}
+            cells={payload.combo.cells}
+            scheme="light"
+          />
+        ),
+        dark: (
+          <ComboAndroidWidget
+            monthLabel={payload.combo.monthLabel}
+            day={payload.combo.day}
+            weekdayName={payload.combo.weekdayName}
+            lunarShort={payload.combo.lunarShort}
+            weekdayLabels={payload.combo.weekdayLabels}
+            cells={payload.combo.cells}
+            scheme="dark"
+          />
+        ),
       };
     default:
       return {

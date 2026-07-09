@@ -1,3 +1,5 @@
+'use no memo';
+
 import React from 'react';
 import { FlexWidget, TextWidget } from 'react-native-android-widget';
 import type { ComboWidgetProps } from '../types';
@@ -11,8 +13,8 @@ export function ComboAndroidWidget({
   day,
   weekdayName,
   lunarShort,
-  weekdayLabels,
-  cells,
+  weekdayLabels = [],
+  cells = [],
   scheme,
 }: Props) {
   const c = widgetPalette(scheme);

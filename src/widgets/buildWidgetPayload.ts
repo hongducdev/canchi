@@ -47,7 +47,8 @@ async function noteKeysInMonth(year: number, month: number): Promise<Set<string>
   }
   const prefix = `${year}-${String(month).padStart(2, '0')}-`;
   const keys = new Set<string>();
-  for (const note of useNotesStore.getState().notes) {
+  const notes = useNotesStore.getState().notes ?? [];
+  for (const note of notes) {
     if (note.dateKey.startsWith(prefix)) keys.add(note.dateKey);
   }
   return keys;

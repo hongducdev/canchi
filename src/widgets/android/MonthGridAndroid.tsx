@@ -1,3 +1,5 @@
+'use no memo';
+
 import React from 'react';
 import { FlexWidget, TextWidget } from 'react-native-android-widget';
 import type { WidgetMonthCell } from '../types';
@@ -15,8 +17,8 @@ type Props = {
  * for columns to share space evenly (classic Android weight pattern).
  */
 export function MonthGridAndroid({
-  weekdayLabels,
-  cells,
+  weekdayLabels = [],
+  cells = [],
   scheme,
   compact = false,
 }: Props) {
@@ -25,9 +27,11 @@ export function MonthGridAndroid({
   const lunarSize = compact ? 8 : 9;
   const labelSize = compact ? 9 : 10;
   const cellPadV = compact ? 1 : 2;
+  const safeCells = Array.isArray(cells) ? cells : [];
+  const safeLabels = Array.isArray(weekdayLabels) ? weekdayLabels : [];
   const rows: WidgetMonthCell[][] = [];
-  for (let i = 0; i < cells.length; i += 7) {
-    rows.push(cells.slice(i, i + 7));
+  for (let i = 0; i < safeCells.length; i += 7) {
+    rows.push(safeCells.slice(i, i + 7));
   }
 
   const colStyle = {
@@ -47,7 +51,7 @@ export function MonthGridAndroid({
       }}
     >
       <FlexWidget style={{ flexDirection: 'row', width: 'match_parent' }}>
-        {weekdayLabels.map((label, idx) => (
+        {safeLabels.map((label, idx) => (
           <FlexWidget key={`w-${idx}`} style={colStyle}>
             <TextWidget
               text={label}

@@ -1,3 +1,5 @@
+'use no memo';
+
 import React from 'react';
 import { FlexWidget, TextWidget } from 'react-native-android-widget';
 import type { MonthSmallWidgetProps } from '../types';
@@ -8,8 +10,8 @@ type Props = MonthSmallWidgetProps & { scheme: WidgetScheme };
 
 export function MonthSmallAndroidWidget({
   title,
-  weekdayLabels,
-  cells,
+  weekdayLabels = [],
+  cells = [],
   scheme,
 }: Props) {
   const c = widgetPalette(scheme);
