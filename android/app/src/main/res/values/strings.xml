@@ -1,5 +1,9 @@
 <resources>
   <string name="app_name">Lịch Âm</string>
   <string name="expo_system_ui_user_interface_style" translatable="false">automatic</string>
+  <string name="widget_daylore_description" translatable="false">Ngày dương/âm và lời hay hoặc tên lễ</string>
+  <string name="widget_monthsmall_description" translatable="false">Lưới tháng dương/âm</string>
+  <string name="widget_dateminimal_description" translatable="false">Ngày lớn và âm lịch</string>
+  <string name="widget_combo_description" translatable="false">Ngày hôm nay và lưới tháng</string>
   <string name="expo_splash_screen_resize_mode" translatable="false">contain</string>
 </resources>

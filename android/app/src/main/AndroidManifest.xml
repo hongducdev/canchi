@@ -16,6 +16,7 @@
     <meta-data android:name="expo.modules.updates.ENABLE_BSDIFF_PATCH_SUPPORT" android:value="true"/>
     <meta-data android:name="expo.modules.updates.EXPO_UPDATES_CHECK_ON_LAUNCH" android:value="ALWAYS"/>
     <meta-data android:name="expo.modules.updates.EXPO_UPDATES_LAUNCH_WAIT_MS" android:value="0"/>
+    <service android:name="com.reactnativeandroidwidget.RNWidgetCollectionService" android:permission="android.permission.BIND_REMOTEVIEWS"/>
     <activity android:name=".MainActivity" android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode|smallestScreenSize|assetsPaths" android:launchMode="singleTask" android:windowSoftInputMode="adjustResize" android:theme="@style/Theme.App.SplashScreen" android:exported="true" android:screenOrientation="portrait">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
@@ -28,37 +29,33 @@
         <data android:scheme="licham"/>
       </intent-filter>
     </activity>
-    <receiver android:name=".DayLoreWidgetProvider" android:exported="true" android:label="@string/day_lore_widget_display_name">
+    <receiver android:name=".widget.DayLore" android:exported="false" android:label="Lời hay · Lịch Âm">
       <intent-filter>
         <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
-        <action android:name="expo.modules.widgets.ACTION_WIDGET_INTERACTION"/>
+        <action android:name="com.licham.app.WIDGET_CLICK"/>
       </intent-filter>
-      <meta-data android:name="android.appwidget.provider" android:resource="@xml/day_lore_widget_info"/>
-      <meta-data android:name="expo.modules.widgets.NAME" android:value="DayLoreWidget"/>
+      <meta-data android:name="android.appwidget.provider" android:resource="@xml/widgetprovider_daylore"/>
     </receiver>
-    <receiver android:name=".MonthSmallWidgetProvider" android:exported="true" android:label="@string/month_small_widget_display_name">
+    <receiver android:name=".widget.MonthSmall" android:exported="false" android:label="Tháng · Lịch Âm">
       <intent-filter>
         <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
-        <action android:name="expo.modules.widgets.ACTION_WIDGET_INTERACTION"/>
+        <action android:name="com.licham.app.WIDGET_CLICK"/>
       </intent-filter>
-      <meta-data android:name="android.appwidget.provider" android:resource="@xml/month_small_widget_info"/>
-      <meta-data android:name="expo.modules.widgets.NAME" android:value="MonthSmallWidget"/>
+      <meta-data android:name="android.appwidget.provider" android:resource="@xml/widgetprovider_monthsmall"/>
     </receiver>
-    <receiver android:name=".DateMinimalWidgetProvider" android:exported="true" android:label="@string/date_minimal_widget_display_name">
+    <receiver android:name=".widget.DateMinimal" android:exported="false" android:label="Ngày · Lịch Âm">
       <intent-filter>
         <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
-        <action android:name="expo.modules.widgets.ACTION_WIDGET_INTERACTION"/>
+        <action android:name="com.licham.app.WIDGET_CLICK"/>
       </intent-filter>
-      <meta-data android:name="android.appwidget.provider" android:resource="@xml/date_minimal_widget_info"/>
-      <meta-data android:name="expo.modules.widgets.NAME" android:value="DateMinimalWidget"/>
+      <meta-data android:name="android.appwidget.provider" android:resource="@xml/widgetprovider_dateminimal"/>
     </receiver>
-    <receiver android:name=".ComboWidgetProvider" android:exported="true" android:label="@string/combo_widget_display_name">
+    <receiver android:name=".widget.Combo" android:exported="false" android:label="Ngày + Tháng · Lịch Âm">
       <intent-filter>
         <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
-        <action android:name="expo.modules.widgets.ACTION_WIDGET_INTERACTION"/>
+        <action android:name="com.licham.app.WIDGET_CLICK"/>
       </intent-filter>
-      <meta-data android:name="android.appwidget.provider" android:resource="@xml/combo_widget_info"/>
-      <meta-data android:name="expo.modules.widgets.NAME" android:value="ComboWidget"/>
+      <meta-data android:name="android.appwidget.provider" android:resource="@xml/widgetprovider_combo"/>
     </receiver>
   </application>
 </manifest>
