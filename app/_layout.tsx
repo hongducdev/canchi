@@ -3,6 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useEffect } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useTheme } from '../src/hooks/useTheme';
+import { useFamilyStore } from '../src/store/family';
 import { useNotesStore } from '../src/store/notes';
 import { usePersonalEventsStore } from '../src/store/personalEvents';
 import { useSettingsStore } from '../src/store/settings';
@@ -12,6 +13,7 @@ function RootNav() {
   const setSettingsHydrated = useSettingsStore((s) => s.setHydrated);
   const setNotesHydrated = useNotesStore((s) => s.setHydrated);
   const setPersonalHydrated = usePersonalEventsStore((s) => s.setHydrated);
+  const setFamilyHydrated = useFamilyStore((s) => s.setHydrated);
 
   useEffect(() => {
     // Fallback if rehydrate callback already fired before mount
@@ -19,9 +21,10 @@ function RootNav() {
       setSettingsHydrated(true);
       setNotesHydrated(true);
       setPersonalHydrated(true);
+      setFamilyHydrated(true);
     }, 50);
     return () => clearTimeout(t);
-  }, [setNotesHydrated, setPersonalHydrated, setSettingsHydrated]);
+  }, [setFamilyHydrated, setNotesHydrated, setPersonalHydrated, setSettingsHydrated]);
 
   return (
     <>
@@ -49,6 +52,8 @@ function RootNav() {
         <Stack.Screen name="personal" options={{ title: 'Sự kiện cá nhân' }} />
         <Stack.Screen name="fengshui" options={{ title: 'Phong thủy' }} />
         <Stack.Screen name="memorial" options={{ title: 'Tính ngày lễ' }} />
+        <Stack.Screen name="family" options={{ title: 'Gia đình' }} />
+        <Stack.Screen name="astronomy" options={{ title: 'Thiên văn' }} />
       </Stack>
     </>
   );

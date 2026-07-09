@@ -10,6 +10,7 @@ import {
   rescheduleAllPersonalReminders,
   scheduleTestNotification,
 } from '../../src/lib/notifications';
+import { useFamilyStore } from '../../src/store/family';
 import { useNotesStore } from '../../src/store/notes';
 import { usePersonalEventsStore } from '../../src/store/personalEvents';
 import { useSettingsStore } from '../../src/store/settings';
@@ -37,6 +38,7 @@ export default function SettingsScreen() {
   const setHaptics = useSettingsStore((s) => s.setHaptics);
   const notes = useNotesStore((s) => s.notes);
   const personalEvents = usePersonalEventsStore((s) => s.events);
+  const familyMembers = useFamilyStore((s) => s.members);
   const [restoreText, setRestoreText] = useState('');
 
   const exportBackup = async () => {
@@ -154,6 +156,16 @@ export default function SettingsScreen() {
             title="Tính ngày lễ"
             subtitle="Đầy tháng, 49 ngày, giỗ…"
             onPress={() => router.push('/memorial')}
+          />
+          <SettingRow
+            title="Gia đình"
+            subtitle={`${familyMembers.length} thành viên trên máy`}
+            onPress={() => router.push('/family')}
+          />
+          <SettingRow
+            title="Thiên văn"
+            subtitle="Trăng, nhật thực, mưa sao băng"
+            onPress={() => router.push('/astronomy')}
             isLast
           />
         </View>

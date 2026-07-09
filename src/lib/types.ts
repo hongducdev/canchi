@@ -109,3 +109,27 @@ export type AppSettings = {
   showFestivals: boolean;
   haptics: boolean;
 };
+
+export type FamilyRelation =
+  | 'self'
+  | 'spouse'
+  | 'parent'
+  | 'child'
+  | 'sibling'
+  | 'grandparent'
+  | 'other';
+
+export type FamilyMember = {
+  id: string;
+  name: string;
+  relation: FamilyRelation;
+  /** Solar birth year for feng shui / zodiac (optional) */
+  birthYear?: number;
+  solarBirthdayDay?: number;
+  solarBirthdayMonth?: number;
+  lunarBirthdayDay?: number;
+  lunarBirthdayMonth?: number;
+  note?: string;
+  createdAt: number;
+  updatedAt: number;
+};
