@@ -6,6 +6,10 @@ import { Screen } from '../../src/components/Screen';
 import { SettingRow } from '../../src/components/SettingRow';
 import { useTheme } from '../../src/hooks/useTheme';
 import { buildBackup, parseBackup, serializeBackup } from '../../src/lib/backup';
+import {
+  rescheduleAllPersonalReminders,
+  scheduleTestNotification,
+} from '../../src/lib/notifications';
 import { useNotesStore } from '../../src/store/notes';
 import { usePersonalEventsStore } from '../../src/store/personalEvents';
 import { useSettingsStore } from '../../src/store/settings';
@@ -91,6 +95,29 @@ export default function SettingsScreen() {
     );
   };
 
+  const scheduleReminders = async () => {
+    try {
+      const count = await rescheduleAllPersonalReminders(personalEvents);
+      Alert.alert(
+        'Đã lên lịch',
+        count > 0
+          ? `${count} nhắc cục bộ cho sự kiện cá nhân (8:00 sáng ngày tới).`
+          : 'Không có sự kiện phù hợp để nhắc.'
+      );
+    } catch (e) {
+      Alert.alert('Lỗi', e instanceof Error ? e.message : 'Không lên lịch được.');
+    }
+  };
+
+  const testNotif = async () => {
+    try {
+      await scheduleTestNotification();
+      Alert.alert('OK', 'Thông báo thử sẽ hiện sau ~3 giây.');
+    } catch (e) {
+      Alert.alert('Lỗi', e instanceof Error ? e.message : 'Không gửi được thông báo.');
+    }
+  };
+
   return (
     <Screen>
       <View style={styles.header}>
@@ -122,6 +149,11 @@ export default function SettingsScreen() {
             title="Phong thủy"
             subtitle="Mệnh, màu, số, hướng theo năm sinh"
             onPress={() => router.push('/fengshui')}
+          />
+          <SettingRow
+            title="Tính ngày lễ"
+            subtitle="Đầy tháng, 49 ngày, giỗ…"
+            onPress={() => router.push('/memorial')}
             isLast
           />
         </View>
@@ -164,6 +196,23 @@ export default function SettingsScreen() {
             title="Phản hồi xúc giác"
             value={haptics}
             onValueChange={setHaptics}
+            isLast
+          />
+        </View>
+      </Card>
+
+      <Text style={[styles.group, { color: colors.textMuted }]}>THÔNG BÁO</Text>
+      <Card padded={false} style={styles.card}>
+        <View style={styles.pad}>
+          <SettingRow
+            title="Lên lịch nhắc sự kiện"
+            subtitle="Cục bộ · 8:00 sáng ngày tới"
+            onPress={scheduleReminders}
+          />
+          <SettingRow
+            title="Thử thông báo"
+            subtitle="Hiện sau khoảng 3 giây"
+            onPress={testNotif}
             isLast
           />
         </View>

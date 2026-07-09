@@ -15,6 +15,7 @@ import { HourStrip } from '../../src/components/HourStrip';
 import { Screen } from '../../src/components/Screen';
 import { SectionHeader } from '../../src/components/SectionHeader';
 import { buildDayInfo, formatLunarLong, formatSolarLong } from '../../src/lib/dayInfo';
+import { dailyActivityScores, overallDayScore } from '../../src/lib/dailyScore';
 import { parseDateKey, isValidSolarDate } from '../../src/lib/lunar';
 import { useNotesStore } from '../../src/store/notes';
 import { useTheme } from '../../src/hooks/useTheme';
@@ -47,6 +48,12 @@ export default function DayDetailScreen() {
     () => notes.filter((n) => n.dateKey === date),
     [notes, date]
   );
+
+  const activityScores = useMemo(
+    () => (info ? dailyActivityScores(info) : []),
+    [info]
+  );
+  const dayScore = useMemo(() => (info ? overallDayScore(info) : 0), [info]);
 
   if (!info || !solar) {
     return (
@@ -209,6 +216,22 @@ export default function DayDetailScreen() {
             colors={colors}
             last
           />
+        </Card>
+
+        <SectionHeader
+          title="Điểm ngày"
+          subtitle={`Tổng hợp ${dayScore}/100 · theo việc`}
+        />
+        <Card>
+          {activityScores.slice(0, 6).map((s, i, arr) => (
+            <Row
+              key={s.activity}
+              label={s.label}
+              value={`${s.score}`}
+              colors={colors}
+              last={i === arr.length - 1}
+            />
+          ))}
         </Card>
 
         <SectionHeader title="Giờ Hoàng Đạo" subtitle="Giờ tốt trong ngày" />

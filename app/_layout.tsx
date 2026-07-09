@@ -48,6 +48,7 @@ function RootNav() {
         <Stack.Screen name="lucky" options={{ title: 'Ngày tốt' }} />
         <Stack.Screen name="personal" options={{ title: 'Sự kiện cá nhân' }} />
         <Stack.Screen name="fengshui" options={{ title: 'Phong thủy' }} />
+        <Stack.Screen name="memorial" options={{ title: 'Tính ngày lễ' }} />
       </Stack>
     </>
   );
