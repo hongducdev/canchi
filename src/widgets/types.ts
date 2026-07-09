@@ -2,7 +2,8 @@
 
 export type WidgetMonthCell = {
   day: number | null;
-  lunarDay: number | null;
+  /** Preformatted lunar label: `d` normally, `d/m` (or `d/mN` leap) on lunar 1 & 15 */
+  lunarLabel: string | null;
   isToday: boolean;
   isWeekend: boolean;
 };

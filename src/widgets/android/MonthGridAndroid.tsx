@@ -106,9 +106,9 @@ export function MonthGridAndroid({
                     textAlign: 'center',
                   }}
                 />
-                {cell.lunarDay != null ? (
+                {cell.lunarLabel != null ? (
                   <TextWidget
-                    text={String(cell.lunarDay)}
+                    text={cell.lunarLabel}
                     style={{
                       fontSize: lunarSize,
                       fontWeight: '500',

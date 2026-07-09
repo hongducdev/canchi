@@ -36,23 +36,34 @@ function buildMonthCells(year: number, month: number, today: SolarDate): WidgetM
   let first = firstWeekdayOfMonth(year, month);
   first = (first + 6) % 7;
 
+  const empty: WidgetMonthCell = {
+    day: null,
+    lunarLabel: null,
+    isToday: false,
+    isWeekend: false,
+  };
   const cells: WidgetMonthCell[] = [];
   for (let i = 0; i < first; i++) {
-    cells.push({ day: null, lunarDay: null, isToday: false, isWeekend: false });
+    cells.push({ ...empty });
   }
   for (let day = 1; day <= dim; day++) {
     const solar: SolarDate = { day, month, year };
     const lunar = solarToLunar(day, month, year);
     const col = cells.length % 7;
+    const leap = lunar.leap ? 'N' : '';
+    const lunarLabel =
+      lunar.day === 1 || lunar.day === 15
+        ? `${lunar.day}/${lunar.month}${leap}`
+        : String(lunar.day);
     cells.push({
       day,
-      lunarDay: lunar.day,
+      lunarLabel,
       isToday: sameSolar(solar, today),
       isWeekend: col === 5 || col === 6,
     });
   }
   while (cells.length % 7 !== 0) {
-    cells.push({ day: null, lunarDay: null, isToday: false, isWeekend: false });
+    cells.push({ ...empty });
   }
   return cells;
 }
