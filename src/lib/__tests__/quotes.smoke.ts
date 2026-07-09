@@ -49,7 +49,3 @@ export function smokeQuotes(): string[] {
 
   return logs;
 }
-
-if (require.main === module) {
-  console.log(smokeQuotes().join('\n'));
-}

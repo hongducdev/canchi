@@ -49,6 +49,17 @@ Built with **React Native**, **Expo SDK 56**, and **TypeScript**. No backend, no
 
 Home-screen widgets (`expo-widgets`) need a **development build** — not available in Expo Go.
 
+Four widgets (Android-first, `enableAndroid: true`):
+
+| Widget | Size | Content |
+| --- | --- | --- |
+| DayLoreWidget | Medium | Quote / festival + lunar header |
+| MonthSmallWidget | Small | Month grid |
+| DateMinimalWidget | Small | Large day + lunar |
+| ComboWidget | Medium | Day + month grid |
+
+Tap Day Lore / Date Minimal → day detail; Month / Combo → calendar. Theme follows system light/dark.
+
 Web omits family, personal events, notes, backup, and native notifications (use the mobile app for those).
 
 ## Run

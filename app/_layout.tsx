@@ -17,6 +17,7 @@ import {
   googleSansFlexFaces,
   typeface,
 } from '../src/theme/fonts';
+import { syncWidgets } from '../src/widgets/syncWidgets';
 
 SplashScreen.preventAutoHideAsync().catch(() => {
   // Splash may already be hidden in some environments (e.g. web).
@@ -39,6 +40,10 @@ function RootNav() {
     }, 50);
     return () => clearTimeout(t);
   }, [setFamilyHydrated, setNotesHydrated, setPersonalHydrated, setSettingsHydrated]);
+
+  useEffect(() => {
+    syncWidgets();
+  }, []);
 
   return (
     <>

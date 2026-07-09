@@ -40,7 +40,69 @@
           "imageWidth": 200
         }
       ],
-      "expo-status-bar"
+      "expo-status-bar",
+      [
+        "expo-widgets",
+        {
+          "enableAndroid": true,
+          "bundleIdentifier": "com.licham.app.widgets",
+          "groupIdentifier": "group.com.licham.app",
+          "widgets": [
+            {
+              "name": "DayLoreWidget",
+              "displayName": "Lời hay · Lịch Âm",
+              "description": "Ngày dương/âm và lời hay hoặc tên lễ",
+              "ios": { "supportedFamilies": ["systemMedium"] },
+              "android": {
+                "minWidth": 250,
+                "minHeight": 110,
+                "targetCellWidth": 4,
+                "targetCellHeight": 2,
+                "resizeMode": "horizontal"
+              }
+            },
+            {
+              "name": "MonthSmallWidget",
+              "displayName": "Tháng · Lịch Âm",
+              "description": "Lưới tháng dương/âm",
+              "ios": { "supportedFamilies": ["systemSmall"] },
+              "android": {
+                "minWidth": 110,
+                "minHeight": 110,
+                "targetCellWidth": 2,
+                "targetCellHeight": 2,
+                "resizeMode": "none"
+              }
+            },
+            {
+              "name": "DateMinimalWidget",
+              "displayName": "Ngày · Lịch Âm",
+              "description": "Ngày lớn và âm lịch",
+              "ios": { "supportedFamilies": ["systemSmall"] },
+              "android": {
+                "minWidth": 110,
+                "minHeight": 110,
+                "targetCellWidth": 2,
+                "targetCellHeight": 2,
+                "resizeMode": "none"
+              }
+            },
+            {
+              "name": "ComboWidget",
+              "displayName": "Ngày + Tháng · Lịch Âm",
+              "description": "Ngày hôm nay và lưới tháng",
+              "ios": { "supportedFamilies": ["systemMedium"] },
+              "android": {
+                "minWidth": 250,
+                "minHeight": 110,
+                "targetCellWidth": 4,
+                "targetCellHeight": 2,
+                "resizeMode": "horizontal"
+              }
+            }
+          ]
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true
