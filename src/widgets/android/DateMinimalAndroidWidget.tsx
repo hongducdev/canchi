@@ -22,35 +22,38 @@ export function DateMinimalAndroidWidget({
         height: 'match_parent',
         width: 'match_parent',
         backgroundColor: c.bg,
-        padding: 12,
+        padding: 10,
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 16,
-        borderWidth: 2,
-        borderColor: c.accent,
       }}
     >
       <TextWidget
         text={monthLabel}
-        style={{ fontSize: 11, fontWeight: '600', color: c.accent, letterSpacing: 1 }}
+        style={{
+          fontSize: 14,
+          fontWeight: '700',
+          color: c.accent,
+          letterSpacing: 1.2,
+        }}
       />
       <TextWidget
         text={String(day)}
         style={{
-          fontSize: 48,
+          fontSize: 64,
           fontWeight: '200',
           color: c.text,
-          marginVertical: 4,
+          marginVertical: 2,
         }}
       />
       <TextWidget
         text="Âm lịch"
-        style={{ fontSize: 11, fontWeight: '500', color: c.accent }}
+        style={{ fontSize: 13, fontWeight: '500', color: c.accent }}
       />
       <TextWidget
         text={lunarShort}
-        style={{ fontSize: 12, fontWeight: '600', color: c.accent }}
+        style={{ fontSize: 16, fontWeight: '700', color: c.accent }}
       />
     </FlexWidget>
   );

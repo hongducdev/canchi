@@ -25,43 +25,52 @@ export function ComboAndroidWidget({
         height: 'match_parent',
         width: 'match_parent',
         backgroundColor: c.bg,
-        padding: 12,
+        padding: 10,
         flexDirection: 'row',
+        alignItems: 'center',
         borderRadius: 16,
       }}
     >
       <FlexWidget
         style={{
-          flex: 1,
+          width: 0,
+          flex: 2,
           flexDirection: 'column',
           justifyContent: 'center',
-          paddingRight: 8,
+          paddingRight: 6,
         }}
       >
         <TextWidget
           text={monthLabel}
-          style={{ fontSize: 11, fontWeight: '500', color: c.muted }}
+          style={{ fontSize: 12, fontWeight: '500', color: c.muted }}
         />
         <TextWidget
           text={String(day)}
-          style={{ fontSize: 40, fontWeight: '200', color: c.text }}
+          style={{ fontSize: 44, fontWeight: '200', color: c.text }}
         />
         <TextWidget
           text={weekdayName}
-          style={{ fontSize: 12, fontWeight: '500', color: c.text }}
+          style={{ fontSize: 13, fontWeight: '600', color: c.text }}
         />
         <TextWidget
           text={`☾ ${lunarShort}`}
           style={{
-            fontSize: 11,
-            fontWeight: '600',
+            fontSize: 12,
+            fontWeight: '700',
             color: c.accent,
-            marginTop: 6,
+            marginTop: 4,
           }}
         />
       </FlexWidget>
 
-      <FlexWidget style={{ flex: 1.2, flexDirection: 'column' }}>
+      <FlexWidget
+        style={{
+          width: 0,
+          flex: 3,
+          flexDirection: 'column',
+          height: 'match_parent',
+        }}
+      >
         <MonthGridAndroid
           weekdayLabels={weekdayLabels}
           cells={cells}

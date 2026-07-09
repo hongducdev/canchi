@@ -22,7 +22,7 @@ export function MonthSmallAndroidWidget({
         height: 'match_parent',
         width: 'match_parent',
         backgroundColor: c.bg,
-        padding: 10,
+        padding: 8,
         flexDirection: 'column',
         borderRadius: 16,
       }}
@@ -30,8 +30,8 @@ export function MonthSmallAndroidWidget({
       <TextWidget
         text={title}
         style={{
-          fontSize: 12,
-          fontWeight: '600',
+          fontSize: 13,
+          fontWeight: '700',
           color: c.accent,
           marginBottom: 4,
         }}
