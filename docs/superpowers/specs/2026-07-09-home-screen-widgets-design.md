@@ -3,7 +3,7 @@
 **Date:** 2026-07-09  
 **Status:** Approved for planning  
 **Direction:** Approach A (revised) — `react-native-android-widget` on Android (`expo-widgets` Android is a name-only stub in SDK 56)  
-**Scope:** Four Android home-screen widgets + shared quote module used by widgets and `TodayHero`  
+**Scope:** Five Android home-screen widgets + shared quote module used by widgets and `TodayHero`
 **Out of scope:** Weather, Date Hero (A), large month grid (F), iOS QA/ship, Settings-driven widget prefs, editable widgets, Expo Go
 
 ## Goal
@@ -20,7 +20,7 @@ Reading this as: **glanceable Vietnamese lunar calendar on the Android home scre
 |-------|--------|
 | Platform | Android first; iOS may share code later, not required in phase 1 |
 | Stack | `react-native-android-widget` (Android); development build required |
-| Layouts | B Day Lore+Quote, C Month small, D Date Minimal, E Combo |
+| Layouts | B Day Lore+Quote, C Month small, D Date Minimal, E Combo, G Day Detail (full today) |
 | Theme | Follow system color scheme (light/dark) via widget environment |
 | Quote body (B) | Prefer quote; festival-tagged quote when possible; else festival name |
 | Quote reuse | Same `resolveQuote` in `TodayHero` |
@@ -54,6 +54,18 @@ Reading this as: **glanceable Vietnamese lunar calendar on the Android home scre
 
 - Left: month label, large day, weekday, moon + short lunar
 - Right: compact month grid (same rules as C)
+
+### G — Day Detail (large)
+
+Full today card (tap → day detail):
+
+- Header bar: `Tháng {m} năm {yyyy}`
+- Large solar day + weekday
+- Left: can chi năm / tháng / ngày
+- Right: large lunar day + `Âm lịch` + lunar month name (`MONTH_NAMES_VI`)
+- `Hoàng Đạo` / `Hắc Đạo` + Lục Diệu star (`getNgayHoangDaoStar`)
+- `Giờ Hoàng Đạo` list from `info.gioHoangDao`
+- Footer CTA label `Xem chi tiết` (whole card opens `licham://day/{dateKey}`)
 
 ## Quote module
 

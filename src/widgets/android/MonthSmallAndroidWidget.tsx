@@ -4,7 +4,7 @@ import React from 'react';
 import { FlexWidget, TextWidget } from 'react-native-android-widget';
 import type { MonthSmallWidgetProps } from '../types';
 import { MonthGridAndroid } from './MonthGridAndroid';
-import { widgetPalette, type WidgetScheme } from './theme';
+import { WIDGET_RADIUS, widgetPalette, type WidgetScheme } from './theme';
 
 type Props = MonthSmallWidgetProps & { scheme: WidgetScheme };
 
@@ -26,7 +26,7 @@ export function MonthSmallAndroidWidget({
         backgroundColor: c.bg,
         padding: 8,
         flexDirection: 'column',
-        borderRadius: 16,
+        borderRadius: WIDGET_RADIUS,
       }}
     >
       <TextWidget
@@ -36,6 +36,7 @@ export function MonthSmallAndroidWidget({
           fontWeight: '700',
           color: c.accent,
           marginBottom: 4,
+          paddingHorizontal: 2,
         }}
       />
       <MonthGridAndroid

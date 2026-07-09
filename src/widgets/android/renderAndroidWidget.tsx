@@ -5,6 +5,7 @@ import { buildWidgetPayload } from '../buildWidgetPayload';
 import type { WidgetPayload } from '../types';
 import { ComboAndroidWidget } from './ComboAndroidWidget';
 import { DateMinimalAndroidWidget } from './DateMinimalAndroidWidget';
+import { DayDetailAndroidWidget } from './DayDetailAndroidWidget';
 import { DayLoreAndroidWidget } from './DayLoreAndroidWidget';
 import { MonthSmallAndroidWidget } from './MonthSmallAndroidWidget';
 
@@ -68,6 +69,15 @@ function familyFromPayload(widgetName: string, payload: WidgetPayload) {
           />
         ),
       };
+    case 'DayDetail':
+      return {
+        light: (
+          <DayDetailAndroidWidget {...payload.dayDetail} scheme="light" />
+        ),
+        dark: (
+          <DayDetailAndroidWidget {...payload.dayDetail} scheme="dark" />
+        ),
+      };
     default:
       return {
         light: <DayLoreAndroidWidget {...payload.dayLore} scheme="light" />,
@@ -89,4 +99,5 @@ export const ANDROID_WIDGET_NAMES = [
   'MonthSmall',
   'DateMinimal',
   'Combo',
+  'DayDetail',
 ] as const;

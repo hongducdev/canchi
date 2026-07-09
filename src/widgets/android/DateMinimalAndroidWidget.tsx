@@ -3,7 +3,7 @@
 import React from 'react';
 import { FlexWidget, TextWidget } from 'react-native-android-widget';
 import type { DateMinimalWidgetProps } from '../types';
-import { widgetPalette, type WidgetScheme } from './theme';
+import { WIDGET_PAD, WIDGET_RADIUS, widgetPalette, type WidgetScheme } from './theme';
 
 type Props = DateMinimalWidgetProps & { scheme: WidgetScheme };
 
@@ -24,17 +24,17 @@ export function DateMinimalAndroidWidget({
         height: 'match_parent',
         width: 'match_parent',
         backgroundColor: c.bg,
-        padding: 10,
+        padding: WIDGET_PAD,
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        borderRadius: 16,
+        borderRadius: WIDGET_RADIUS,
       }}
     >
       <TextWidget
         text={monthLabel}
         style={{
-          fontSize: 14,
+          fontSize: 13,
           fontWeight: '700',
           color: c.accent,
           letterSpacing: 1.2,
@@ -51,11 +51,11 @@ export function DateMinimalAndroidWidget({
       />
       <TextWidget
         text="Âm lịch"
-        style={{ fontSize: 13, fontWeight: '500', color: c.accent }}
+        style={{ fontSize: 11, fontWeight: '500', color: c.muted }}
       />
       <TextWidget
         text={lunarShort}
-        style={{ fontSize: 16, fontWeight: '700', color: c.accent }}
+        style={{ fontSize: 15, fontWeight: '700', color: c.accent }}
       />
     </FlexWidget>
   );

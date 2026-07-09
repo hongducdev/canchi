@@ -49,7 +49,7 @@ Built with **React Native**, **Expo SDK 56**, and **TypeScript**. No backend, no
 
 Home-screen widgets need a **development build** — not available in Expo Go.
 
-Android widgets use `react-native-android-widget` (Glance/RemoteViews). Four widgets:
+Android widgets use `react-native-android-widget` (Glance/RemoteViews). Five widgets:
 
 | Widget name | Size | Content |
 | --- | --- | --- |
@@ -57,8 +57,9 @@ Android widgets use `react-native-android-widget` (Glance/RemoteViews). Four wid
 | MonthSmall | Small | Month grid |
 | DateMinimal | Small | Large day + lunar |
 | Combo | Medium | Day + month grid |
+| DayDetail | Large | Full today: solar/lunar, can chi, hoàng đạo |
 
-Tap Day Lore / Date Minimal → day detail; Month / Combo → calendar. Theme follows system light/dark.
+Tap Day Lore / Date Minimal / Day Detail → day detail; Month / Combo → calendar. Theme follows system light/dark.
 
 After changing widget config, re-run native build:
 

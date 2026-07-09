@@ -4,7 +4,9 @@
  */
 
 import { resolveQuote } from '../data/quotes';
+import { MONTH_NAMES_VI } from '../lib/canChi';
 import { buildDayInfo, formatLunarShort } from '../lib/dayInfo';
+import { getNgayHoangDaoStar } from '../lib/gioHoangDao';
 import {
   dateKey,
   daysInSolarMonth,
@@ -17,6 +19,7 @@ import { useNotesStore } from '../store/notes';
 import type {
   ComboWidgetProps,
   DateMinimalWidgetProps,
+  DayDetailWidgetProps,
   DayLoreWidgetProps,
   MonthSmallWidgetProps,
   WidgetMonthCell,
@@ -149,11 +152,38 @@ export async function buildWidgetPayload(now = new Date()): Promise<WidgetPayloa
     cells,
   };
 
+  const lunarMonthName =
+    MONTH_NAMES_VI[info.lunar.month] ?? `Tháng ${info.lunar.month}`;
+  const leapSuffix = info.lunar.leap ? ' (nhuận)' : '';
+  const lucDieu = getNgayHoangDaoStar(info.jd, info.lunar.month);
+  const gioLine = info.gioHoangDao
+    .map((h) => `${h.name} (${h.startHour}-${h.endHour})`)
+    .join(', ');
+
+  const dayDetail: DayDetailWidgetProps = {
+    headerTitle: `Tháng ${today.month} năm ${today.year}`,
+    solarDay: today.day,
+    weekdayName: info.weekdayName,
+    yearCanChi: `Năm ${info.canChiYear}`,
+    monthCanChi: `Tháng ${info.canChiMonth}`,
+    dayCanChi: `Ngày ${info.canChiDay}`,
+    lunarDay: info.lunar.day,
+    lunarMonthLabel: `${lunarMonthName}${leapSuffix}`,
+    hoangDaoStar: lucDieu.isHoangDao
+      ? `Hoàng Đạo: Sao ${lucDieu.name}`
+      : `Hắc Đạo: Sao ${lucDieu.name}`,
+    gioHoangDaoLine: gioLine
+      ? `Giờ Hoàng Đạo: ${gioLine}`
+      : 'Giờ Hoàng Đạo: —',
+    dateKey: dateKey(today),
+  };
+
   return {
     dayLore,
     monthSmall,
     dateMinimal,
     combo,
+    dayDetail,
     nextMidnight: nextLocalMidnight(now),
   };
 }

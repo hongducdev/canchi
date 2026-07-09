@@ -92,6 +92,18 @@
               "resizeMode": "horizontal",
               "previewImage": "./assets/widget-preview/combo.png",
               "updatePeriodMillis": 1800000
+            },
+            {
+              "name": "DayDetail",
+              "label": "Chi tiết ngày · Lịch Âm",
+              "description": "Đầy đủ dương/âm, can chi, hoàng đạo hôm nay",
+              "minWidth": "250dp",
+              "minHeight": "250dp",
+              "targetCellWidth": 4,
+              "targetCellHeight": 4,
+              "resizeMode": "horizontal|vertical",
+              "previewImage": "./assets/widget-preview/day-detail.png",
+              "updatePeriodMillis": 1800000
             }
           ]
         }

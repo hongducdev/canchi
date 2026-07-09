@@ -57,5 +57,12 @@
       </intent-filter>
       <meta-data android:name="android.appwidget.provider" android:resource="@xml/widgetprovider_combo"/>
     </receiver>
+    <receiver android:name=".widget.DayDetail" android:exported="false" android:label="Chi tiết ngày · Lịch Âm">
+      <intent-filter>
+        <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+        <action android:name="com.licham.app.WIDGET_CLICK"/>
+      </intent-filter>
+      <meta-data android:name="android.appwidget.provider" android:resource="@xml/widgetprovider_daydetail"/>
+    </receiver>
   </application>
 </manifest>

@@ -3,7 +3,7 @@
 import React from 'react';
 import { FlexWidget, TextWidget } from 'react-native-android-widget';
 import type { DayLoreWidgetProps } from '../types';
-import { widgetPalette, type WidgetScheme } from './theme';
+import { WIDGET_PAD, WIDGET_RADIUS, widgetPalette, type WidgetScheme } from './theme';
 
 type Props = DayLoreWidgetProps & { scheme: WidgetScheme };
 
@@ -25,10 +25,10 @@ export function DayLoreAndroidWidget({
         height: 'match_parent',
         width: 'match_parent',
         backgroundColor: c.bg,
-        padding: 14,
+        padding: WIDGET_PAD,
         flexDirection: 'column',
         justifyContent: 'space-between',
-        borderRadius: 16,
+        borderRadius: WIDGET_RADIUS,
       }}
     >
       <FlexWidget
@@ -39,19 +39,28 @@ export function DayLoreAndroidWidget({
           width: 'match_parent',
         }}
       >
-        <FlexWidget style={{ flex: 1 }}>
+        <FlexWidget style={{ flex: 1, paddingRight: 8 }}>
           <TextWidget
             text={headerDate}
-            style={{ fontSize: 12, fontWeight: '500', color: c.text }}
+            style={{ fontSize: 12, fontWeight: '600', color: c.text }}
             maxLines={1}
             truncate="END"
           />
         </FlexWidget>
         <TextWidget
-          text={`☾ ${lunarShort}`}
-          style={{ fontSize: 12, fontWeight: '600', color: c.accent }}
+          text={lunarShort}
+          style={{ fontSize: 12, fontWeight: '700', color: c.accent }}
         />
       </FlexWidget>
+
+      <FlexWidget
+        style={{
+          width: 'match_parent',
+          height: 1,
+          backgroundColor: c.divider,
+          marginVertical: 8,
+        }}
+      />
 
       <TextWidget
         text={`“${bodyText}”`}
@@ -60,7 +69,7 @@ export function DayLoreAndroidWidget({
           fontWeight: '400',
           color: c.text,
           textAlign: 'center',
-          marginVertical: 8,
+          marginVertical: 4,
         }}
         maxLines={3}
         truncate="END"
@@ -73,6 +82,7 @@ export function DayLoreAndroidWidget({
           fontWeight: '500',
           color: c.muted,
           textAlign: 'center',
+          marginTop: 6,
         }}
         maxLines={1}
         truncate="END"

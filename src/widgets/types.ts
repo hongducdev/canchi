@@ -42,11 +42,27 @@ export type ComboWidgetProps = {
   cells: WidgetMonthCell[];
 };
 
+/** Full today card — solar, lunar, can chi, hoàng đạo */
+export type DayDetailWidgetProps = {
+  headerTitle: string;
+  solarDay: number;
+  weekdayName: string;
+  yearCanChi: string;
+  monthCanChi: string;
+  dayCanChi: string;
+  lunarDay: number;
+  lunarMonthLabel: string;
+  hoangDaoStar: string;
+  gioHoangDaoLine: string;
+  dateKey: string;
+};
+
 export type WidgetPayload = {
   dayLore: DayLoreWidgetProps;
   monthSmall: MonthSmallWidgetProps;
   dateMinimal: DateMinimalWidgetProps;
   combo: ComboWidgetProps;
+  dayDetail: DayDetailWidgetProps;
   /** Local midnight of the next calendar day — schedule timeline refresh */
   nextMidnight: Date;
 };

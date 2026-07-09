@@ -84,3 +84,43 @@ export function formatHourRange(start: number, end: number): string {
   const fmt = (h: number) => `${String(h).padStart(2, '0')}:00`;
   return `${fmt(start)} - ${fmt(end)}`;
 }
+
+/** Lục Diệu cycle starting at Thanh Long for Chi Tý in lunar months 1 & 7. */
+const LUC_DIEU = [
+  'Thanh Long',
+  'Minh Đường',
+  'Thiên Hình',
+  'Chu Tước',
+  'Kim Quỹ',
+  'Kim Đường',
+  'Bạch Hổ',
+  'Ngọc Đường',
+  'Thiên Lao',
+  'Nguyên Vũ',
+  'Tư Mệnh',
+  'Câu Trần',
+] as const;
+
+const HOANG_DAO_STARS = new Set<string>([
+  'Thanh Long',
+  'Minh Đường',
+  'Kim Quỹ',
+  'Kim Đường',
+  'Ngọc Đường',
+  'Tư Mệnh',
+]);
+
+/**
+ * Day Lục Diệu star from lunar month + day Chi.
+ * Months 1/7 → Tý = Thanh Long; 2/8 → Dần; 3/9 → Thìn; …
+ */
+export function getNgayHoangDaoStar(
+  jd: number,
+  lunarMonth: number
+): { name: string; isHoangDao: boolean } {
+  const chiIdx = dayChiIndex(jd);
+  const monthGroup = ((Math.max(1, Math.min(12, lunarMonth)) - 1) % 6) * 2;
+  const starIdx = (chiIdx - monthGroup + 12) % 12;
+  const name = LUC_DIEU[starIdx];
+  return { name, isHoangDao: HOANG_DAO_STARS.has(name) };
+}

@@ -4,7 +4,7 @@ import React from 'react';
 import { FlexWidget, TextWidget } from 'react-native-android-widget';
 import type { ComboWidgetProps } from '../types';
 import { MonthGridAndroid } from './MonthGridAndroid';
-import { widgetPalette, type WidgetScheme } from './theme';
+import { WIDGET_PAD, WIDGET_RADIUS, widgetPalette, type WidgetScheme } from './theme';
 
 type Props = ComboWidgetProps & { scheme: WidgetScheme };
 
@@ -27,10 +27,10 @@ export function ComboAndroidWidget({
         height: 'match_parent',
         width: 'match_parent',
         backgroundColor: c.bg,
-        padding: 10,
+        padding: WIDGET_PAD,
         flexDirection: 'row',
         alignItems: 'center',
-        borderRadius: 16,
+        borderRadius: WIDGET_RADIUS,
       }}
     >
       <FlexWidget
@@ -39,12 +39,12 @@ export function ComboAndroidWidget({
           flex: 2,
           flexDirection: 'column',
           justifyContent: 'center',
-          paddingRight: 6,
+          paddingRight: 8,
         }}
       >
         <TextWidget
           text={monthLabel}
-          style={{ fontSize: 12, fontWeight: '500', color: c.muted }}
+          style={{ fontSize: 12, fontWeight: '600', color: c.muted }}
         />
         <TextWidget
           text={String(day)}
@@ -55,7 +55,7 @@ export function ComboAndroidWidget({
           style={{ fontSize: 13, fontWeight: '600', color: c.text }}
         />
         <TextWidget
-          text={`☾ ${lunarShort}`}
+          text={lunarShort}
           style={{
             fontSize: 12,
             fontWeight: '700',
