@@ -2,6 +2,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import React from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
+import { resolveQuote } from '../data/quotes';
 import type { DayInfo } from '../lib/types';
 import { formatLunarLong } from '../lib/dayInfo';
 import { dateKey } from '../lib/lunar';
@@ -18,6 +19,7 @@ type Props = {
 export function TodayHero({ info }: Props) {
   const { colors, isDark } = useTheme();
   const key = dateKey(info.solar);
+  const quote = resolveQuote(info);
 
   const brand = isDark ? 'rgba(244,241,236,0.55)' : colors.textMuted;
   const live = isDark ? 'rgba(244,241,236,0.45)' : colors.textMuted;
@@ -26,6 +28,7 @@ export function TodayHero({ info }: Props) {
   const secondary = isDark ? 'rgba(244,241,236,0.65)' : colors.textSecondary;
   const divider = isDark ? 'rgba(255,255,255,0.10)' : colors.border;
   const festival = isDark ? '#C9A227' : colors.gold;
+  const quoteColor = isDark ? 'rgba(244,241,236,0.78)' : colors.textSecondary;
 
   return (
     <Pressable
@@ -66,6 +69,10 @@ export function TodayHero({ info }: Props) {
           <Chip label={`Con giáp ngày · ${info.lore.zodiacDay}`} tone="jade" />
           <Chip label={info.tietKhi} tone="gold" />
         </View>
+
+        <AppText style={[styles.quote, { color: quoteColor }]} numberOfLines={3}>
+          “{quote.text}”
+        </AppText>
 
         {info.festivals.length > 0 ? (
           <AppText style={[styles.festival, { color: festival }]} numberOfLines={2}>
@@ -139,6 +146,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: space.sm,
+    marginTop: space.md,
+  },
+  quote: {
+    fontSize: font.sm,
+    fontWeight: '500',
+    fontStyle: 'italic',
+    lineHeight: 20,
     marginTop: space.md,
   },
   festival: {
