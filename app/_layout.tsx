@@ -6,6 +6,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { WebShell } from '../src/components/WebShell';
 import { useTheme } from '../src/hooks/useTheme';
 import { useFamilyStore } from '../src/store/family';
 import { useNotesStore } from '../src/store/notes';
@@ -37,32 +38,34 @@ function RootNav() {
   return (
     <>
       <StatusBar style={isDark ? 'light' : 'dark'} />
-      <Stack
-        screenOptions={{
-          headerStyle: { backgroundColor: colors.bg },
-          headerTintColor: colors.text,
-          headerTitleStyle: { fontWeight: '700' },
-          headerShadowVisible: false,
-          contentStyle: { backgroundColor: colors.bg },
-          animation: 'slide_from_right',
-        }}
-      >
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen
-          name="day/[date]"
-          options={{
-            title: 'Chi tiết ngày',
-            presentation: 'card',
+      <WebShell>
+        <Stack
+          screenOptions={{
+            headerStyle: { backgroundColor: colors.bg },
+            headerTintColor: colors.text,
+            headerTitleStyle: { fontWeight: '700' },
+            headerShadowVisible: false,
+            contentStyle: { backgroundColor: colors.bg },
+            animation: 'slide_from_right',
           }}
-        />
-        <Stack.Screen name="search" options={{ title: 'Tìm kiếm' }} />
-        <Stack.Screen name="lucky" options={{ title: 'Ngày tốt' }} />
-        <Stack.Screen name="personal" options={{ title: 'Sự kiện cá nhân' }} />
-        <Stack.Screen name="fengshui" options={{ title: 'Phong thủy' }} />
-        <Stack.Screen name="memorial" options={{ title: 'Tính ngày lễ' }} />
-        <Stack.Screen name="family" options={{ title: 'Gia đình' }} />
-        <Stack.Screen name="astronomy" options={{ title: 'Thiên văn' }} />
-      </Stack>
+        >
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen
+            name="day/[date]"
+            options={{
+              title: 'Chi tiết ngày',
+              presentation: 'card',
+            }}
+          />
+          <Stack.Screen name="search" options={{ title: 'Tìm kiếm' }} />
+          <Stack.Screen name="lucky" options={{ title: 'Ngày tốt' }} />
+          <Stack.Screen name="personal" options={{ title: 'Sự kiện cá nhân' }} />
+          <Stack.Screen name="fengshui" options={{ title: 'Phong thủy' }} />
+          <Stack.Screen name="memorial" options={{ title: 'Tính ngày lễ' }} />
+          <Stack.Screen name="family" options={{ title: 'Gia đình' }} />
+          <Stack.Screen name="astronomy" options={{ title: 'Thiên văn' }} />
+        </Stack>
+      </WebShell>
     </>
   );
 }

@@ -1,5 +1,6 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
-import React, { useMemo, useState } from 'react';
+import { router } from 'expo-router';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   Alert,
   Pressable,
@@ -13,6 +14,7 @@ import { Card } from '../src/components/Card';
 import { Screen } from '../src/components/Screen';
 import { SectionHeader } from '../src/components/SectionHeader';
 import { useTheme } from '../src/hooks/useTheme';
+import { isWeb } from '../src/lib/platform';
 import {
   PERSONAL_KIND_LABEL,
   usePersonalEventsStore,
@@ -47,6 +49,16 @@ export default function PersonalEventsScreen() {
     () => [...events].sort((a, b) => b.updatedAt - a.updatedAt),
     [events]
   );
+
+  useEffect(() => {
+    if (isWeb) {
+      router.replace('/(tabs)/settings');
+    }
+  }, []);
+
+  if (isWeb) {
+    return null;
+  }
 
   const save = () => {
     const d = Number(day);

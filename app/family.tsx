@@ -1,5 +1,6 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
-import React, { useMemo, useState } from 'react';
+import { router } from 'expo-router';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   Alert,
   Pressable,
@@ -14,6 +15,7 @@ import { SectionHeader } from '../src/components/SectionHeader';
 import { ZodiacIcon } from '../src/components/ZodiacIcon';
 import { useTheme } from '../src/hooks/useTheme';
 import { canChiYear } from '../src/lib/canChi';
+import { isWeb } from '../src/lib/platform';
 import { ZODIAC_LABEL_VI, zodiacKeyFromYear } from '../src/lib/zodiac';
 import {
   FAMILY_RELATION_LABEL,
@@ -41,6 +43,16 @@ export default function FamilyScreen() {
     () => [...members].sort((a, b) => b.updatedAt - a.updatedAt),
     [members]
   );
+
+  useEffect(() => {
+    if (isWeb) {
+      router.replace('/(tabs)/settings');
+    }
+  }, []);
+
+  if (isWeb) {
+    return null;
+  }
 
   const save = () => {
     if (!name.trim()) {

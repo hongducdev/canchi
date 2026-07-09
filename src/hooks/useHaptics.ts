@@ -1,20 +1,24 @@
 import * as Haptics from 'expo-haptics';
 import { useCallback } from 'react';
+import { Platform } from 'react-native';
 import { useSettingsStore } from '../store/settings';
 
 export function useHaptics() {
   const enabled = useSettingsStore((s) => s.haptics);
 
   const light = useCallback(() => {
-    if (enabled) void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    if (Platform.OS === 'web' || !enabled) return;
+    void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
   }, [enabled]);
 
   const medium = useCallback(() => {
-    if (enabled) void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    if (Platform.OS === 'web' || !enabled) return;
+    void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
   }, [enabled]);
 
   const selection = useCallback(() => {
-    if (enabled) void Haptics.selectionAsync();
+    if (Platform.OS === 'web' || !enabled) return;
+    void Haptics.selectionAsync();
   }, [enabled]);
 
   return { light, medium, selection };

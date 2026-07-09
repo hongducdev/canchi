@@ -43,9 +43,12 @@ Built with **React Native**, **Expo SDK 56**, and **TypeScript**. No backend, no
 | Expo | SDK 56 |
 | React Native | 0.85 |
 | Expo Router | 56 |
+| Web | Expo Web (`react-native-web`) · core + read-only tools |
 | State | Zustand + AsyncStorage |
 
 Home-screen widgets (`expo-widgets`) need a **development build** — not available in Expo Go.
+
+Web omits family, personal events, notes, backup, and native notifications (use the mobile app for those).
 
 ## Run
 
@@ -55,6 +58,22 @@ npx expo start
 ```
 
 Then press `a` (Android), `i` (iOS simulator), or scan the QR code with **Expo Go for SDK 56**.
+
+### Web
+
+```bash
+npm run web
+```
+
+Opens the Expo web app in the browser. Desktop (≥960px) uses a left sidebar; narrower viewports keep bottom tabs.
+
+Static export:
+
+```bash
+npm run build:web
+```
+
+Output lands in `dist/` (or the Expo export folder shown in the CLI). Host that folder on any static host (GitHub Pages, Netlify, Cloudflare Pages, nginx).
 
 ```bash
 npm run typecheck

@@ -18,6 +18,7 @@ import { ZodiacIcon } from '../../src/components/ZodiacIcon';
 import { buildDayInfo, formatLunarLong, formatSolarLong } from '../../src/lib/dayInfo';
 import { dailyActivityScores, overallDayScore } from '../../src/lib/dailyScore';
 import { parseDateKey, isValidSolarDate } from '../../src/lib/lunar';
+import { isWeb } from '../../src/lib/platform';
 import { useNotesStore } from '../../src/store/notes';
 import { useTheme } from '../../src/hooks/useTheme';
 import { font, radius, space } from '../../src/theme/spacing';
@@ -256,78 +257,82 @@ export default function DayDetailScreen() {
         <SectionHeader title="Giờ Hắc Đạo" subtitle="Giờ xấu trong ngày" />
         <HourStrip hours={info.gioHacDao} tone="hac" />
 
-        <SectionHeader title="Ghi chú" subtitle="Lưu trên máy · offline" />
-        <Card>
-          <TextInput
-            placeholder="Tiêu đề"
-            placeholderTextColor={colors.textMuted}
-            value={title}
-            onChangeText={setTitle}
-            style={[
-              styles.input,
-              {
-                color: colors.text,
-                borderColor: colors.border,
-                backgroundColor: colors.bgMuted,
-              },
-            ]}
-          />
-          <TextInput
-            placeholder="Nội dung ghi chú..."
-            placeholderTextColor={colors.textMuted}
-            value={body}
-            onChangeText={setBody}
-            multiline
-            style={[
-              styles.input,
-              styles.area,
-              {
-                color: colors.text,
-                borderColor: colors.border,
-                backgroundColor: colors.bgMuted,
-              },
-            ]}
-          />
-          <Pressable
-            onPress={saveNote}
-            style={[styles.saveBtn, { backgroundColor: colors.accent }]}
-          >
-            <Ionicons name="save-outline" size={18} color="#fff" />
-            <Text style={styles.saveText}>Lưu ghi chú</Text>
-          </Pressable>
-        </Card>
-
-        {dayNotes.map((n) => (
-          <View
-            key={n.id}
-            style={[
-              styles.noteCard,
-              { backgroundColor: colors.bgCard, borderColor: colors.border },
-            ]}
-          >
-            <View style={styles.noteHead}>
-              <Text style={[styles.noteTitle, { color: colors.text }]}>{n.title}</Text>
+        {!isWeb ? (
+          <>
+            <SectionHeader title="Ghi chú" subtitle="Lưu trên máy · offline" />
+            <Card>
+              <TextInput
+                placeholder="Tiêu đề"
+                placeholderTextColor={colors.textMuted}
+                value={title}
+                onChangeText={setTitle}
+                style={[
+                  styles.input,
+                  {
+                    color: colors.text,
+                    borderColor: colors.border,
+                    backgroundColor: colors.bgMuted,
+                  },
+                ]}
+              />
+              <TextInput
+                placeholder="Nội dung ghi chú..."
+                placeholderTextColor={colors.textMuted}
+                value={body}
+                onChangeText={setBody}
+                multiline
+                style={[
+                  styles.input,
+                  styles.area,
+                  {
+                    color: colors.text,
+                    borderColor: colors.border,
+                    backgroundColor: colors.bgMuted,
+                  },
+                ]}
+              />
               <Pressable
-                onPress={() =>
-                  Alert.alert('Xóa ghi chú?', n.title, [
-                    { text: 'Hủy', style: 'cancel' },
-                    {
-                      text: 'Xóa',
-                      style: 'destructive',
-                      onPress: () => deleteNote(n.id),
-                    },
-                  ])
-                }
-                hitSlop={8}
+                onPress={saveNote}
+                style={[styles.saveBtn, { backgroundColor: colors.accent }]}
               >
-                <Ionicons name="trash-outline" size={18} color={colors.textMuted} />
+                <Ionicons name="save-outline" size={18} color="#fff" />
+                <Text style={styles.saveText}>Lưu ghi chú</Text>
               </Pressable>
-            </View>
-            {n.body ? (
-              <Text style={[styles.noteBody, { color: colors.textSecondary }]}>{n.body}</Text>
-            ) : null}
-          </View>
-        ))}
+            </Card>
+
+            {dayNotes.map((n) => (
+              <View
+                key={n.id}
+                style={[
+                  styles.noteCard,
+                  { backgroundColor: colors.bgCard, borderColor: colors.border },
+                ]}
+              >
+                <View style={styles.noteHead}>
+                  <Text style={[styles.noteTitle, { color: colors.text }]}>{n.title}</Text>
+                  <Pressable
+                    onPress={() =>
+                      Alert.alert('Xóa ghi chú?', n.title, [
+                        { text: 'Hủy', style: 'cancel' },
+                        {
+                          text: 'Xóa',
+                          style: 'destructive',
+                          onPress: () => deleteNote(n.id),
+                        },
+                      ])
+                    }
+                    hitSlop={8}
+                  >
+                    <Ionicons name="trash-outline" size={18} color={colors.textMuted} />
+                  </Pressable>
+                </View>
+                {n.body ? (
+                  <Text style={[styles.noteBody, { color: colors.textSecondary }]}>{n.body}</Text>
+                ) : null}
+              </View>
+            ))}
+          </>
+        ) : null}
       </Screen>
     </>
   );

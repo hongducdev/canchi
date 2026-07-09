@@ -12,6 +12,7 @@ import {
   rescheduleAllPersonalReminders,
   scheduleTestNotification,
 } from '../../src/lib/notifications';
+import { isWeb } from '../../src/lib/platform';
 import { useFamilyStore } from '../../src/store/family';
 import { useNotesStore } from '../../src/store/notes';
 import { usePersonalEventsStore } from '../../src/store/personalEvents';
@@ -133,7 +134,9 @@ export default function SettingsScreen() {
       <View style={styles.header}>
         <Text style={[styles.title, { color: colors.text }]}>Cài đặt</Text>
         <Text style={[styles.sub, { color: colors.textMuted }]}>
-          Mọi dữ liệu chỉ lưu trên thiết bị
+          {isWeb
+            ? 'Lịch âm trên trình duyệt · dữ liệu cá nhân chỉ trên app'
+            : 'Mọi dữ liệu chỉ lưu trên thiết bị'}
         </Text>
       </View>
 
@@ -151,12 +154,14 @@ export default function SettingsScreen() {
           icon="sparkles-outline"
           onPress={() => router.push('/lucky')}
         />
-        <ToolTile
-          title="Sự kiện cá nhân"
-          subtitle={`${personalEvents.length} sự kiện trên máy`}
-          icon="calendar-outline"
-          onPress={() => router.push('/personal')}
-        />
+        {!isWeb ? (
+          <ToolTile
+            title="Sự kiện cá nhân"
+            subtitle={`${personalEvents.length} sự kiện trên máy`}
+            icon="calendar-outline"
+            onPress={() => router.push('/personal')}
+          />
+        ) : null}
         <ToolTile
           title="Phong thủy"
           subtitle="Mệnh, màu, số, hướng theo năm sinh"
@@ -169,12 +174,14 @@ export default function SettingsScreen() {
           icon="flower-outline"
           onPress={() => router.push('/memorial')}
         />
-        <ToolTile
-          title="Gia đình"
-          subtitle={`${familyMembers.length} thành viên trên máy`}
-          icon="people-outline"
-          onPress={() => router.push('/family')}
-        />
+        {!isWeb ? (
+          <ToolTile
+            title="Gia đình"
+            subtitle={`${familyMembers.length} thành viên trên máy`}
+            icon="people-outline"
+            onPress={() => router.push('/family')}
+          />
+        ) : null}
         <ToolTile
           title="Thiên văn"
           subtitle="Trăng, nhật thực, mưa sao băng"
@@ -215,79 +222,86 @@ export default function SettingsScreen() {
             subtitle="Chấm vàng trên ngày có lễ"
             value={showFestivals}
             onValueChange={setShowFestivals}
+            isLast={isWeb}
           />
-          <SettingRow
-            title="Phản hồi xúc giác"
-            value={haptics}
-            onValueChange={setHaptics}
-            isLast
-          />
+          {!isWeb ? (
+            <SettingRow
+              title="Phản hồi xúc giác"
+              value={haptics}
+              onValueChange={setHaptics}
+              isLast
+            />
+          ) : null}
         </View>
       </Card>
 
-      <Text style={[styles.group, { color: colors.textMuted }]}>THÔNG BÁO</Text>
-      <Card padded={false} style={styles.card}>
-        <View style={styles.pad}>
-          <SettingRow
-            title="Lên lịch nhắc sự kiện"
-            subtitle="Cục bộ (không dùng push) · 8:00 sáng"
-            onPress={scheduleReminders}
-          />
-          <SettingRow
-            title="Thử thông báo"
-            subtitle="Cục bộ · hiện sau ~3 giây"
-            onPress={testNotif}
-            isLast
-          />
-        </View>
-      </Card>
+      {!isWeb ? (
+        <>
+          <Text style={[styles.group, { color: colors.textMuted }]}>THÔNG BÁO</Text>
+          <Card padded={false} style={styles.card}>
+            <View style={styles.pad}>
+              <SettingRow
+                title="Lên lịch nhắc sự kiện"
+                subtitle="Cục bộ (không dùng push) · 8:00 sáng"
+                onPress={scheduleReminders}
+              />
+              <SettingRow
+                title="Thử thông báo"
+                subtitle="Cục bộ · hiện sau ~3 giây"
+                onPress={testNotif}
+                isLast
+              />
+            </View>
+          </Card>
 
-      <Text style={[styles.group, { color: colors.textMuted }]}>DỮ LIỆU</Text>
-      <Card padded={false} style={styles.card}>
-        <View style={styles.pad}>
-          <SettingRow
-            title="Ghi chú đã lưu"
-            subtitle={`${notes.length} ghi chú trên máy`}
-            rightLabel={`${notes.length}`}
-          />
-          <SettingRow
-            title="Xuất bản sao lưu JSON"
-            subtitle="Chia sẻ file offline"
-            onPress={exportBackup}
-          />
-          <SettingRow
-            title="Xóa tất cả ghi chú"
-            subtitle="Không thể hoàn tác"
-            onPress={clearNotes}
-            isLast
-          />
-        </View>
-      </Card>
+          <Text style={[styles.group, { color: colors.textMuted }]}>DỮ LIỆU</Text>
+          <Card padded={false} style={styles.card}>
+            <View style={styles.pad}>
+              <SettingRow
+                title="Ghi chú đã lưu"
+                subtitle={`${notes.length} ghi chú trên máy`}
+                rightLabel={`${notes.length}`}
+              />
+              <SettingRow
+                title="Xuất bản sao lưu JSON"
+                subtitle="Chia sẻ file offline"
+                onPress={exportBackup}
+              />
+              <SettingRow
+                title="Xóa tất cả ghi chú"
+                subtitle="Không thể hoàn tác"
+                onPress={clearNotes}
+                isLast
+              />
+            </View>
+          </Card>
 
-      <Card style={styles.restoreCard}>
-        <Text style={[styles.restoreTitle, { color: colors.text }]}>Khôi phục JSON</Text>
-        <TextInput
-          placeholder="Dán nội dung file sao lưu…"
-          placeholderTextColor={colors.textMuted}
-          value={restoreText}
-          onChangeText={setRestoreText}
-          multiline
-          style={[
-            styles.restoreInput,
-            {
-              color: colors.text,
-              borderColor: colors.border,
-              backgroundColor: colors.bgMuted,
-            },
-          ]}
-        />
-        <SettingRow
-          title="Khôi phục ngay"
-          subtitle="Ghi đè dữ liệu hiện tại"
-          onPress={importBackup}
-          isLast
-        />
-      </Card>
+          <Card style={styles.restoreCard}>
+            <Text style={[styles.restoreTitle, { color: colors.text }]}>Khôi phục JSON</Text>
+            <TextInput
+              placeholder="Dán nội dung file sao lưu…"
+              placeholderTextColor={colors.textMuted}
+              value={restoreText}
+              onChangeText={setRestoreText}
+              multiline
+              style={[
+                styles.restoreInput,
+                {
+                  color: colors.text,
+                  borderColor: colors.border,
+                  backgroundColor: colors.bgMuted,
+                },
+              ]}
+            />
+            <SettingRow
+              title="Khôi phục ngay"
+              subtitle="Ghi đè dữ liệu hiện tại"
+              onPress={importBackup}
+              isLast
+            />
+          </Card>
+        </>
+      ) : null}
 
       <Text style={[styles.group, { color: colors.textMuted }]}>VỀ ỨNG DỤNG</Text>
       <Card>

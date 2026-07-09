@@ -7,7 +7,9 @@ import {
   type ViewStyle,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useWebDesktop } from '../hooks/useWebDesktop';
 import { useTheme } from '../hooks/useTheme';
+import { WEB_CONTENT_MAX_WIDTH, isWeb } from '../lib/platform';
 import { space } from '../theme/spacing';
 
 type Props = {
@@ -26,6 +28,14 @@ export function Screen({
   edges = ['top', 'left', 'right'],
 }: Props) {
   const { colors } = useTheme();
+  const desktopWeb = useWebDesktop();
+  const webPad = isWeb
+    ? {
+        maxWidth: desktopWeb ? undefined : WEB_CONTENT_MAX_WIDTH,
+        width: '100%' as const,
+        alignSelf: 'center' as const,
+      }
+    : null;
 
   if (scroll) {
     return (
@@ -34,7 +44,7 @@ export function Screen({
         style={[styles.safe, { backgroundColor: colors.bg }, style]}
       >
         <ScrollView
-          contentContainerStyle={[styles.scrollContent, contentStyle]}
+          contentContainerStyle={[styles.scrollContent, webPad, contentStyle]}
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
         >
@@ -49,7 +59,7 @@ export function Screen({
       edges={edges}
       style={[styles.safe, { backgroundColor: colors.bg }, style]}
     >
-      <View style={[styles.fill, contentStyle]}>{children}</View>
+      <View style={[styles.fill, webPad, contentStyle]}>{children}</View>
     </SafeAreaView>
   );
 }
