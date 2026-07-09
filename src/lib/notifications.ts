@@ -1,25 +1,56 @@
+import './suppressExpoNotificationsWarnings';
+
 /**
  * Local-only notification helpers (no push server).
+ *
+ * Expo Go still warns about remote push limits; this app only schedules local reminders.
+ * Prefer a development build for production notification testing.
  */
 
+import Constants, { ExecutionEnvironment } from 'expo-constants';
 import { Platform } from 'react-native';
-import * as Notifications from 'expo-notifications';
 import { PERSONAL_KIND_LABEL } from '../store/personalEvents';
-import type { PersonalEvent } from './types';
 import { lunarToSolar, todaySolar } from './lunar';
-
-Notifications.setNotificationHandler({
-  handleNotification: async () => ({
-    shouldShowBanner: true,
-    shouldShowList: true,
-    shouldPlaySound: false,
-    shouldSetBadge: false,
-  }),
-});
+import type { PersonalEvent } from './types';
 
 const CHANNEL_ID = 'licham-reminders';
 
+type NotificationsModule = typeof import('expo-notifications');
+
+let notificationsModule: NotificationsModule | null = null;
+let handlerReady = false;
+
+async function getNotifications(): Promise<NotificationsModule> {
+  if (!notificationsModule) {
+    // Dynamic import: keep expo-notifications off the Settings route eval path.
+    // A sync top-level import can fail in Expo Go and make the route module undefined
+    // (expo-router then crashes with ErrorBoundary of undefined on Tabs).
+    notificationsModule = await import('expo-notifications');
+  }
+  if (!handlerReady) {
+    try {
+      notificationsModule.setNotificationHandler({
+        handleNotification: async () => ({
+          shouldShowBanner: true,
+          shouldShowList: true,
+          shouldPlaySound: false,
+          shouldSetBadge: false,
+        }),
+      });
+      handlerReady = true;
+    } catch {
+      // Expo Go / unsupported environments may reject handler setup.
+    }
+  }
+  return notificationsModule;
+}
+
+export function isRunningInExpoGo(): boolean {
+  return Constants.executionEnvironment === ExecutionEnvironment.StoreClient;
+}
+
 export async function ensureNotificationPermissions(): Promise<boolean> {
+  const Notifications = await getNotifications();
   if (Platform.OS === 'android') {
     await Notifications.setNotificationChannelAsync(CHANNEL_ID, {
       name: 'Nhắc lịch Âm',
@@ -28,12 +59,9 @@ export async function ensureNotificationPermissions(): Promise<boolean> {
   }
 
   const current = await Notifications.getPermissionsAsync();
-  let status = current.status;
-  if (status !== 'granted') {
-    const req = await Notifications.requestPermissionsAsync();
-    status = req.status;
-  }
-  return status === 'granted';
+  if (current.granted) return true;
+  const req = await Notifications.requestPermissionsAsync();
+  return req.granted;
 }
 
 function atLocalHour(year: number, month: number, day: number, hour = 8, minute = 0): Date {
@@ -96,6 +124,7 @@ function nextOccurrenceDate(event: PersonalEvent, hour = 8, minute = 0): Date | 
 export async function schedulePersonalEventReminder(
   event: PersonalEvent
 ): Promise<string | null> {
+  const Notifications = await getNotifications();
   const ok = await ensureNotificationPermissions();
   if (!ok) return null;
 
@@ -118,6 +147,7 @@ export async function schedulePersonalEventReminder(
 }
 
 export async function cancelAllLichAmNotifications(): Promise<void> {
+  const Notifications = await getNotifications();
   await Notifications.cancelAllScheduledNotificationsAsync();
 }
 
@@ -135,6 +165,7 @@ export async function rescheduleAllPersonalReminders(
 }
 
 export async function scheduleTestNotification(): Promise<void> {
+  const Notifications = await getNotifications();
   const ok = await ensureNotificationPermissions();
   if (!ok) throw new Error('Chưa được cấp quyền thông báo');
   await Notifications.scheduleNotificationAsync({
@@ -146,6 +177,15 @@ export async function scheduleTestNotification(): Promise<void> {
     trigger: {
       type: Notifications.SchedulableTriggerInputTypes.TIME_INTERVAL,
       seconds: 3,
+      repeats: false,
     },
   });
+}
+
+export function expoGoNotificationHint(): string | null {
+  if (!isRunningInExpoGo()) return null;
+  return (
+    'Bạn đang chạy trong Expo Go. Cảnh báo về push từ xa là bình thường. ' +
+    'App chỉ dùng nhắc cục bộ; để ổn định hơn hãy dùng development build.'
+  );
 }

@@ -36,7 +36,7 @@ export const CHI = [
 export const CHI_ANIMALS = [
   'Chuột',
   'Trâu',
-  'Dần',
+  'Hổ',
   'Mèo',
   'Rồng',
   'Rắn',

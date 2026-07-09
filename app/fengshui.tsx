@@ -3,8 +3,10 @@ import { StyleSheet, Text, TextInput, View } from 'react-native';
 import { Card } from '../src/components/Card';
 import { Screen } from '../src/components/Screen';
 import { SectionHeader } from '../src/components/SectionHeader';
+import { ZodiacIcon } from '../src/components/ZodiacIcon';
 import { useTheme } from '../src/hooks/useTheme';
 import { buildFengShuiProfile } from '../src/lib/fengShui';
+import { ZODIAC_LABEL_VI, zodiacKeyFromYear } from '../src/lib/zodiac';
 import { font, radius, space } from '../src/theme/spacing';
 
 export default function FengShuiScreen() {
@@ -45,9 +47,27 @@ export default function FengShuiScreen() {
         <>
           <SectionHeader title="Bản mệnh" />
           <Card>
+            <View style={styles.zodiacBanner}>
+              <ZodiacIcon year={profile.birthYear} size={52} />
+              <View style={styles.zodiacCopy}>
+                <Text style={[styles.zodiacEyebrow, { color: colors.textMuted }]}>
+                  {profile.canChi}
+                </Text>
+                <Text style={[styles.zodiacTitle, { color: colors.text }]}>
+                  {ZODIAC_LABEL_VI[zodiacKeyFromYear(profile.birthYear)]}
+                </Text>
+                <Text style={[styles.zodiacSub, { color: colors.textSecondary }]}>
+                  Mệnh {profile.element}
+                </Text>
+              </View>
+            </View>
             <Row label="Năm" value={String(profile.birthYear)} colors={colors} />
             <Row label="Can Chi" value={profile.canChi} colors={colors} />
-            <Row label="Con giáp" value={profile.animal} colors={colors} />
+            <Row
+              label="Con giáp"
+              value={ZODIAC_LABEL_VI[zodiacKeyFromYear(profile.birthYear)]}
+              colors={colors}
+            />
             <Row label="Ngũ hành" value={profile.element} colors={colors} last />
           </Card>
 
@@ -105,6 +125,30 @@ const styles = StyleSheet.create({
     paddingVertical: space.md,
     fontSize: font.md,
     marginBottom: space.md,
+  },
+  zodiacBanner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: space.lg,
+    paddingBottom: space.lg,
+    marginBottom: space.sm,
+  },
+  zodiacCopy: { flex: 1 },
+  zodiacEyebrow: {
+    fontSize: font.xs,
+    fontWeight: '700',
+    letterSpacing: 0.6,
+    textTransform: 'uppercase',
+  },
+  zodiacTitle: {
+    fontSize: font.xl,
+    fontWeight: '700',
+    letterSpacing: -0.3,
+    marginTop: 2,
+  },
+  zodiacSub: {
+    fontSize: font.sm,
+    marginTop: 2,
   },
   row: {
     flexDirection: 'row',

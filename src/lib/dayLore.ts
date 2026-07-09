@@ -209,7 +209,10 @@ const ACTIVITIES_BY_TRUC: Record<
 export type DayLore = {
   thienCan: string;
   diaChi: string;
+  /** Con giáp của năm (Địa Chi năm) */
   zodiacYear: string;
+  /** Con giáp của ngày (Địa Chi ngày) */
+  zodiacDay: string;
   nguHanh: string;
   truc: (typeof THAP_NHI_KIEN_TRU)[number];
   trucMeaning: string;
@@ -266,6 +269,7 @@ export function buildDayLore(
   const acts = ACTIVITIES_BY_TRUC[truc];
   const yearChi = parseCanChi(canChiYear).chi;
   const yearAnimal = CHI_ANIMALS[CHI.indexOf(yearChi as (typeof CHI)[number])] ?? yearChi;
+  const dayAnimal = CHI_ANIMALS[chiIdx];
 
   const conflictChi = CHI[(chiIdx + 6) % 12];
   const conflictAnimal = CHI_ANIMALS[(chiIdx + 6) % 12];
@@ -287,6 +291,7 @@ export function buildDayLore(
     thienCan: can || CAN[canIdx],
     diaChi: chi || CHI[chiIdx],
     zodiacYear: yearAnimal,
+    zodiacDay: dayAnimal,
     nguHanh: nguHanhOfCan(can) || '',
     truc,
     trucMeaning: TRUC_MEANING[truc],

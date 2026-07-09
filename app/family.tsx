@@ -1,4 +1,4 @@
-import { Ionicons } from '@expo/vector-icons';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import React, { useMemo, useState } from 'react';
 import {
   Alert,
@@ -11,8 +11,10 @@ import {
 import { Card } from '../src/components/Card';
 import { Screen } from '../src/components/Screen';
 import { SectionHeader } from '../src/components/SectionHeader';
+import { ZodiacIcon } from '../src/components/ZodiacIcon';
 import { useTheme } from '../src/hooks/useTheme';
-import { animalOfYear, canChiYear } from '../src/lib/canChi';
+import { canChiYear } from '../src/lib/canChi';
+import { ZODIAC_LABEL_VI, zodiacKeyFromYear } from '../src/lib/zodiac';
 import {
   FAMILY_RELATION_LABEL,
   useFamilyStore,
@@ -185,13 +187,18 @@ export default function FamilyScreen() {
             ]}
           >
             <View style={styles.itemBody}>
-              <Text style={[styles.itemKind, { color: colors.accentText }]}>
-                {FAMILY_RELATION_LABEL[m.relation]}
-              </Text>
-              <Text style={[styles.itemTitle, { color: colors.text }]}>{m.name}</Text>
+              <View style={styles.itemTop}>
+                {m.birthYear ? <ZodiacIcon year={m.birthYear} size={32} /> : null}
+                <View style={styles.itemText}>
+                  <Text style={[styles.itemKind, { color: colors.accentText }]}>
+                    {FAMILY_RELATION_LABEL[m.relation]}
+                  </Text>
+                  <Text style={[styles.itemTitle, { color: colors.text }]}>{m.name}</Text>
+                </View>
+              </View>
               <Text style={[styles.itemMeta, { color: colors.textMuted }]}>
                 {m.birthYear
-                  ? `${m.birthYear} · ${canChiYear(m.birthYear)} (${animalOfYear(m.birthYear)})`
+                  ? `${m.birthYear} · ${canChiYear(m.birthYear)} (${ZODIAC_LABEL_VI[zodiacKeyFromYear(m.birthYear)]})`
                   : 'Chưa có năm sinh'}
                 {m.solarBirthdayDay && m.solarBirthdayMonth
                   ? ` · SN ${m.solarBirthdayDay}/${m.solarBirthdayMonth}`
@@ -270,6 +277,12 @@ const styles = StyleSheet.create({
     gap: space.md,
   },
   itemBody: { flex: 1 },
+  itemTop: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: space.md,
+  },
+  itemText: { flex: 1 },
   itemKind: {
     fontSize: font.xs,
     fontWeight: '700',

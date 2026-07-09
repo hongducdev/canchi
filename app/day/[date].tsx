@@ -1,4 +1,4 @@
-import { Ionicons } from '@expo/vector-icons';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { Stack, useLocalSearchParams } from 'expo-router';
 import React, { useMemo, useState } from 'react';
 import {
@@ -14,6 +14,7 @@ import { Chip } from '../../src/components/Chip';
 import { HourStrip } from '../../src/components/HourStrip';
 import { Screen } from '../../src/components/Screen';
 import { SectionHeader } from '../../src/components/SectionHeader';
+import { ZodiacIcon } from '../../src/components/ZodiacIcon';
 import { buildDayInfo, formatLunarLong, formatSolarLong } from '../../src/lib/dayInfo';
 import { dailyActivityScores, overallDayScore } from '../../src/lib/dailyScore';
 import { parseDateKey, isValidSolarDate } from '../../src/lib/lunar';
@@ -139,8 +140,23 @@ export default function DayDetailScreen() {
 
         <SectionHeader title="Can Chi" subtitle="Thiên Can · Địa Chi · Ngũ Hành" />
         <Card>
+          <View style={styles.zodiacBanner}>
+            <ZodiacIcon chi={lore.diaChi} size={52} />
+            <View style={styles.zodiacCopy}>
+              <Text style={[styles.zodiacEyebrow, { color: colors.textMuted }]}>
+                Con giáp ngày · {info.canChiDay}
+              </Text>
+              <Text style={[styles.zodiacTitle, { color: colors.text }]}>
+                {lore.zodiacDay}
+              </Text>
+              <Text style={[styles.zodiacSub, { color: colors.textSecondary }]}>
+                Năm {lore.zodiacYear} · {info.canChiYear}
+              </Text>
+            </View>
+          </View>
           <Row label="Thiên Can" value={lore.thienCan} colors={colors} />
-          <Row label="Địa Chi" value={lore.diaChi} colors={colors} />
+          <Row label="Địa Chi ngày" value={lore.diaChi} colors={colors} />
+          <Row label="Con giáp ngày" value={lore.zodiacDay} colors={colors} />
           <Row label="Năm con giáp" value={lore.zodiacYear} colors={colors} />
           <Row label="Ngũ Hành" value={lore.nguHanh} colors={colors} />
           <Row label="Năm" value={info.canChiYear} colors={colors} />
@@ -348,6 +364,32 @@ const styles = StyleSheet.create({
   heroBlock: {
     marginTop: space.sm,
     marginBottom: space.md,
+  },
+  zodiacBanner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: space.lg,
+    paddingBottom: space.lg,
+    marginBottom: space.sm,
+  },
+  zodiacCopy: {
+    flex: 1,
+  },
+  zodiacEyebrow: {
+    fontSize: font.xs,
+    fontWeight: '700',
+    letterSpacing: 0.6,
+    textTransform: 'uppercase',
+  },
+  zodiacTitle: {
+    fontSize: font.xl,
+    fontWeight: '700',
+    letterSpacing: -0.3,
+    marginTop: 2,
+  },
+  zodiacSub: {
+    fontSize: font.sm,
+    marginTop: 2,
   },
   weekday: {
     fontSize: font.xs,

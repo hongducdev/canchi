@@ -8,6 +8,7 @@ import { ToolTile } from '../../src/components/ToolTile';
 import { useTheme } from '../../src/hooks/useTheme';
 import { buildBackup, parseBackup, serializeBackup } from '../../src/lib/backup';
 import {
+  expoGoNotificationHint,
   rescheduleAllPersonalReminders,
   scheduleTestNotification,
 } from '../../src/lib/notifications';
@@ -101,12 +102,12 @@ export default function SettingsScreen() {
   const scheduleReminders = async () => {
     try {
       const count = await rescheduleAllPersonalReminders(personalEvents);
-      Alert.alert(
-        'Đã lên lịch',
+      const hint = expoGoNotificationHint();
+      const body =
         count > 0
           ? `${count} nhắc cục bộ cho sự kiện cá nhân (8:00 sáng ngày tới).`
-          : 'Không có sự kiện phù hợp để nhắc.'
-      );
+          : 'Không có sự kiện phù hợp để nhắc.';
+      Alert.alert('Đã lên lịch', hint ? `${body}\n\n${hint}` : body);
     } catch (e) {
       Alert.alert('Lỗi', e instanceof Error ? e.message : 'Không lên lịch được.');
     }
@@ -115,7 +116,13 @@ export default function SettingsScreen() {
   const testNotif = async () => {
     try {
       await scheduleTestNotification();
-      Alert.alert('OK', 'Thông báo thử sẽ hiện sau ~3 giây.');
+      const hint = expoGoNotificationHint();
+      Alert.alert(
+        'OK',
+        hint
+          ? `Thông báo thử sẽ hiện sau ~3 giây.\n\n${hint}`
+          : 'Thông báo thử sẽ hiện sau ~3 giây.'
+      );
     } catch (e) {
       Alert.alert('Lỗi', e instanceof Error ? e.message : 'Không gửi được thông báo.');
     }
@@ -223,12 +230,12 @@ export default function SettingsScreen() {
         <View style={styles.pad}>
           <SettingRow
             title="Lên lịch nhắc sự kiện"
-            subtitle="Cục bộ · 8:00 sáng ngày tới"
+            subtitle="Cục bộ (không dùng push) · 8:00 sáng"
             onPress={scheduleReminders}
           />
           <SettingRow
             title="Thử thông báo"
-            subtitle="Hiện sau khoảng 3 giây"
+            subtitle="Cục bộ · hiện sau ~3 giây"
             onPress={testNotif}
             isLast
           />

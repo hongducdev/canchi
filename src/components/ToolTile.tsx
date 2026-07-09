@@ -1,4 +1,4 @@
-import { Ionicons } from '@expo/vector-icons';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useTheme } from '../hooks/useTheme';
@@ -8,7 +8,7 @@ import { Card } from './Card';
 type Props = {
   title: string;
   subtitle: string;
-  icon: keyof typeof Ionicons.glyphMap;
+  icon: React.ComponentProps<typeof Ionicons>['name'];
   onPress: () => void;
 };
 

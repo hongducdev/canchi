@@ -1,4 +1,8 @@
+import '../src/lib/suppressExpoNotificationsWarnings';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
+import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -7,6 +11,10 @@ import { useFamilyStore } from '../src/store/family';
 import { useNotesStore } from '../src/store/notes';
 import { usePersonalEventsStore } from '../src/store/personalEvents';
 import { useSettingsStore } from '../src/store/settings';
+
+SplashScreen.preventAutoHideAsync().catch(() => {
+  // Splash may already be hidden in some environments (e.g. web).
+});
 
 function RootNav() {
   const { colors, isDark } = useTheme();
@@ -60,6 +68,18 @@ function RootNav() {
 }
 
 export default function RootLayout() {
+  const [fontsLoaded, fontError] = useFonts(Ionicons.font);
+
+  useEffect(() => {
+    if (fontsLoaded || fontError) {
+      SplashScreen.hideAsync().catch(() => {});
+    }
+  }, [fontsLoaded, fontError]);
+
+  if (!fontsLoaded && !fontError) {
+    return null;
+  }
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <RootNav />

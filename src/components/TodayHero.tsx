@@ -8,6 +8,7 @@ import { dateKey } from '../lib/lunar';
 import { useTheme } from '../hooks/useTheme';
 import { font, radius, space } from '../theme/spacing';
 import { Chip } from './Chip';
+import { ZodiacIcon } from './ZodiacIcon';
 
 type Props = {
   info: DayInfo;
@@ -44,6 +45,8 @@ export function TodayHero({ info }: Props) {
             <Text style={[styles.brand, { color: brand }]}>Lịch Âm</Text>
             <View style={[styles.liveDot, { backgroundColor: colors.accent }]} />
             <Text style={[styles.live, { color: live }]}>Hôm nay</Text>
+            <View style={styles.topSpacer} />
+            <ZodiacIcon chi={info.lore.diaChi} size={40} />
           </View>
 
           <Text style={[styles.weekday, { color: weekday }]}>{info.weekdayName}</Text>
@@ -57,6 +60,7 @@ export function TodayHero({ info }: Props) {
           <Text style={[styles.lunar, { color: primary }]}>{formatLunarLong(info)}</Text>
           <View style={styles.chips}>
             <Chip label={`Ngày ${info.canChiDay}`} tone="accent" />
+            <Chip label={`Con giáp ngày · ${info.lore.zodiacDay}`} tone="jade" />
             <Chip label={info.tietKhi} tone="gold" />
           </View>
 
@@ -83,6 +87,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: space.lg,
+  },
+  topSpacer: {
+    flex: 1,
   },
   brand: {
     fontSize: font.xs,

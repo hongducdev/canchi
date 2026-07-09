@@ -7,12 +7,6 @@
     "icon": "./assets/icon.png",
     "scheme": "licham",
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
-    "splash": {
-      "image": "./assets/splash-icon.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#0F1419"
-    },
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.licham.app",
@@ -25,8 +19,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#0F1419"
       },
-      "package": "com.licham.app",
-      "edgeToEdgeEnabled": true
+      "package": "com.licham.app"
     },
     "web": {
       "bundler": "metro",
@@ -37,7 +30,17 @@
       "expo-router",
       "expo-font",
       "expo-asset",
-      "expo-notifications"
+      "expo-notifications",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "resizeMode": "contain",
+          "backgroundColor": "#0F1419",
+          "imageWidth": 200
+        }
+      ],
+      "expo-status-bar"
     ],
     "experiments": {
       "typedRoutes": true

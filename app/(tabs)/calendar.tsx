@@ -1,4 +1,4 @@
-import { Ionicons } from '@expo/vector-icons';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { router } from 'expo-router';
 import React, { useMemo, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
@@ -6,6 +6,7 @@ import { Card } from '../../src/components/Card';
 import { Chip } from '../../src/components/Chip';
 import { MonthGrid } from '../../src/components/MonthGrid';
 import { Screen } from '../../src/components/Screen';
+import { ZodiacIcon } from '../../src/components/ZodiacIcon';
 import { buildDayInfo, formatLunarLong } from '../../src/lib/dayInfo';
 import { dateKey, todaySolar } from '../../src/lib/lunar';
 import type { SolarDate } from '../../src/lib/types';
@@ -98,14 +99,20 @@ export default function CalendarScreen() {
           },
         ]}
       >
-        <Text style={[styles.previewTitle, { color: colors.text }]}>
-          {info.weekdayName}, {selected.day}/{selected.month}/{selected.year}
-        </Text>
-        <Text style={[styles.previewLunar, { color: colors.textSecondary }]}>
-          {formatLunarLong(info)}
-        </Text>
+        <View style={styles.previewHead}>
+          <View style={styles.previewCopy}>
+            <Text style={[styles.previewTitle, { color: colors.text }]}>
+              {info.weekdayName}, {selected.day}/{selected.month}/{selected.year}
+            </Text>
+            <Text style={[styles.previewLunar, { color: colors.textSecondary }]}>
+              {formatLunarLong(info)}
+            </Text>
+          </View>
+          <ZodiacIcon chi={info.lore.diaChi} size={40} />
+        </View>
         <View style={styles.chips}>
           <Chip label={info.canChiDay} tone="accent" />
+          <Chip label={`Con giáp · ${info.lore.zodiacDay}`} tone="jade" />
           <Chip label={info.tietKhi} tone="gold" />
         </View>
         {info.festivals.length > 0 ? (
@@ -164,6 +171,14 @@ const styles = StyleSheet.create({
     padding: space.lg,
     borderRadius: radius.md,
     borderWidth: StyleSheet.hairlineWidth,
+  },
+  previewHead: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: space.md,
+  },
+  previewCopy: {
+    flex: 1,
   },
   previewTitle: {
     fontSize: font.lg,

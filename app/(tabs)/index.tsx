@@ -6,6 +6,7 @@ import { Screen } from '../../src/components/Screen';
 import { SectionHeader } from '../../src/components/SectionHeader';
 import { TetCountdownCard } from '../../src/components/TetCountdownCard';
 import { TodayHero } from '../../src/components/TodayHero';
+import { ZodiacIcon } from '../../src/components/ZodiacIcon';
 import { tetCountdown, upcomingFestivals } from '../../src/data/festivals';
 import { buildDayInfo } from '../../src/lib/dayInfo';
 import { todaySolar } from '../../src/lib/lunar';
@@ -30,7 +31,7 @@ export default function HomeScreen() {
       </View>
 
       <TodayHero info={info} />
-
+      <View style={{ height: space.md }} />
       <TetCountdownCard
         days={tet.days}
         dateLabel={`${tet.solar.day}/${tet.solar.month}/${tet.solar.year}`}
@@ -38,6 +39,19 @@ export default function HomeScreen() {
 
       <SectionHeader title="Can Chi" subtitle="Năm · Tháng · Ngày · Giờ" />
       <Card>
+        <View style={styles.yearRow}>
+          <ZodiacIcon chi={info.lore.diaChi} size={44} />
+          <View style={styles.yearCopy}>
+            <Text style={[styles.yearLabel, { color: colors.textMuted }]}>Con giáp ngày</Text>
+            <Text style={[styles.yearValue, { color: colors.text }]}>
+              {info.lore.zodiacDay} · {info.canChiDay}
+            </Text>
+            <Text style={[styles.yearHint, { color: colors.textMuted }]}>
+              Năm {info.lore.zodiacYear} ({info.canChiYear})
+            </Text>
+          </View>
+        </View>
+        <View style={[styles.sep, { backgroundColor: colors.border }]} />
         <View style={styles.metaGrid}>
           <Meta label="Năm" value={info.canChiYear} colors={colors} />
           <Meta label="Tháng" value={info.canChiMonth} colors={colors} />
@@ -105,6 +119,30 @@ const styles = StyleSheet.create({
   metaGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
+  },
+  yearRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: space.md,
+    marginBottom: space.sm,
+  },
+  yearCopy: {
+    flex: 1,
+  },
+  yearLabel: {
+    fontSize: font.xs,
+    fontWeight: '700',
+    letterSpacing: 0.6,
+    textTransform: 'uppercase',
+  },
+  yearValue: {
+    fontSize: font.lg,
+    fontWeight: '700',
+    marginTop: 2,
+  },
+  yearHint: {
+    fontSize: font.sm,
+    marginTop: 2,
   },
   metaItem: {
     width: '50%',
