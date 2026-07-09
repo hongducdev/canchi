@@ -47,18 +47,25 @@ Built with **React Native**, **Expo SDK 56**, and **TypeScript**. No backend, no
 | Typeface | Google Sans Flex (app + web) |
 | State | Zustand + AsyncStorage |
 
-Home-screen widgets (`expo-widgets`) need a **development build** — not available in Expo Go.
+Home-screen widgets need a **development build** — not available in Expo Go.
 
-Four widgets (Android-first, `enableAndroid: true`):
+Android widgets use `react-native-android-widget` (Glance/RemoteViews). Four widgets:
 
-| Widget | Size | Content |
+| Widget name | Size | Content |
 | --- | --- | --- |
-| DayLoreWidget | Medium | Quote / festival + lunar header |
-| MonthSmallWidget | Small | Month grid |
-| DateMinimalWidget | Small | Large day + lunar |
-| ComboWidget | Medium | Day + month grid |
+| DayLore | Medium | Quote / festival + lunar header |
+| MonthSmall | Small | Month grid |
+| DateMinimal | Small | Large day + lunar |
+| Combo | Medium | Day + month grid |
 
 Tap Day Lore / Date Minimal → day detail; Month / Combo → calendar. Theme follows system light/dark.
+
+After changing widget config, re-run native build:
+
+```bash
+npx expo prebuild --clean
+npx expo run:android
+```
 
 Web omits family, personal events, notes, backup, and native notifications (use the mobile app for those).
 

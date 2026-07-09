@@ -42,63 +42,56 @@
       ],
       "expo-status-bar",
       [
-        "expo-widgets",
+        "react-native-android-widget",
         {
-          "enableAndroid": true,
-          "bundleIdentifier": "com.licham.app.widgets",
-          "groupIdentifier": "group.com.licham.app",
           "widgets": [
             {
-              "name": "DayLoreWidget",
-              "displayName": "Lời hay · Lịch Âm",
+              "name": "DayLore",
+              "label": "Lời hay · Lịch Âm",
               "description": "Ngày dương/âm và lời hay hoặc tên lễ",
-              "ios": { "supportedFamilies": ["systemMedium"] },
-              "android": {
-                "minWidth": 250,
-                "minHeight": 110,
-                "targetCellWidth": 4,
-                "targetCellHeight": 2,
-                "resizeMode": "horizontal"
-              }
+              "minWidth": "250dp",
+              "minHeight": "110dp",
+              "targetCellWidth": 4,
+              "targetCellHeight": 2,
+              "resizeMode": "horizontal",
+              "previewImage": "./assets/widget-preview/day-lore.png",
+              "updatePeriodMillis": 1800000
             },
             {
-              "name": "MonthSmallWidget",
-              "displayName": "Tháng · Lịch Âm",
+              "name": "MonthSmall",
+              "label": "Tháng · Lịch Âm",
               "description": "Lưới tháng dương/âm",
-              "ios": { "supportedFamilies": ["systemSmall"] },
-              "android": {
-                "minWidth": 110,
-                "minHeight": 110,
-                "targetCellWidth": 2,
-                "targetCellHeight": 2,
-                "resizeMode": "none"
-              }
+              "minWidth": "110dp",
+              "minHeight": "110dp",
+              "targetCellWidth": 2,
+              "targetCellHeight": 2,
+              "resizeMode": "none",
+              "previewImage": "./assets/widget-preview/month-small.png",
+              "updatePeriodMillis": 1800000
             },
             {
-              "name": "DateMinimalWidget",
-              "displayName": "Ngày · Lịch Âm",
+              "name": "DateMinimal",
+              "label": "Ngày · Lịch Âm",
               "description": "Ngày lớn và âm lịch",
-              "ios": { "supportedFamilies": ["systemSmall"] },
-              "android": {
-                "minWidth": 110,
-                "minHeight": 110,
-                "targetCellWidth": 2,
-                "targetCellHeight": 2,
-                "resizeMode": "none"
-              }
+              "minWidth": "110dp",
+              "minHeight": "110dp",
+              "targetCellWidth": 2,
+              "targetCellHeight": 2,
+              "resizeMode": "none",
+              "previewImage": "./assets/widget-preview/date-minimal.png",
+              "updatePeriodMillis": 1800000
             },
             {
-              "name": "ComboWidget",
-              "displayName": "Ngày + Tháng · Lịch Âm",
+              "name": "Combo",
+              "label": "Ngày + Tháng · Lịch Âm",
               "description": "Ngày hôm nay và lưới tháng",
-              "ios": { "supportedFamilies": ["systemMedium"] },
-              "android": {
-                "minWidth": 250,
-                "minHeight": 110,
-                "targetCellWidth": 4,
-                "targetCellHeight": 2,
-                "resizeMode": "horizontal"
-              }
+              "minWidth": "250dp",
+              "minHeight": "110dp",
+              "targetCellWidth": 4,
+              "targetCellHeight": 2,
+              "resizeMode": "horizontal",
+              "previewImage": "./assets/widget-preview/combo.png",
+              "updatePeriodMillis": 1800000
             }
           ]
         }

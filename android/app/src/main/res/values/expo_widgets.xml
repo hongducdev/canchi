@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="day_lore_widget_display_name">Lời hay · Lịch Âm</string>
+  <string name="day_lore_widget_description">Ngày dương/âm và lời hay hoặc tên lễ</string>
+  <string name="month_small_widget_display_name">Tháng · Lịch Âm</string>
+  <string name="month_small_widget_description">Lưới tháng dương/âm</string>
+  <string name="date_minimal_widget_display_name">Ngày · Lịch Âm</string>
+  <string name="date_minimal_widget_description">Ngày lớn và âm lịch</string>
+  <string name="combo_widget_display_name">Ngày + Tháng · Lịch Âm</string>
+  <string name="combo_widget_description">Ngày hôm nay và lưới tháng</string>
+</resources>

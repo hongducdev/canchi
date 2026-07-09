@@ -2,7 +2,7 @@
 
 **Date:** 2026-07-09  
 **Status:** Approved for planning  
-**Direction:** Approach A — `expo-widgets` with `enableAndroid: true`  
+**Direction:** Approach A (revised) — `react-native-android-widget` on Android (`expo-widgets` Android is a name-only stub in SDK 56)  
 **Scope:** Four Android home-screen widgets + shared quote module used by widgets and `TodayHero`  
 **Out of scope:** Weather, Date Hero (A), large month grid (F), iOS QA/ship, Settings-driven widget prefs, editable widgets, Expo Go
 
@@ -19,7 +19,7 @@ Reading this as: **glanceable Vietnamese lunar calendar on the Android home scre
 | Topic | Choice |
 |-------|--------|
 | Platform | Android first; iOS may share code later, not required in phase 1 |
-| Stack | `expo-widgets` + `enableAndroid: true`; development build required |
+| Stack | `react-native-android-widget` (Android); development build required |
 | Layouts | B Day Lore+Quote, C Month small, D Date Minimal, E Combo |
 | Theme | Follow system color scheme (light/dark) via widget environment |
 | Quote body (B) | Prefer quote; festival-tagged quote when possible; else festival name |
