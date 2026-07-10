@@ -4,6 +4,7 @@
 
 - **hongducdev** — Original author & maintainer
 - **Claude (Anthropic)** — AI development assistant
+- **Cursor Agent** — AI development assistant
 
 ## How to Contribute
 
