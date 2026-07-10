@@ -385,12 +385,22 @@ export default function SettingsScreen() {
             </AppText>
           </AppText>
         </Pressable>
-        <SettingRow
-          title={checkingUpdate ? 'Đang kiểm tra…' : 'Kiểm tra cập nhật'}
-          subtitle="GitHub Releases"
+        <Pressable
           onPress={onCheckUpdate}
-          isLast
-        />
+          disabled={checkingUpdate}
+          accessibilityRole="button"
+          style={({ pressed }) => [
+            styles.updateBtn,
+            {
+              backgroundColor: colors.accent,
+              opacity: pressed || checkingUpdate ? 0.85 : 1,
+            },
+          ]}
+        >
+          <AppText style={styles.updateBtnText}>
+            {checkingUpdate ? 'Đang kiểm tra…' : 'Kiểm tra cập nhật'}
+          </AppText>
+        </Pressable>
       </Card>
     </Screen>
   );
@@ -465,6 +475,20 @@ const styles = StyleSheet.create({
   author: {
     fontSize: font.sm,
     marginTop: space.sm,
-    marginBottom: space.sm,
+    marginBottom: space.md,
+  },
+  updateBtn: {
+    marginTop: space.sm,
+    paddingVertical: space.md,
+    paddingHorizontal: space.lg,
+    borderRadius: radius.md,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  updateBtnText: {
+    fontSize: font.md,
+    fontWeight: '700',
+    letterSpacing: -0.1,
+    color: '#F7F4EE',
   },
 });

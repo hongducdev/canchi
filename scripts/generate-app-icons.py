@@ -61,29 +61,29 @@ def draw_calendar(size: int, day: int, *, pad_ratio: float = 0.0) -> Image.Image
     draw = ImageDraw.Draw(img)
 
     width = right - left
+    cx = left + width / 2
+
     label = "Can Chi"
     font_header = load_font(max(9, int(size * (0.09 if pad_ratio else 0.11))), bold=True)
-    bbox = draw.textbbox((0, 0), label, font=font_header)
-    tw, th = bbox[2] - bbox[0], bbox[3] - bbox[1]
     draw.text(
-        (left + (width - tw) / 2, top + (header_h - th) / 2),
+        (cx, top + header_h / 2),
         label,
         font=font_header,
         fill=PAPER,
+        anchor="mm",
     )
 
     day_text = str(day)
     font_day = load_font(max(14, int(size * (0.36 if pad_ratio else 0.42))), bold=True)
-    bbox = draw.textbbox((0, 0), day_text, font=font_day)
-    tw, th = bbox[2] - bbox[0], bbox[3] - bbox[1]
     body_top = top + header_h
     body_h = bottom - body_top
-    draw.text(
-        (left + (width - tw) / 2, body_top + (body_h - th) / 2 - size * 0.02),
-        day_text,
-        font=font_day,
-        fill=INK,
-    )
+    # Center by actual glyph ink box (not em-box / baseline)
+    ink_l, ink_t, ink_r, ink_b = font_day.getbbox(day_text)
+    ink_w = ink_r - ink_l
+    ink_h = ink_b - ink_t
+    day_x = cx - ink_w / 2 - ink_l
+    day_y = body_top + (body_h - ink_h) / 2 - ink_t
+    draw.text((day_x, day_y), day_text, font=font_day, fill=INK)
     return img
 
 
