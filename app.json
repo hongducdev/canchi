@@ -2,7 +2,7 @@
   "expo": {
     "name": "Can Chi",
     "slug": "canchi",
-    "version": "1.1.2",
+    "version": "1.2.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "scheme": "canchi",
@@ -31,6 +31,12 @@
       "expo-font",
       "expo-asset",
       "expo-notifications",
+      [
+        "@react-native-google-signin/google-signin",
+        {
+          "iosUrlScheme": "com.googleusercontent.apps.canchi-placeholder"
+        }
+      ],
       [
         "expo-splash-screen",
         {

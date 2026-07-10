@@ -1,13 +1,15 @@
 import { router } from 'expo-router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
+  ActivityIndicator,
   Alert,
   Linking,
   Pressable,
   Share,
   StyleSheet,
-  View
+  View,
 } from 'react-native';
+import { AppText, AppTextInput } from '../../src/components/AppText';
 import { Card } from '../../src/components/Card';
 import { Screen } from '../../src/components/Screen';
 import { SettingRow } from '../../src/components/SettingRow';
@@ -17,13 +19,31 @@ import {
   checkForUpdateManual,
   getLocalAppVersion,
 } from '../../src/lib/appUpdate';
-import { buildBackup, parseBackup, serializeBackup } from '../../src/lib/backup';
+import {
+  applyBackup,
+  buildBackup,
+  parseBackup,
+  serializeBackup,
+} from '../../src/lib/backup';
+import {
+  DRIVE_BACKUP_PATH_LABEL,
+  DriveBackupConfigError,
+  DriveBackupMissingFileError,
+  connectGoogleDrive,
+  disconnectGoogleDrive,
+  downloadBackupFromDrive,
+  isGoogleDriveBackupSupported,
+  syncGoogleDriveSession,
+  uploadBackupToDrive,
+} from '../../src/lib/googleDriveBackup';
 import {
   expoGoNotificationHint,
   rescheduleAllPersonalReminders,
   scheduleTestNotification,
 } from '../../src/lib/notifications';
 import { isWeb } from '../../src/lib/platform';
+import type { ThemeMode } from '../../src/lib/types';
+import { useDriveBackupStore } from '../../src/store/driveBackup';
 import { useFamilyStore } from '../../src/store/family';
 import { useNotesStore } from '../../src/store/notes';
 import { usePersonalEventsStore } from '../../src/store/personalEvents';
@@ -32,9 +52,7 @@ import {
   hasUsableProfile,
   useUserProfileStore,
 } from '../../src/store/userProfile';
-import type { ThemeMode } from '../../src/lib/types';
 import { font, radius, space } from '../../src/theme/spacing';
-import { AppText, AppTextInput } from '../../src/components/AppText';
 
 const THEME_CYCLE: ThemeMode[] = ['system', 'light', 'dark'];
 const THEME_LABEL: Record<ThemeMode, string> = {
@@ -59,9 +77,18 @@ export default function SettingsScreen() {
   const personalEvents = usePersonalEventsStore((s) => s.events);
   const familyMembers = useFamilyStore((s) => s.members);
   const userProfile = useUserProfileStore((s) => s.profile);
+  const driveEmail = useDriveBackupStore((s) => s.email);
+  const lastBackupAt = useDriveBackupStore((s) => s.lastBackupAt);
   const [restoreText, setRestoreText] = useState('');
   const [checkingUpdate, setCheckingUpdate] = useState(false);
+  const [driveBusy, setDriveBusy] = useState(false);
   const appVersion = getLocalAppVersion();
+  const showDrive = isGoogleDriveBackupSupported();
+
+  useEffect(() => {
+    if (!showDrive) return;
+    void syncGoogleDriveSession();
+  }, [showDrive]);
 
   const openAuthorSite = () => {
     Linking.openURL('https://hongduc.dev').catch(() => {
@@ -79,18 +106,28 @@ export default function SettingsScreen() {
     }
   };
 
-  const exportBackup = async () => {
+  const currentBackupJson = () => {
     const settings = useSettingsStore.getState();
-    const backup = buildBackup(notes, personalEvents, {
-      themeMode: settings.themeMode,
-      weekStartsOn: settings.weekStartsOn,
-      showLunarInGrid: settings.showLunarInGrid,
-      showFestivals: settings.showFestivals,
-      haptics: settings.haptics,
-    });
-    const json = serializeBackup(backup);
+    const backup = buildBackup(
+      useNotesStore.getState().notes,
+      usePersonalEventsStore.getState().events,
+      {
+        themeMode: settings.themeMode,
+        weekStartsOn: settings.weekStartsOn,
+        showLunarInGrid: settings.showLunarInGrid,
+        showFestivals: settings.showFestivals,
+        haptics: settings.haptics,
+      },
+      useUserProfileStore.getState().profile,
+      useFamilyStore.getState().members
+    );
+    return serializeBackup(backup);
+  };
+
+  const exportBackup = async () => {
+    const json = currentBackupJson();
     try {
-      await Share.share({ message: json, title: 'licham-backup.json' });
+      await Share.share({ message: json, title: 'canchi-backup.json' });
     } catch {
       Alert.alert('Không chia sẻ được', 'Sao chép thủ công từ hộp thoại hệ thống nếu có.');
     }
@@ -99,19 +136,116 @@ export default function SettingsScreen() {
   const importBackup = () => {
     try {
       const data = parseBackup(restoreText);
-      useNotesStore.setState({ notes: data.notes });
-      usePersonalEventsStore.setState({ events: data.personalEvents });
-      useSettingsStore.setState({
-        themeMode: data.settings.themeMode,
-        weekStartsOn: data.settings.weekStartsOn,
-        showLunarInGrid: data.settings.showLunarInGrid,
-        showFestivals: data.settings.showFestivals,
-        haptics: data.settings.haptics,
-      });
+      const { restoredProfileFamily } = applyBackup(data);
       setRestoreText('');
-      Alert.alert('Đã khôi phục', 'Ghi chú, sự kiện và cài đặt đã được nạp lại.');
+      Alert.alert(
+        'Đã khôi phục',
+        restoredProfileFamily
+          ? 'Ghi chú, sự kiện, cài đặt, hồ sơ và gia đình đã được nạp lại.'
+          : 'Ghi chú, sự kiện và cài đặt đã được nạp lại (bản v1 — giữ hồ sơ/gia đình trên máy).'
+      );
     } catch (e) {
       Alert.alert('Lỗi', e instanceof Error ? e.message : 'Không đọc được bản sao lưu.');
+    }
+  };
+
+  const driveErrorMessage = (e: unknown): string => {
+    if (e instanceof DriveBackupConfigError || e instanceof DriveBackupMissingFileError) {
+      return e.message;
+    }
+    if (e instanceof Error) return e.message;
+    return 'Thao tác Drive thất bại.';
+  };
+
+  const onConnectDrive = async () => {
+    if (driveBusy) return;
+    setDriveBusy(true);
+    try {
+      const result = await connectGoogleDrive();
+      if (result) {
+        Alert.alert('Đã kết nối', result.email);
+      }
+    } catch (e) {
+      Alert.alert('Không kết nối được', driveErrorMessage(e));
+    } finally {
+      setDriveBusy(false);
+    }
+  };
+
+  const onDisconnectDrive = () => {
+    Alert.alert('Ngắt kết nối Google?', 'Sao lưu trên Drive vẫn giữ nguyên.', [
+      { text: 'Hủy', style: 'cancel' },
+      {
+        text: 'Ngắt kết nối',
+        style: 'destructive',
+        onPress: () => {
+          void (async () => {
+            setDriveBusy(true);
+            try {
+              await disconnectGoogleDrive();
+            } catch (e) {
+              Alert.alert('Lỗi', driveErrorMessage(e));
+            } finally {
+              setDriveBusy(false);
+            }
+          })();
+        },
+      },
+    ]);
+  };
+
+  const onBackupToDrive = async () => {
+    if (driveBusy) return;
+    setDriveBusy(true);
+    try {
+      await uploadBackupToDrive(currentBackupJson());
+      Alert.alert('Đã sao lưu', `Đã ghi ${DRIVE_BACKUP_PATH_LABEL} trên Drive của bạn.`);
+    } catch (e) {
+      Alert.alert('Sao lưu thất bại', driveErrorMessage(e));
+    } finally {
+      setDriveBusy(false);
+    }
+  };
+
+  const onRestoreFromDrive = async () => {
+    if (driveBusy) return;
+    setDriveBusy(true);
+    try {
+      const raw = await downloadBackupFromDrive();
+      const data = parseBackup(raw);
+      const detail =
+        data.version === 2
+          ? 'Ghi chú, sự kiện, cài đặt, hồ sơ và gia đình trên máy sẽ bị thay thế.'
+          : 'Ghi chú, sự kiện và cài đặt sẽ bị thay thế (bản v1 — giữ hồ sơ/gia đình trên máy).';
+      Alert.alert('Khôi phục từ Drive?', detail, [
+        { text: 'Hủy', style: 'cancel' },
+        {
+          text: 'Khôi phục',
+          style: 'destructive',
+          onPress: () => {
+            const { restoredProfileFamily } = applyBackup(data);
+            Alert.alert(
+              'Đã khôi phục',
+              restoredProfileFamily
+                ? 'Dữ liệu từ Drive đã được nạp (đầy đủ).'
+                : 'Dữ liệu từ Drive đã được nạp (v1).'
+            );
+          },
+        },
+      ]);
+    } catch (e) {
+      Alert.alert('Khôi phục thất bại', driveErrorMessage(e));
+    } finally {
+      setDriveBusy(false);
+    }
+  };
+
+  const formatBackupTime = (at: number | null): string => {
+    if (!at) return 'Chưa sao lưu';
+    try {
+      return new Date(at).toLocaleString('vi-VN');
+    } catch {
+      return 'Chưa sao lưu';
     }
   };
 
@@ -316,6 +450,88 @@ export default function SettingsScreen() {
           </Card>
 
           <AppText style={[styles.group, { color: colors.textMuted }]}>DỮ LIỆU</AppText>
+          {showDrive ? (
+            <Card style={styles.driveCard}>
+              <AppText style={[styles.driveTitle, { color: colors.text }]}>
+                Sao lưu Google Drive
+              </AppText>
+              <AppText style={[styles.driveBody, { color: colors.textSecondary }]}>
+                {driveEmail
+                  ? `Đã kết nối · ${driveEmail}`
+                  : 'Lưu hồ sơ, ghi chú và sự kiện vào Drive cá nhân của bạn.'}
+              </AppText>
+              {driveEmail ? (
+                <AppText style={[styles.driveMeta, { color: colors.textMuted }]}>
+                  Lần sao lưu: {formatBackupTime(lastBackupAt)}
+                  {'\n'}
+                  File: {DRIVE_BACKUP_PATH_LABEL}
+                </AppText>
+              ) : null}
+              {!driveEmail ? (
+                <Pressable
+                  onPress={onConnectDrive}
+                  disabled={driveBusy}
+                  accessibilityRole="button"
+                  style={({ pressed }) => [
+                    styles.drivePrimaryBtn,
+                    {
+                      backgroundColor: colors.accent,
+                      opacity: pressed || driveBusy ? 0.85 : 1,
+                    },
+                  ]}
+                >
+                  {driveBusy ? (
+                    <ActivityIndicator color="#F7F4EE" />
+                  ) : (
+                    <AppText style={styles.drivePrimaryBtnText}>Kết nối Google</AppText>
+                  )}
+                </Pressable>
+              ) : (
+                <View style={styles.driveActions}>
+                  <Pressable
+                    onPress={onBackupToDrive}
+                    disabled={driveBusy}
+                    accessibilityRole="button"
+                    style={({ pressed }) => [
+                      styles.drivePrimaryBtn,
+                      {
+                        backgroundColor: colors.accent,
+                        opacity: pressed || driveBusy ? 0.85 : 1,
+                      },
+                    ]}
+                  >
+                    {driveBusy ? (
+                      <ActivityIndicator color="#F7F4EE" />
+                    ) : (
+                      <AppText style={styles.drivePrimaryBtnText}>Sao lưu ngay</AppText>
+                    )}
+                  </Pressable>
+                  <Pressable
+                    onPress={onRestoreFromDrive}
+                    disabled={driveBusy}
+                    accessibilityRole="button"
+                    style={({ pressed }) => [
+                      styles.driveSecondaryBtn,
+                      {
+                        borderColor: colors.border,
+                        backgroundColor: colors.bgMuted,
+                        opacity: pressed || driveBusy ? 0.85 : 1,
+                      },
+                    ]}
+                  >
+                    <AppText style={[styles.driveSecondaryBtnText, { color: colors.text }]}>
+                      Khôi phục từ Drive
+                    </AppText>
+                  </Pressable>
+                  <Pressable onPress={onDisconnectDrive} disabled={driveBusy}>
+                    <AppText style={[styles.driveDisconnect, { color: colors.accentText }]}>
+                      Ngắt kết nối
+                    </AppText>
+                  </Pressable>
+                </View>
+              )}
+            </Card>
+          ) : null}
           <Card padded={false} style={styles.card}>
             <View style={styles.pad}>
               <SettingRow
@@ -325,7 +541,7 @@ export default function SettingsScreen() {
               />
               <SettingRow
                 title="Xuất bản sao lưu JSON"
-                subtitle="Chia sẻ file offline"
+                subtitle="Chia sẻ file offline (v2)"
                 onPress={exportBackup}
               />
               <SettingRow
@@ -444,6 +660,60 @@ const styles = StyleSheet.create({
   },
   restoreCard: {
     marginBottom: space.sm,
+  },
+  driveCard: {
+    marginBottom: space.sm,
+  },
+  driveTitle: {
+    fontSize: font.lg,
+    fontWeight: '700',
+    letterSpacing: -0.3,
+    marginBottom: space.xs,
+  },
+  driveBody: {
+    fontSize: font.sm,
+    lineHeight: 20,
+    marginBottom: space.md,
+  },
+  driveMeta: {
+    fontSize: font.xs,
+    lineHeight: 18,
+    marginBottom: space.md,
+  },
+  driveActions: {
+    gap: space.sm,
+  },
+  drivePrimaryBtn: {
+    minHeight: 48,
+    paddingVertical: space.md,
+    paddingHorizontal: space.lg,
+    borderRadius: radius.md,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  drivePrimaryBtnText: {
+    fontSize: font.md,
+    fontWeight: '700',
+    letterSpacing: -0.1,
+    color: '#F7F4EE',
+  },
+  driveSecondaryBtn: {
+    paddingVertical: space.md,
+    paddingHorizontal: space.lg,
+    borderRadius: radius.md,
+    borderWidth: StyleSheet.hairlineWidth,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  driveSecondaryBtnText: {
+    fontSize: font.md,
+    fontWeight: '600',
+  },
+  driveDisconnect: {
+    fontSize: font.sm,
+    fontWeight: '600',
+    textAlign: 'center',
+    paddingVertical: space.sm,
   },
   restoreTitle: {
     fontSize: font.md,

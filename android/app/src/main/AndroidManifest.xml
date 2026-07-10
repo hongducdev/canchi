@@ -23,9 +23,9 @@
         <category android:name="android.intent.category.DEFAULT"/>
         <category android:name="android.intent.category.BROWSABLE"/>
         <data android:scheme="licham"/>
+        <data android:scheme="canchi"/>
       </intent-filter>
     </activity>
-    <!-- Lunar-day launcher icons (exactly one alias enabled at a time) -->
     <activity-alias android:name=".LauncherDay01" android:enabled="false" android:exported="true" android:icon="@mipmap/ic_launcher_day_01" android:roundIcon="@mipmap/ic_launcher_day_01_round" android:label="@string/app_name" android:targetActivity=".MainActivity">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>

@@ -40,7 +40,8 @@ No backend · No accounts · No network required.
 ### 📱 App experience
 
 - 📝 Local notes (AsyncStorage)
-- 💾 JSON backup / restore
+- 💾 JSON backup / restore (v2 includes profile + family)
+- ☁️ Google Drive backup on Android — see [docs/google-drive-backup.md](docs/google-drive-backup.md)
 - 🌓 Light / dark / system theme
 - 📳 Haptics toggle
 - 🔌 Fully offline

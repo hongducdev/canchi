@@ -40,6 +40,7 @@ Không cần tài khoản · Không cần mạng · Dữ liệu chỉ lưu trên
 
 - 📝 Ghi chú ngày (lưu local)
 - 💾 Sao lưu / khôi phục JSON
+- ☁️ Sao lưu Google Drive (Android) — xem [docs/google-drive-backup.md](google-drive-backup.md)
 - 🌓 Sáng / tối / theo hệ thống
 - 📳 Rung cảm ứng (bật/tắt)
 - 🔌 Hoạt động offline 100%

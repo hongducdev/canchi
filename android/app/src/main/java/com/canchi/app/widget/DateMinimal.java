@@ -1,4 +1,4 @@
-package com.licham.app.widget;
+package com.canchi.app.widget;
 
 import com.reactnativeandroidwidget.RNWidgetProvider;
 
