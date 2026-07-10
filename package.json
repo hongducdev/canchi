@@ -11,7 +11,6 @@
     "build:apk": "node scripts/patch-foojay.js && cd android && gradlew.bat assembleRelease",
     "lint": "expo lint",
     "typecheck": "tsc --noEmit",
-    "icons": "python scripts/generate-app-icons.py",
     "postinstall": "node scripts/patch-foojay.js"
   },
   "dependencies": {
