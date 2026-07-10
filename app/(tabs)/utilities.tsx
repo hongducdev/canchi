@@ -1,4 +1,4 @@
-import { router } from 'expo-router';
+import { router, type Href } from 'expo-router';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { AppText } from '../../src/components/AppText';
@@ -95,6 +95,20 @@ export default function UtilitiesScreen() {
           subtitle="Mệnh, màu, số, hướng theo năm sinh"
           icon="compass-outline"
           onPress={() => router.push('/fengshui')}
+        />
+        {!isWeb ? (
+          <ToolTile
+            title="La bàn"
+            subtitle="Hướng · độ · 24 sơn"
+            icon="navigate-outline"
+            onPress={() => router.push('/compass' as Href)}
+          />
+        ) : null}
+        <ToolTile
+          title="Thước Lỗ Ban"
+          subtitle="52,2 · 42,9 · 38,8 cm"
+          icon="resize-outline"
+          onPress={() => router.push('/lo-ban' as Href)}
         />
       </View>
     </Screen>

@@ -86,6 +86,8 @@ function RootNav() {
           <Stack.Screen name="person-gate" options={{ title: 'Chọn hồ sơ' }} />
           <Stack.Screen name="personal" options={{ title: 'Sự kiện cá nhân' }} />
           <Stack.Screen name="fengshui" options={{ title: 'Phong thủy' }} />
+          <Stack.Screen name="compass" options={{ title: 'La bàn' }} />
+          <Stack.Screen name="lo-ban" options={{ title: 'Thước Lỗ Ban' }} />
           <Stack.Screen name="memorial" options={{ title: 'Tính ngày lễ' }} />
           <Stack.Screen name="family" options={{ title: 'Gia đình' }} />
           <Stack.Screen name="astronomy" options={{ title: 'Thiên văn' }} />
