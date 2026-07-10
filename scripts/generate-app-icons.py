@@ -103,6 +103,9 @@ def save_android_days() -> None:
     for density, size in DENSITIES.items():
         folder = ANDROID_RES / f"mipmap-{density}"
         folder.mkdir(parents=True, exist_ok=True)
+        # Drop legacy webp launchers so PNG replacements don't duplicate resources
+        for legacy in folder.glob("ic_launcher*.webp"):
+            legacy.unlink()
         for day in range(1, 31):
             draw_calendar(size, day).save(folder / f"ic_launcher_day_{day:02d}.png")
         draw_calendar(size, 15).save(folder / "ic_launcher.png")
