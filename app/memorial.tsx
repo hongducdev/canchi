@@ -1,5 +1,5 @@
 import { router } from 'expo-router';
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   Pressable,
   StyleSheet,
@@ -16,6 +16,11 @@ import {
   type MemorialKind,
 } from '../src/lib/memorial';
 import { isValidSolarDate } from '../src/lib/lunar';
+import {
+  hasSessionPrimary,
+  sessionPersonLabel,
+  useSessionPersonStore,
+} from '../src/store/sessionPerson';
 import { font, radius, space } from '../src/theme/spacing';
 import { AppText, AppTextInput } from '../src/components/AppText';
 
@@ -23,8 +28,16 @@ type Mode = 'birth' | 'death';
 
 export default function MemorialScreen() {
   const { colors } = useTheme();
+  const primary = useSessionPersonStore((s) => s.primary);
   const [mode, setMode] = useState<Mode>('death');
   const [dateText, setDateText] = useState('1/1/2026');
+
+  useEffect(() => {
+    if (hasSessionPrimary(primary)) return;
+    router.replace(
+      `/person-gate?next=${encodeURIComponent('/memorial')}`
+    );
+  }, [primary]);
 
   const results = useMemo(() => {
     const m = dateText.trim().match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})$/);
@@ -39,12 +52,16 @@ export default function MemorialScreen() {
     return calculateAllMemorials(solar, kinds);
   }, [dateText, mode]);
 
+  if (!hasSessionPrimary(primary)) {
+    return null;
+  }
+
   return (
     <Screen>
       <View style={styles.header}>
         <AppText style={[styles.title, { color: colors.text }]}>Tính ngày lễ</AppText>
         <AppText style={[styles.sub, { color: colors.textMuted }]}>
-          Đầy tháng · Thôi nôi · 49 ngày · Giỗ…
+          {sessionPersonLabel(primary!)} · Đầy tháng · Thôi nôi · 49 ngày · Giỗ…
         </AppText>
       </View>
 

@@ -6,17 +6,22 @@ import { Screen } from '../../src/components/Screen';
 import { SectionHeader } from '../../src/components/SectionHeader';
 import { AppText } from '../../src/components/AppText';
 import { useTheme } from '../../src/hooks/useTheme';
+import { getRelatedVanKhan } from '../../src/data/vanKhan';
 import { buildDayInfo } from '../../src/lib/dayInfo';
 import { todaySolar } from '../../src/lib/lunar';
 import {
   fillVanKhan,
   getVanKhanById,
+  profileToFillContext,
   resolveFillContext,
   withDayLabels,
   type ProfileSubject,
 } from '../../src/lib/vanKhan';
-import { getRelatedVanKhan } from '../../src/data/vanKhan';
 import { useFamilyStore } from '../../src/store/family';
+import {
+  sessionPersonToFillContext,
+  useSessionPersonStore,
+} from '../../src/store/sessionPerson';
 import { useUserProfileStore } from '../../src/store/userProfile';
 import { font, radius, space } from '../../src/theme/spacing';
 
@@ -54,15 +59,21 @@ export default function VanKhanDetailScreen() {
   const { colors } = useTheme();
   const profile = useUserProfileStore((s) => s.profile);
   const members = useFamilyStore((s) => s.members);
+  const sessionPrimary = useSessionPersonStore((s) => s.primary);
   const [filled, setFilled] = useState(true);
 
   const item = useMemo(() => getVanKhanById(String(id)), [id]);
   const subject = useMemo(() => parseSubject(subjectParam), [subjectParam]);
   const todayInfo = useMemo(() => buildDayInfo(todaySolar()), []);
   const ctx = useMemo(() => {
-    const base = resolveFillContext(subject, profile, members);
+    const fromSession = sessionPersonToFillContext(sessionPrimary);
+    const fromSubject = resolveFillContext(subject, profile, members);
+    const base =
+      fromSession.fullName || fromSession.birthYear != null
+        ? { ...profileToFillContext(profile), ...fromSession }
+        : fromSubject;
     return withDayLabels(base, todayInfo);
-  }, [subject, profile, members, todayInfo]);
+  }, [subject, profile, members, todayInfo, sessionPrimary]);
 
   const related = useMemo(() => (item ? getRelatedVanKhan(item) : []), [item]);
 

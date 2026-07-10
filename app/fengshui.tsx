@@ -61,7 +61,7 @@ export default function FengShuiScreen() {
                   {ZODIAC_LABEL_VI[zodiacKeyFromYear(profile.birthYear)]}
                 </AppText>
                 <AppText style={[styles.zodiacSub, { color: colors.textSecondary }]}>
-                  Mệnh {profile.element}
+                  Mệnh {profile.menhLabel}
                 </AppText>
               </View>
             </View>
@@ -72,7 +72,8 @@ export default function FengShuiScreen() {
               value={ZODIAC_LABEL_VI[zodiacKeyFromYear(profile.birthYear)]}
               colors={colors}
             />
-            <Row label="Ngũ hành" value={profile.element} colors={colors} last />
+            <Row label="Nạp âm" value={profile.napAm} colors={colors} />
+            <Row label="Mệnh" value={profile.menhLabel} colors={colors} last />
           </Card>
 
           <SectionHeader title="May mắn" />

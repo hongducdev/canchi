@@ -155,3 +155,68 @@ export function parseCanChi(canChi: string): { can: string; chi: string } {
   const parts = canChi.split(' ');
   return { can: parts[0] ?? '', chi: parts[1] ?? '' };
 }
+
+/**
+ * Sexagenary cycle index 0–59 (Giáp Tý = 0). Year 4 CE = Giáp Tý.
+ * 2002 Nhâm Ngọ → 18.
+ */
+export function sexagenaryIndex(year: number): number {
+  return ((year - 4) % 60 + 60) % 60;
+}
+
+/** Nạp âm names for each pair in the 60-year cycle (index 0..29). */
+const NAP_AM_NAMES = [
+  'Hải Trung Kim',
+  'Lư Trung Hỏa',
+  'Đại Lâm Mộc',
+  'Lộ Bàng Thổ',
+  'Kiếm Phong Kim',
+  'Sơn Đầu Hỏa',
+  'Giản Hạ Thủy',
+  'Thành Đầu Thổ',
+  'Bạch Lạp Kim',
+  'Dương Liễu Mộc',
+  'Tuyền Trung Thủy',
+  'Ốc Thượng Thổ',
+  'Tích Lịch Hỏa',
+  'Tùng Bách Mộc',
+  'Trường Lưu Thủy',
+  'Sa Trung Kim',
+  'Sơn Hạ Hỏa',
+  'Bình Địa Mộc',
+  'Bích Thượng Thổ',
+  'Kim Bạch Kim',
+  'Phú Đăng Hỏa',
+  'Thiên Hà Thủy',
+  'Đại Trạch Thổ',
+  'Thoa Xuyến Kim',
+  'Tang Đố Mộc',
+  'Đại Khê Thủy',
+  'Sa Trung Thổ',
+  'Thiên Thượng Hỏa',
+  'Thạch Lựu Mộc',
+  'Đại Hải Thủy',
+] as const;
+
+export type NapAm = {
+  /** Full nạp âm name, e.g. Dương Liễu Mộc */
+  name: string;
+  /** Ngũ hành element: Kim | Mộc | Thủy | Hỏa | Thổ */
+  element: string;
+};
+
+/** Nạp âm (mệnh) of a lunar/solar year number — what VN users mean by “mệnh”. */
+export function napAmOfYear(year: number): NapAm {
+  const name = NAP_AM_NAMES[Math.floor(sexagenaryIndex(year) / 2)] ?? 'Thổ';
+  const element =
+    name.includes('Kim')
+      ? 'Kim'
+      : name.includes('Mộc')
+        ? 'Mộc'
+        : name.includes('Thủy')
+          ? 'Thủy'
+          : name.includes('Hỏa')
+            ? 'Hỏa'
+            : 'Thổ';
+  return { name, element };
+}

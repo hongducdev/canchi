@@ -9,6 +9,7 @@ import type { FillContext } from './vanKhan';
 export type DayPersonScore = {
   score: number;
   reasons: string[];
+  issues: string[];
 };
 
 const BAD_TRUC = new Set(['Phá', 'Nguy', 'Bế']);
@@ -39,14 +40,18 @@ export function scoreDayForPerson(
 
   let score = 55;
   const reasons: string[] = [];
+  const issues: string[] = [];
 
   const yearCanChi = canChiYear(ctx.birthYear);
   const { chi: yearChi } = parseCanChi(yearCanChi);
   const { chi: dayChi } = parseCanChi(info.canChiDay);
+  const who = ctx.fullName?.trim() ? `${ctx.fullName.trim()}: ` : '';
 
   if (yearChi && dayChi && isChiConflict(yearChi, dayChi)) {
     score -= 22;
-    reasons.push(`Tuổi ${yearChi} xung với ngày ${dayChi}`);
+    issues.push(
+      `${who}Phạm tuổi xung — tuổi ${yearChi} xung với ngày ${dayChi} (lục xung)`
+    );
   } else if (yearChi && dayChi) {
     score += 8;
     reasons.push(`Tuổi ${yearChi} không xung ngày ${dayChi}`);
@@ -57,12 +62,14 @@ export function scoreDayForPerson(
     reasons.push('Ngày Hoàng Đạo / trực tốt');
   } else if (info.lore.isInauspiciousDay) {
     score -= 12;
-    reasons.push('Ngày kém thuận (trực / tú xấu)');
+    issues.push(`${who}Ngày kém thuận (trực / tú xấu)`);
   }
 
   if (BAD_TRUC.has(info.lore.truc)) {
     score -= 10;
-    reasons.push(`Trực ${info.lore.truc} nên thận trọng`);
+    issues.push(
+      `${who}Phạm Trực ${info.lore.truc} — ${info.lore.trucMeaning || 'nên thận trọng'}`
+    );
   } else if (['Thành', 'Khai', 'Định', 'Kiến'].includes(info.lore.truc)) {
     score += 8;
     reasons.push(`Trực ${info.lore.truc} thuận`);
@@ -78,19 +85,24 @@ export function scoreDayForPerson(
     reasons.push('Có lễ truyền thống trong ngày');
   }
 
-  // Soft mention of lore conflict list if year animal appears
   const conflictHit = info.lore.conflictingAges.some((line) =>
     yearChi ? line.includes(yearChi) : false
   );
   if (conflictHit) {
     score -= 8;
-    reasons.push('Trùng tuổi xung theo lịch ngày');
+    issues.push(
+      `${who}Trùng tuổi xung theo lịch ngày (${info.lore.conflictingAges.join(', ')})`
+    );
   }
 
   score = Math.max(0, Math.min(100, Math.round(score)));
-  if (reasons.length === 0) {
+  if (reasons.length === 0 && issues.length === 0) {
     reasons.push('Điểm tham khảo theo can chi và lịch ngày');
   }
 
-  return { score, reasons: reasons.slice(0, 4) };
+  return {
+    score,
+    reasons: reasons.slice(0, 4),
+    issues: issues.slice(0, 6),
+  };
 }

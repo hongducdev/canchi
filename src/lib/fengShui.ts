@@ -1,14 +1,20 @@
 /**
- * Simple personal Feng Shui helpers from birth year (Can Chi / Ngũ Hành).
+ * Personal Feng Shui helpers from birth year.
+ * “Mệnh” uses nạp âm (e.g. 2002 Nhâm Ngọ → Dương Liễu Mộc), not Can-only ngũ hành.
  */
 
-import { animalOfYear, canChiYear, nguHanhOfCan, parseCanChi } from './canChi';
+import { animalOfYear, canChiYear, napAmOfYear } from './canChi';
 
 export type FengShuiProfile = {
   birthYear: number;
   canChi: string;
   animal: string;
+  /** Ngũ hành from nạp âm (Kim/Mộc/Thủy/Hỏa/Thổ). */
   element: string;
+  /** Full nạp âm name, e.g. Dương Liễu Mộc. */
+  napAm: string;
+  /** Display: "Mộc (Dương Liễu Mộc)". */
+  menhLabel: string;
   luckyColors: string[];
   luckyNumbers: number[];
   luckyDirections: string[];
@@ -42,8 +48,8 @@ const ELEMENT_DIRECTIONS: Record<string, string[]> = {
 
 export function buildFengShuiProfile(birthYear: number): FengShuiProfile {
   const canChi = canChiYear(birthYear);
-  const { can } = parseCanChi(canChi);
-  const element = nguHanhOfCan(can) || 'Thổ';
+  const napAm = napAmOfYear(birthYear);
+  const element = napAm.element;
   const dirs = ELEMENT_DIRECTIONS[element] ?? ['Đông'];
 
   return {
@@ -51,6 +57,8 @@ export function buildFengShuiProfile(birthYear: number): FengShuiProfile {
     canChi,
     animal: animalOfYear(birthYear),
     element,
+    napAm: napAm.name,
+    menhLabel: `${element} (${napAm.name})`,
     luckyColors: ELEMENT_COLORS[element] ?? [],
     luckyNumbers: ELEMENT_NUMBERS[element] ?? [],
     luckyDirections: dirs,

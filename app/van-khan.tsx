@@ -1,33 +1,24 @@
 import { router } from 'expo-router';
-import React, { useMemo, useState } from 'react';
-import {
-  Pressable,
-  StyleSheet,
-  View,
-} from 'react-native';
-import { Card } from '../src/components/Card';
-import { Screen } from '../src/components/Screen';
-import { SectionHeader } from '../src/components/SectionHeader';
-import { AppText, AppTextInput } from '../src/components/AppText';
-import { useTheme } from '../src/hooks/useTheme';
-import { buildDayInfo } from '../src/lib/dayInfo';
-import { dateKey, todaySolar } from '../src/lib/lunar';
-import { isWeb } from '../src/lib/platform';
-import {
-  rankVanKhanForDay,
-  searchVanKhan,
-  type ProfileSubject,
-} from '../src/lib/vanKhan';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Pressable, StyleSheet, View } from 'react-native';
 import {
   VAN_KHAN_CATEGORY_LABEL,
   type VanKhan,
   type VanKhanCategory,
 } from '../src/data/vanKhan';
-import { useFamilyStore } from '../src/store/family';
+import { AppText, AppTextInput } from '../src/components/AppText';
+import { Card } from '../src/components/Card';
+import { Screen } from '../src/components/Screen';
+import { SectionHeader } from '../src/components/SectionHeader';
+import { useTheme } from '../src/hooks/useTheme';
+import { buildDayInfo } from '../src/lib/dayInfo';
+import { dateKey, todaySolar } from '../src/lib/lunar';
+import { rankVanKhanForDay, searchVanKhan } from '../src/lib/vanKhan';
 import {
-  hasUsableProfile,
-  useUserProfileStore,
-} from '../src/store/userProfile';
+  hasSessionPrimary,
+  sessionPersonLabel,
+  useSessionPersonStore,
+} from '../src/store/sessionPerson';
 import { font, radius, space } from '../src/theme/spacing';
 
 type CatFilter = VanKhanCategory | 'all';
@@ -79,11 +70,14 @@ function PrayerRow({
 
 export default function VanKhanScreen() {
   const { colors } = useTheme();
-  const profile = useUserProfileStore((s) => s.profile);
-  const members = useFamilyStore((s) => s.members);
-  const [subject, setSubject] = useState<ProfileSubject>({ kind: 'self' });
+  const primary = useSessionPersonStore((s) => s.primary);
   const [query, setQuery] = useState('');
   const [category, setCategory] = useState<CatFilter>('all');
+
+  useEffect(() => {
+    if (hasSessionPrimary(primary)) return;
+    router.replace(`/person-gate?next=${encodeURIComponent('/van-khan')}`);
+  }, [primary]);
 
   const todayInfo = useMemo(() => buildDayInfo(todaySolar()), []);
   const todayKey = dateKey(todaySolar());
@@ -98,100 +92,25 @@ export default function VanKhanScreen() {
     [query, category]
   );
 
-  const subjectKey =
-    subject.kind === 'self' ? 'self' : `family:${subject.memberId}`;
-
   const openDetail = (id: string) => {
     router.push({
       pathname: '/van-khan/[id]',
-      params: { id, subject: subjectKey },
+      params: { id },
     });
   };
+
+  if (!hasSessionPrimary(primary)) {
+    return null;
+  }
 
   return (
     <Screen>
       <View style={styles.header}>
         <AppText style={[styles.title, { color: colors.text }]}>Văn khấn</AppText>
         <AppText style={[styles.sub, { color: colors.textMuted }]}>
-          Mẫu tham khảo theo dịp · điền từ hồ sơ trên máy
+          {sessionPersonLabel(primary!)} · mẫu tham khảo theo dịp
         </AppText>
       </View>
-
-      {!isWeb && !hasUsableProfile(profile) ? (
-        <Pressable
-          onPress={() => router.push('/profile')}
-          style={({ pressed }) => [
-            styles.cta,
-            {
-              backgroundColor: colors.accentSoft,
-              borderColor: colors.accent,
-              opacity: pressed ? 0.9 : 1,
-            },
-          ]}
-        >
-          <AppText style={{ color: colors.accentText, fontWeight: '700', fontSize: font.sm }}>
-            Thiết lập hồ sơ để điền tên · năm sinh vào văn khấn
-          </AppText>
-        </Pressable>
-      ) : null}
-
-      {!isWeb ? (
-        <>
-          <AppText style={[styles.label, { color: colors.textMuted }]}>Điền cho</AppText>
-          <View style={styles.chipRow}>
-            <Pressable
-              onPress={() => setSubject({ kind: 'self' })}
-              style={[
-                styles.chip,
-                {
-                  backgroundColor:
-                    subject.kind === 'self' ? colors.accentSoft : colors.bgMuted,
-                  borderColor:
-                    subject.kind === 'self' ? colors.accent : colors.border,
-                },
-              ]}
-            >
-              <AppText
-                style={{
-                  color:
-                    subject.kind === 'self' ? colors.accentText : colors.textSecondary,
-                  fontSize: font.sm,
-                  fontWeight: '600',
-                }}
-              >
-                Tôi{profile?.fullName ? ` · ${profile.fullName}` : ''}
-              </AppText>
-            </Pressable>
-            {members.map((m) => {
-              const active =
-                subject.kind === 'family' && subject.memberId === m.id;
-              return (
-                <Pressable
-                  key={m.id}
-                  onPress={() => setSubject({ kind: 'family', memberId: m.id })}
-                  style={[
-                    styles.chip,
-                    {
-                      backgroundColor: active ? colors.accentSoft : colors.bgMuted,
-                      borderColor: active ? colors.accent : colors.border,
-                    },
-                  ]}
-                >
-                  <AppText
-                    style={{
-                      color: active ? colors.accentText : colors.textSecondary,
-                      fontSize: font.sm,
-                      fontWeight: '600',
-                    }}
-                  >
-                    {m.name}
-                  </AppText>
-                </Pressable>
-              );
-            })}
-          </View>
-        </>
-      ) : null}
 
       <SectionHeader
         title="Phù hợp hôm nay"
@@ -281,13 +200,6 @@ const styles = StyleSheet.create({
   header: { marginBottom: space.lg },
   title: { fontSize: font.xxl, fontWeight: '700', letterSpacing: -0.5 },
   sub: { fontSize: font.sm, marginTop: space.xs, lineHeight: 20 },
-  label: {
-    fontSize: font.xs,
-    fontWeight: '700',
-    letterSpacing: 0.6,
-    textTransform: 'uppercase',
-    marginBottom: space.sm,
-  },
   chipRow: {
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -317,11 +229,5 @@ const styles = StyleSheet.create({
   rowTitle: { fontSize: font.md, fontWeight: '700' },
   rowMeta: { fontSize: font.xs, fontWeight: '600', marginTop: 4 },
   rowSub: { fontSize: font.sm, marginTop: 6, lineHeight: 18 },
-  cta: {
-    borderWidth: 1,
-    borderRadius: radius.md,
-    padding: space.md,
-    marginBottom: space.lg,
-  },
   link: { marginBottom: space.lg, marginTop: space.xs },
 });

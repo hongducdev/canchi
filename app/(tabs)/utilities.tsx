@@ -24,6 +24,7 @@ export default function UtilitiesScreen() {
         </AppText>
       </View>
 
+      <AppText style={[styles.group, { color: colors.textMuted }]}>TRA CỨU</AppText>
       <View style={styles.toolsGrid}>
         <ToolTile
           title="Tìm kiếm"
@@ -32,11 +33,47 @@ export default function UtilitiesScreen() {
           onPress={() => router.push('/search')}
         />
         <ToolTile
+          title="Thiên văn"
+          subtitle="Trăng, nhật thực, mưa sao băng"
+          icon="planet-outline"
+          onPress={() => router.push('/astronomy')}
+        />
+      </View>
+
+      <AppText style={[styles.group, { color: colors.textMuted }]}>NGÀY & VIỆC</AppText>
+      <View style={styles.toolsGrid}>
+        <ToolTile
           title="Ngày tốt"
-          subtitle="Cưới hỏi, khai trương, xuất hành…"
+          subtitle="Chọn việc · xem ngày theo tuổi"
           icon="sparkles-outline"
           onPress={() => router.push('/lucky')}
         />
+        <ToolTile
+          title="Tính ngày lễ"
+          subtitle="Đầy tháng, 49 ngày, giỗ…"
+          icon="flower-outline"
+          onPress={() =>
+            router.push({
+              pathname: '/person-gate',
+              params: { next: '/memorial' },
+            })
+          }
+        />
+        <ToolTile
+          title="Văn khấn"
+          subtitle="Mẫu khấn theo dịp · điền hồ sơ"
+          icon="book-outline"
+          onPress={() =>
+            router.push({
+              pathname: '/person-gate',
+              params: { next: '/van-khan' },
+            })
+          }
+        />
+      </View>
+
+      <AppText style={[styles.group, { color: colors.textMuted }]}>CÁ NHÂN</AppText>
+      <View style={styles.toolsGrid}>
         {!isWeb ? (
           <ToolTile
             title="Sự kiện cá nhân"
@@ -45,18 +82,6 @@ export default function UtilitiesScreen() {
             onPress={() => router.push('/personal')}
           />
         ) : null}
-        <ToolTile
-          title="Phong thủy"
-          subtitle="Mệnh, màu, số, hướng theo năm sinh"
-          icon="compass-outline"
-          onPress={() => router.push('/fengshui')}
-        />
-        <ToolTile
-          title="Tính ngày lễ"
-          subtitle="Đầy tháng, 49 ngày, giỗ…"
-          icon="flower-outline"
-          onPress={() => router.push('/memorial')}
-        />
         {!isWeb ? (
           <ToolTile
             title="Gia đình"
@@ -66,16 +91,10 @@ export default function UtilitiesScreen() {
           />
         ) : null}
         <ToolTile
-          title="Thiên văn"
-          subtitle="Trăng, nhật thực, mưa sao băng"
-          icon="planet-outline"
-          onPress={() => router.push('/astronomy')}
-        />
-        <ToolTile
-          title="Văn khấn"
-          subtitle="Mẫu khấn theo dịp · điền hồ sơ"
-          icon="book-outline"
-          onPress={() => router.push('/van-khan')}
+          title="Phong thủy"
+          subtitle="Mệnh, màu, số, hướng theo năm sinh"
+          icon="compass-outline"
+          onPress={() => router.push('/fengshui')}
         />
       </View>
     </Screen>
@@ -96,6 +115,14 @@ const styles = StyleSheet.create({
     fontSize: font.sm,
     marginTop: space.xs,
     lineHeight: 20,
+  },
+  group: {
+    fontSize: font.xs,
+    fontWeight: '700',
+    letterSpacing: 1.0,
+    marginBottom: space.sm,
+    marginTop: space.md,
+    textTransform: 'uppercase',
   },
   toolsGrid: {
     flexDirection: 'row',

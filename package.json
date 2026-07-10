@@ -17,6 +17,7 @@
     "@expo-google-fonts/google-sans-flex": "^0.4.3",
     "@expo/vector-icons": "^15.0.3",
     "@react-native-async-storage/async-storage": "2.2.0",
+    "@react-native-community/datetimepicker": "9.1.0",
     "@react-native-google-signin/google-signin": "^16.1.2",
     "expo": "^56.0.0",
     "expo-asset": "~56.0.19",
