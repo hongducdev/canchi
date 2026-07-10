@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate Can Chi calendar-style app icons (squircle + circular + lunar days 1–30)."""
+"""Generate Can Chi calendar-style app icons (squircle + round-mask + splash)."""
 
 from __future__ import annotations
 
@@ -17,12 +17,22 @@ INK = (11, 15, 20, 255)
 TRANSPARENT = (0, 0, 0, 0)
 SPLASH_BG = (15, 20, 25, 255)
 
+# Launcher mipmap sizes
 DENSITIES = {
     "mdpi": 48,
     "hdpi": 72,
     "xhdpi": 96,
     "xxhdpi": 144,
     "xxxhdpi": 192,
+}
+
+# Android 12+ splash animated icon ~240dp; generate with padding so circular crop fits
+SPLASH_DENSITIES = {
+    "mdpi": 240,
+    "hdpi": 360,
+    "xhdpi": 480,
+    "xxhdpi": 720,
+    "xxxhdpi": 960,
 }
 
 
@@ -57,14 +67,19 @@ def _draw_day_centered(
 
 
 def draw_calendar(size: int, day: int, *, pad_ratio: float = 0.0) -> Image.Image:
-    """Squircle / rounded-rect calendar (default launcher + adaptive foreground)."""
+    """Full-bleed (or padded) rounded-rect calendar.
+
+    For round launchers: use pad_ratio=0 — the OS applies the circular mask.
+    Do NOT pre-draw a circle (that makes a tiny logo inside another circle).
+    """
     img = Image.new("RGBA", (size, size), TRANSPARENT)
     draw = ImageDraw.Draw(img)
 
     inset = int(size * pad_ratio)
     left, top = inset, inset
     right, bottom = size - inset - 1, size - inset - 1
-    radius = max(4, int((right - left) * 0.22))
+    # Milder radius so circular OEM masks don't eat the header/day
+    radius = max(4, int((right - left) * (0.12 if pad_ratio else 0.18)))
     header_h = max(8, int((bottom - top) * 0.28))
 
     draw.rounded_rectangle((left, top, right, bottom), radius=radius, fill=PAPER)
@@ -90,62 +105,30 @@ def draw_calendar(size: int, day: int, *, pad_ratio: float = 0.0) -> Image.Image
     )
 
     day_text = str(day)
-    font_day = load_font(max(14, int(size * (0.36 if pad_ratio else 0.42))), bold=True)
+    font_day = load_font(max(14, int(size * (0.34 if pad_ratio else 0.40))), bold=True)
     _draw_day_centered(draw, day_text, font_day, cx, top + header_h, bottom)
     return img
 
 
-def draw_calendar_round(size: int, day: int) -> Image.Image:
-    """True circular calendar for launchers that mask icons as circles."""
+def draw_splash_logo(size: int, day: int, *, tile_ratio: float = 0.52) -> Image.Image:
+    """Calendar centered with transparent padding for Android 12 splash circle crop."""
     img = Image.new("RGBA", (size, size), TRANSPARENT)
-
-    # Keep a hair of transparent margin so OEM circular masks don't clip AA edges
-    margin = max(1, int(size * 0.03))
-    box = (margin, margin, size - margin - 1, size - margin - 1)
-    inner = size - 2 * margin
-    # Header chord ~32% of diameter — stays readable inside the circle
-    header_ratio = 0.32
-    chord_y = margin + int(inner * header_ratio)
-
-    # Flat vermillion / paper split, then circular mask
-    base = Image.new("RGBA", (size, size), TRANSPARENT)
-    bd = ImageDraw.Draw(base)
-    bd.rectangle((0, 0, size, chord_y), fill=VERMILLION)
-    bd.rectangle((0, chord_y, size, size), fill=PAPER)
-
-    mask = Image.new("L", (size, size), 0)
-    ImageDraw.Draw(mask).ellipse(box, fill=255)
-    r, g, b, _ = base.split()
-    base = Image.merge("RGBA", (r, g, b, mask))
-
-    img = Image.alpha_composite(img, base)
-    draw = ImageDraw.Draw(img)
-    cx = size / 2
-
-    # Label sits in the vermillion cap; keep clear of left/right circle edges
-    label = "Can Chi"
-    font_header = load_font(max(8, int(size * 0.10)), bold=True)
-    header_cy = margin + (chord_y - margin) / 2
-    draw.text((cx, header_cy), label, font=font_header, fill=PAPER, anchor="mm")
-
-    day_text = str(day)
-    # Slightly smaller than squircle so digits clear the circular rim
-    font_day = load_font(max(12, int(size * 0.36)), bold=True)
-    # Optical center in the circular segment (weight sits a bit low visually)
-    body_top = chord_y + int(inner * 0.04)
-    body_bottom = size - margin - int(inner * 0.06)
-    _draw_day_centered(draw, day_text, font_day, cx, body_top, body_bottom)
+    tile_size = max(16, int(size * tile_ratio))
+    tile = draw_calendar(tile_size, day)
+    offset = (size - tile_size) // 2
+    img.paste(tile, (offset, offset), tile)
     return img
 
 
 def save_assets(day: int = 15) -> None:
     ASSETS.mkdir(parents=True, exist_ok=True)
     draw_calendar(1024, day).save(ASSETS / "icon.png")
-    # Adaptive foreground: circular-safe content in center (OEM may mask circle)
-    draw_calendar_round(1024, day).save(ASSETS / "adaptive-icon.png")
+    # Adaptive FG: content in safe zone (~66%); OS masks circle/squircle
+    draw_calendar(1024, day, pad_ratio=0.18).save(ASSETS / "adaptive-icon.png")
+    # Expo splash: logo on dark canvas, not full-bleed (avoids looking zoomed)
     splash = Image.new("RGBA", (1024, 1024), SPLASH_BG)
-    tile = draw_calendar(640, day)
-    splash.paste(tile, ((1024 - 640) // 2, (1024 - 640) // 2), tile)
+    tile = draw_calendar(420, day)
+    splash.paste(tile, ((1024 - 420) // 2, (1024 - 420) // 2), tile)
     splash.save(ASSETS / "splash-icon.png")
     draw_calendar(48, day).save(ASSETS / "favicon.png")
     print(f"Wrote Expo assets (day {day})")
@@ -158,19 +141,21 @@ def save_android_days() -> None:
         for legacy in folder.glob("ic_launcher*.webp"):
             legacy.unlink()
         for day in range(1, 31):
-            draw_calendar(size, day).save(folder / f"ic_launcher_day_{day:02d}.png")
-            draw_calendar_round(size, day).save(
-                folder / f"ic_launcher_day_{day:02d}_round.png"
-            )
+            # Same full-bleed art for icon + roundIcon — launcher applies the mask
+            tile = draw_calendar(size, day)
+            tile.save(folder / f"ic_launcher_day_{day:02d}.png")
+            tile.save(folder / f"ic_launcher_day_{day:02d}_round.png")
         draw_calendar(size, 15).save(folder / "ic_launcher.png")
-        draw_calendar_round(size, 15).save(folder / "ic_launcher_round.png")
-        # Adaptive FG: round design so circle/squircle OEM masks look intentional
-        draw_calendar_round(size, 15).save(folder / "ic_launcher_foreground.png")
+        draw_calendar(size, 15).save(folder / "ic_launcher_round.png")
+        draw_calendar(size, 15, pad_ratio=0.18).save(folder / "ic_launcher_foreground.png")
 
+    for density, size in SPLASH_DENSITIES.items():
         drawable = ANDROID_RES / f"drawable-{density}"
         drawable.mkdir(parents=True, exist_ok=True)
-        draw_calendar(size, 15).save(drawable / "splashscreen_logo.png")
-    print("Wrote Android mipmaps (squircle + round) days 01–30")
+        draw_splash_logo(size, 15, tile_ratio=0.50).save(
+            drawable / "splashscreen_logo.png"
+        )
+    print("Wrote Android mipmaps + padded splash logos")
 
 
 def main() -> None:
