@@ -17,7 +17,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#F7F4EE"
+        "backgroundColor": "#C23B22"
       },
       "package": "com.canchi.app"
     },
