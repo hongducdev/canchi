@@ -1,12 +1,16 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Constants from 'expo-constants';
-import { Alert, Linking } from 'react-native';
+import * as FileSystem from 'expo-file-system/legacy';
+import * as IntentLauncher from 'expo-intent-launcher';
+import { Alert, Linking, Platform } from 'react-native';
 
 const GITHUB_LATEST =
   'https://api.github.com/repos/hongducdev/canchi/releases/latest';
 const AUTO_PROMPT_KEY = 'canchi-update-auto-prompt-day';
 const CHANGELOG_MAX = 600;
 const FETCH_TIMEOUT_MS = 12_000;
+const APK_CACHE_NAME = 'canchi-update.apk';
+const ANDROID_PACKAGE = 'com.canchi.app';
 
 export type LatestRelease = {
   version: string;
@@ -117,23 +121,95 @@ async function markAutoPromptedToday(): Promise<void> {
   await AsyncStorage.setItem(AUTO_PROMPT_KEY, todayKey());
 }
 
-export function showUpdateDialog(release: LatestRelease): void {
-  const openUrl = release.apkUrl ?? release.htmlUrl;
-  Alert.alert(
-    `Có bản mới ${release.version}`,
-    release.changelog,
-    [
-      { text: 'Để sau', style: 'cancel' },
-      {
-        text: 'Tải bản mới',
-        onPress: () => {
-          Linking.openURL(openUrl).catch(() => {
-            Alert.alert('Không mở được liên kết', release.htmlUrl);
-          });
-        },
-      },
-    ],
+async function openUnknownSourcesSettings(): Promise<void> {
+  await IntentLauncher.startActivityAsync(
+    'android.settings.MANAGE_UNKNOWN_APP_SOURCES',
+    { data: `package:${ANDROID_PACKAGE}` }
   );
+}
+
+/** Download APK to cache and open the system package installer (Android). */
+export async function downloadAndInstallApk(apkUrl: string): Promise<void> {
+  if (Platform.OS !== 'android') {
+    await Linking.openURL(apkUrl);
+    return;
+  }
+
+  if (!FileSystem.cacheDirectory) {
+    throw new Error('Không truy cập được bộ nhớ tạm trên máy.');
+  }
+
+  const dest = `${FileSystem.cacheDirectory}${APK_CACHE_NAME}`;
+  const existing = await FileSystem.getInfoAsync(dest);
+  if (existing.exists) {
+    await FileSystem.deleteAsync(dest, { idempotent: true });
+  }
+
+  const downloaded = await FileSystem.downloadAsync(apkUrl, dest, {
+    headers: {
+      Accept: 'application/vnd.android.package-archive,*/*',
+      'User-Agent': 'CanChi-App',
+    },
+  });
+
+  if (downloaded.status < 200 || downloaded.status >= 300) {
+    throw new Error(`Không tải được APK (HTTP ${downloaded.status}).`);
+  }
+
+  const contentUri = await FileSystem.getContentUriAsync(downloaded.uri);
+
+  try {
+    await IntentLauncher.startActivityAsync('android.intent.action.VIEW', {
+      data: contentUri,
+      type: 'application/vnd.android.package-archive',
+      flags: 1, // FLAG_GRANT_READ_URI_PERMISSION
+    });
+  } catch {
+    try {
+      await openUnknownSourcesSettings();
+      Alert.alert(
+        'Cho phép cài đặt',
+        'Bật “Cho phép từ nguồn này” cho Can Chi, rồi nhấn Tải bản mới lại.'
+      );
+    } catch {
+      throw new Error(
+        'Không mở được trình cài đặt. Hãy cho phép cài app từ nguồn này trong Cài đặt hệ thống.'
+      );
+    }
+  }
+}
+
+export function showUpdateDialog(release: LatestRelease): void {
+  Alert.alert(`Có bản mới ${release.version}`, release.changelog, [
+    { text: 'Để sau', style: 'cancel' },
+    {
+      text: 'Tải bản mới',
+      onPress: () => {
+        void (async () => {
+          if (!release.apkUrl) {
+            Linking.openURL(release.htmlUrl).catch(() => {
+              Alert.alert('Không mở được liên kết', release.htmlUrl);
+            });
+            return;
+          }
+          try {
+            if (Platform.OS === 'android') {
+              Alert.alert(
+                'Đang tải…',
+                'APK đang được tải về máy. Giữ app mở cho đến khi hiện màn hình cài đặt.'
+              );
+            }
+            await downloadAndInstallApk(release.apkUrl);
+          } catch (e) {
+            Alert.alert(
+              'Tải / cài thất bại',
+              e instanceof Error ? e.message : 'Không tải hoặc cài được bản mới.'
+            );
+          }
+        })();
+      },
+    },
+  ]);
 }
 
 /** Manual check from Settings. Always fetches. */
@@ -149,7 +225,7 @@ export async function checkForUpdateManual(): Promise<void> {
   } catch {
     Alert.alert(
       'Không kiểm tra được',
-      'Không kết nối được GitHub Releases. Thử lại khi có mạng.',
+      'Không kết nối được GitHub Releases. Thử lại khi có mạng.'
     );
   }
 }
