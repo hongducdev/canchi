@@ -13,7 +13,6 @@ import { AppText, AppTextInput } from '../../src/components/AppText';
 import { Card } from '../../src/components/Card';
 import { Screen } from '../../src/components/Screen';
 import { SettingRow } from '../../src/components/SettingRow';
-import { ToolTile } from '../../src/components/ToolTile';
 import { useTheme } from '../../src/hooks/useTheme';
 import {
   checkForUpdateManual,
@@ -75,7 +74,6 @@ export default function SettingsScreen() {
   const setHaptics = useSettingsStore((s) => s.setHaptics);
   const notes = useNotesStore((s) => s.notes);
   const personalEvents = usePersonalEventsStore((s) => s.events);
-  const familyMembers = useFamilyStore((s) => s.members);
   const userProfile = useUserProfileStore((s) => s.profile);
   const driveEmail = useDriveBackupStore((s) => s.email);
   const lastBackupAt = useDriveBackupStore((s) => s.lastBackupAt);
@@ -307,62 +305,6 @@ export default function SettingsScreen() {
             ? 'Lịch âm trên trình duyệt · dữ liệu cá nhân chỉ trên app'
             : 'Mọi dữ liệu chỉ lưu trên thiết bị'}
         </AppText>
-      </View>
-
-      <AppText style={[styles.group, { color: colors.textMuted }]}>CÔNG CỤ</AppText>
-      <View style={styles.toolsGrid}>
-        <ToolTile
-          title="Tìm kiếm"
-          subtitle="Ngày, lễ hội, tiết khí"
-          icon="search-outline"
-          onPress={() => router.push('/search')}
-        />
-        <ToolTile
-          title="Ngày tốt"
-          subtitle="Cưới hỏi, khai trương, xuất hành…"
-          icon="sparkles-outline"
-          onPress={() => router.push('/lucky')}
-        />
-        {!isWeb ? (
-          <ToolTile
-            title="Sự kiện cá nhân"
-            subtitle={`${personalEvents.length} sự kiện trên máy`}
-            icon="calendar-outline"
-            onPress={() => router.push('/personal')}
-          />
-        ) : null}
-        <ToolTile
-          title="Phong thủy"
-          subtitle="Mệnh, màu, số, hướng theo năm sinh"
-          icon="compass-outline"
-          onPress={() => router.push('/fengshui')}
-        />
-        <ToolTile
-          title="Tính ngày lễ"
-          subtitle="Đầy tháng, 49 ngày, giỗ…"
-          icon="flower-outline"
-          onPress={() => router.push('/memorial')}
-        />
-        {!isWeb ? (
-          <ToolTile
-            title="Gia đình"
-            subtitle={`${familyMembers.length} thành viên trên máy`}
-            icon="people-outline"
-            onPress={() => router.push('/family')}
-          />
-        ) : null}
-        <ToolTile
-          title="Thiên văn"
-          subtitle="Trăng, nhật thực, mưa sao băng"
-          icon="planet-outline"
-          onPress={() => router.push('/astronomy')}
-        />
-        <ToolTile
-          title="Văn khấn"
-          subtitle="Mẫu khấn theo dịp · điền hồ sơ"
-          icon="book-outline"
-          onPress={() => router.push('/van-khan')}
-        />
       </View>
 
       {!isWeb ? (
@@ -650,13 +592,6 @@ const styles = StyleSheet.create({
   },
   pad: {
     paddingHorizontal: space.lg,
-  },
-  toolsGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    gap: space.sm,
-    marginBottom: space.sm,
   },
   restoreCard: {
     marginBottom: space.sm,

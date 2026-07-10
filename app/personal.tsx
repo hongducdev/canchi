@@ -51,7 +51,7 @@ export default function PersonalEventsScreen() {
 
   useEffect(() => {
     if (isWeb) {
-      router.replace('/(tabs)/settings');
+      router.replace('/(tabs)/utilities');
     }
   }, []);
 

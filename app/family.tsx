@@ -45,7 +45,7 @@ export default function FamilyScreen() {
 
   useEffect(() => {
     if (isWeb) {
-      router.replace('/(tabs)/settings');
+      router.replace('/(tabs)/utilities');
     }
   }, []);
 

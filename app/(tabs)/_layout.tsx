@@ -58,6 +58,15 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
+        name="utilities"
+        options={{
+          title: 'Tiện ích',
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="apps-outline" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
         name="events"
         options={{
           title: 'Lễ hội',

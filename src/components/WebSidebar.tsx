@@ -11,7 +11,12 @@ import { font, space } from '../theme/spacing';
 import { AppText } from './AppText';
 
 type NavItem = {
-  href: '/(tabs)' | '/(tabs)/calendar' | '/(tabs)/events' | '/(tabs)/settings';
+  href:
+    | '/(tabs)'
+    | '/(tabs)/calendar'
+    | '/(tabs)/utilities'
+    | '/(tabs)/events'
+    | '/(tabs)/settings';
   label: string;
   icon: keyof typeof Ionicons.glyphMap;
   match: (pathname: string) => boolean;
@@ -29,6 +34,12 @@ const NAV: NavItem[] = [
     label: 'Lịch',
     icon: 'calendar-outline',
     match: (p) => p.includes('calendar'),
+  },
+  {
+    href: '/(tabs)/utilities',
+    label: 'Tiện ích',
+    icon: 'apps-outline',
+    match: (p) => p.includes('utilities'),
   },
   {
     href: '/(tabs)/events',
