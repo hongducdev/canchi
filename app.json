@@ -2,7 +2,7 @@
   "expo": {
     "name": "Can Chi",
     "slug": "canchi",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "scheme": "canchi",
@@ -17,7 +17,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#0F1419"
+        "backgroundColor": "#C23B22"
       },
       "package": "com.canchi.app"
     },
@@ -47,7 +47,7 @@
           "widgets": [
             {
               "name": "DayLore",
-              "label": "Lời hay · Lịch Âm",
+              "label": "Lời hay · Can Chi",
               "description": "Ngày dương/âm và lời hay hoặc tên lễ",
               "minWidth": "250dp",
               "minHeight": "110dp",
@@ -59,7 +59,7 @@
             },
             {
               "name": "MonthSmall",
-              "label": "Tháng · Lịch Âm",
+              "label": "Tháng · Can Chi",
               "description": "Lưới tháng dương/âm",
               "minWidth": "110dp",
               "minHeight": "110dp",
@@ -71,7 +71,7 @@
             },
             {
               "name": "DateMinimal",
-              "label": "Ngày · Lịch Âm",
+              "label": "Ngày · Can Chi",
               "description": "Ngày lớn và âm lịch",
               "minWidth": "110dp",
               "minHeight": "110dp",
@@ -83,7 +83,7 @@
             },
             {
               "name": "Combo",
-              "label": "Ngày + Tháng · Lịch Âm",
+              "label": "Ngày + Tháng · Can Chi",
               "description": "Ngày hôm nay và lưới tháng",
               "minWidth": "250dp",
               "minHeight": "110dp",
@@ -95,7 +95,7 @@
             },
             {
               "name": "DayDetail",
-              "label": "Chi tiết ngày · Lịch Âm",
+              "label": "Chi tiết ngày · Can Chi",
               "description": "Đầy đủ dương/âm, can chi, hoàng đạo hôm nay",
               "minWidth": "250dp",
               "minHeight": "250dp",

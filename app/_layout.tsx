@@ -19,6 +19,8 @@ import {
   typeface,
 } from '../src/theme/fonts';
 import { syncWidgets } from '../src/widgets/syncWidgets';
+import { maybeAutoCheckUpdate } from '../src/lib/appUpdate';
+import { syncLauncherIconToLunarDay } from '../src/lib/launcherIcon';
 
 SplashScreen.preventAutoHideAsync().catch(() => {
   // Splash may already be hidden in some environments (e.g. web).
@@ -52,6 +54,8 @@ function RootNav() {
 
   useEffect(() => {
     syncWidgets();
+    void syncLauncherIconToLunarDay();
+    void maybeAutoCheckUpdate();
   }, []);
 
   return (

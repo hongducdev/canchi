@@ -1,5 +1,5 @@
 /**
- * Shared domain types for Lịch Âm.
+ * Shared domain types for Can Chi.
  */
 
 import type { DayLore } from './dayLore';

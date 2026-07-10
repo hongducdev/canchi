@@ -2,6 +2,8 @@ import { router } from 'expo-router';
 import React, { useState } from 'react';
 import {
   Alert,
+  Linking,
+  Pressable,
   Share,
   StyleSheet,
   View
@@ -11,6 +13,10 @@ import { Screen } from '../../src/components/Screen';
 import { SettingRow } from '../../src/components/SettingRow';
 import { ToolTile } from '../../src/components/ToolTile';
 import { useTheme } from '../../src/hooks/useTheme';
+import {
+  checkForUpdateManual,
+  getLocalAppVersion,
+} from '../../src/lib/appUpdate';
 import { buildBackup, parseBackup, serializeBackup } from '../../src/lib/backup';
 import {
   expoGoNotificationHint,
@@ -54,6 +60,24 @@ export default function SettingsScreen() {
   const familyMembers = useFamilyStore((s) => s.members);
   const userProfile = useUserProfileStore((s) => s.profile);
   const [restoreText, setRestoreText] = useState('');
+  const [checkingUpdate, setCheckingUpdate] = useState(false);
+  const appVersion = getLocalAppVersion();
+
+  const openAuthorSite = () => {
+    Linking.openURL('https://hongduc.dev').catch(() => {
+      Alert.alert('Không mở được', 'https://hongduc.dev');
+    });
+  };
+
+  const onCheckUpdate = async () => {
+    if (checkingUpdate) return;
+    setCheckingUpdate(true);
+    try {
+      await checkForUpdateManual();
+    } finally {
+      setCheckingUpdate(false);
+    }
+  };
 
   const exportBackup = async () => {
     const settings = useSettingsStore.getState();
@@ -342,15 +366,31 @@ export default function SettingsScreen() {
 
       <AppText style={[styles.group, { color: colors.textMuted }]}>VỀ ỨNG DỤNG</AppText>
       <Card>
-        <AppText style={[styles.aboutTitle, { color: colors.text }]}>Lịch Âm</AppText>
+        <AppText style={[styles.aboutTitle, { color: colors.text }]}>Can Chi</AppText>
         <AppText style={[styles.aboutBody, { color: colors.textSecondary }]}>
-          Lịch âm dương Việt Nam, hoạt động hoàn toàn offline. Không tài khoản, không
-          máy chủ, không theo dõi. Tính Can Chi, tiết khí, giờ hoàng đạo và lễ hội
-          truyền thống ngay trên máy bạn.
+          Ứng dụng lịch âm, Can Chi và ngày tốt — gọn trên máy bạn.
         </AppText>
         <AppText style={[styles.version, { color: colors.textMuted }]}>
-          Phiên bản 1.0.0 · Riêng tư · Offline-first
+          Phiên bản {appVersion}
         </AppText>
+        <Pressable onPress={openAuthorSite} accessibilityRole="link">
+          <AppText style={[styles.author, { color: colors.text }]}>
+            Tác giả{' '}
+            <AppText style={{ color: colors.accentText, fontWeight: '600' }}>
+              hongducdev
+            </AppText>
+            {' · '}
+            <AppText style={{ color: colors.accentText, fontWeight: '600' }}>
+              hongduc.dev
+            </AppText>
+          </AppText>
+        </Pressable>
+        <SettingRow
+          title={checkingUpdate ? 'Đang kiểm tra…' : 'Kiểm tra cập nhật'}
+          subtitle="GitHub Releases"
+          onPress={onCheckUpdate}
+          isLast
+        />
       </Card>
     </Screen>
   );
@@ -420,6 +460,11 @@ const styles = StyleSheet.create({
   },
   version: {
     fontSize: font.xs,
-    marginTop: space.lg,
+    marginTop: space.md,
+  },
+  author: {
+    fontSize: font.sm,
+    marginTop: space.sm,
+    marginBottom: space.sm,
   },
 });

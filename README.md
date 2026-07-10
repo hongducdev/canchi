@@ -1,4 +1,4 @@
-# 🌙 Lịch Âm
+# 🌙 Can Chi
 
 **Premium offline-first Vietnamese Lunar Calendar** for iOS, Android, and Web.
 

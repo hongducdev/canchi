@@ -53,7 +53,7 @@ export async function ensureNotificationPermissions(): Promise<boolean> {
   const Notifications = await getNotifications();
   if (Platform.OS === 'android') {
     await Notifications.setNotificationChannelAsync(CHANNEL_ID, {
-      name: 'Nhắc lịch Âm',
+      name: 'Nhắc Can Chi',
       importance: Notifications.AndroidImportance.DEFAULT,
     });
   }
@@ -170,7 +170,7 @@ export async function scheduleTestNotification(): Promise<void> {
   if (!ok) throw new Error('Chưa được cấp quyền thông báo');
   await Notifications.scheduleNotificationAsync({
     content: {
-      title: 'Lịch Âm',
+      title: 'Can Chi',
       body: 'Thông báo cục bộ hoạt động.',
       ...(Platform.OS === 'android' ? { channelId: CHANNEL_ID } : {}),
     },

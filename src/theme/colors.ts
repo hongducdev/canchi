@@ -1,5 +1,5 @@
 /**
- * Lịch Âm design tokens.
+ * Can Chi design tokens.
  * Direction: deep ink + vermillion accent (cultural, non-generic).
  */
 

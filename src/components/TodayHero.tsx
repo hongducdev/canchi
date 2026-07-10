@@ -48,7 +48,7 @@ export function TodayHero({ info }: Props) {
         ])}
       >
         <View style={styles.topRow}>
-          <AppText style={[styles.brand, { color: brand }]}>Lịch Âm</AppText>
+          <AppText style={[styles.brand, { color: brand }]}>Can Chi</AppText>
           <View style={[styles.liveDot, { backgroundColor: colors.accent }]} />
           <AppText style={[styles.live, { color: live }]}>Hôm nay</AppText>
           <View style={styles.topSpacer} />

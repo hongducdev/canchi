@@ -1,6 +1,6 @@
-# 🌙 Lịch Âm — Hướng dẫn tiếng Việt
+# 🌙 Can Chi — Hướng dẫn tiếng Việt
 
-Ứng dụng **lịch âm dương Việt Nam** chạy hoàn toàn offline trên iOS, Android và Web.
+Ứng dụng **lịch âm dương Việt Nam** — Can Chi, ngày tốt và văn khấn trên máy bạn.
 
 Không cần tài khoản · Không cần mạng · Dữ liệu chỉ lưu trên máy.
 

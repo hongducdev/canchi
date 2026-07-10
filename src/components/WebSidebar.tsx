@@ -58,7 +58,7 @@ export function WebSidebar() {
         },
       ]}
     >
-      <AppText style={[styles.brand, { color: colors.textMuted }]}>Lịch Âm</AppText>
+      <AppText style={[styles.brand, { color: colors.textMuted }]}>Can Chi</AppText>
       <View style={styles.nav}>
         {NAV.map((item) => {
           const active = item.match(pathname);
