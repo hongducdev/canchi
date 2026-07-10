@@ -1,17 +1,17 @@
 {
   "expo": {
-    "name": "Lịch Âm",
-    "slug": "licham",
+    "name": "Can Chi",
+    "slug": "canchi",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "scheme": "licham",
+    "scheme": "canchi",
     "userInterfaceStyle": "automatic",
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.licham.app",
+      "bundleIdentifier": "com.canchi.app",
       "infoPlist": {
-        "CFBundleDisplayName": "Lịch Âm"
+        "CFBundleDisplayName": "Can Chi"
       }
     },
     "android": {
@@ -19,7 +19,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#0F1419"
       },
-      "package": "com.licham.app"
+      "package": "com.canchi.app"
     },
     "web": {
       "bundler": "metro",

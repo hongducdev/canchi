@@ -22,6 +22,10 @@ import { useFamilyStore } from '../../src/store/family';
 import { useNotesStore } from '../../src/store/notes';
 import { usePersonalEventsStore } from '../../src/store/personalEvents';
 import { useSettingsStore } from '../../src/store/settings';
+import {
+  hasUsableProfile,
+  useUserProfileStore,
+} from '../../src/store/userProfile';
 import type { ThemeMode } from '../../src/lib/types';
 import { font, radius, space } from '../../src/theme/spacing';
 import { AppText, AppTextInput } from '../../src/components/AppText';
@@ -48,6 +52,7 @@ export default function SettingsScreen() {
   const notes = useNotesStore((s) => s.notes);
   const personalEvents = usePersonalEventsStore((s) => s.events);
   const familyMembers = useFamilyStore((s) => s.members);
+  const userProfile = useUserProfileStore((s) => s.profile);
   const [restoreText, setRestoreText] = useState('');
 
   const exportBackup = async () => {
@@ -194,7 +199,33 @@ export default function SettingsScreen() {
           icon="planet-outline"
           onPress={() => router.push('/astronomy')}
         />
+        <ToolTile
+          title="Văn khấn"
+          subtitle="Mẫu khấn theo dịp · điền hồ sơ"
+          icon="book-outline"
+          onPress={() => router.push('/van-khan')}
+        />
       </View>
+
+      {!isWeb ? (
+        <>
+          <AppText style={[styles.group, { color: colors.textMuted }]}>HỒ SƠ</AppText>
+          <Card padded={false} style={styles.card}>
+            <View style={styles.pad}>
+              <SettingRow
+                title="Hồ sơ của tôi"
+                subtitle={
+                  hasUsableProfile(userProfile)
+                    ? userProfile!.fullName
+                    : 'Chưa thiết lập'
+                }
+                onPress={() => router.push('/profile')}
+                isLast
+              />
+            </View>
+          </Card>
+        </>
+      ) : null}
 
       <AppText style={[styles.group, { color: colors.textMuted }]}>GIAO DIỆN</AppText>
       <Card padded={false} style={styles.card}>

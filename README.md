@@ -1,57 +1,70 @@
-# Lịch Âm
+# 🌙 Lịch Âm
 
-Premium offline-first Vietnamese Lunar Calendar for iOS and Android.
+**Premium offline-first Vietnamese Lunar Calendar** for iOS, Android, and Web.
 
-Built with **React Native**, **Expo SDK 56**, and **TypeScript**. No backend, no accounts, no network required.
+Built with **React Native**, **Expo SDK 56**, and **TypeScript**.  
+No backend · No accounts · No network required.
 
-## Features
+[📖 Tài liệu tiếng Việt](docs/vi.md) · [⬇️ Releases](https://github.com/hongducdev/canchi/releases)
 
-### Calendar core
+---
 
-- Solar ↔ Lunar conversion (Vietnam timezone, years ~1800–2199)
-- Can Chi for year, month, day, and hour
-- Day zodiac (con giáp theo Địa Chi ngày) across home, calendar, and day detail
-- 24 solar terms (tiết khí)
-- Giờ Hoàng Đạo / Hắc Đạo
-- Traditional day lore: Trực, 28 Tú, stars, directions, recommended activities
-- Traditional & national festivals
-- Month grid with dual dates
-- Tết countdown
+## ✨ Features
 
-### Tools
+### 📅 Calendar core
 
-- Search (days, festivals, solar terms)
-- Lucky-day finder (cưới hỏi, khai trương, xuất hành…)
-- Personal events + local reminder scheduling
-- Memorial day calculator (đầy tháng, 49 ngày, giỗ…)
-- Family roster (birth years / zodiac on device)
-- Feng shui profile from birth year
-- Astronomy catalog (moon, eclipses, meteor showers)
+- 🔄 Solar ↔ Lunar conversion (Vietnam timezone, years ~1800–2199)
+- 🎋 Can Chi for year, month, day, and hour
+- 🐲 Day zodiac (con giáp) on home, calendar, and day detail
+- 🌿 24 solar terms (*tiết khí*)
+- ⏰ Giờ Hoàng Đạo / Hắc Đạo
+- 📜 Traditional day lore: Trực, 28 Tú, stars, directions, activities
+- 🎉 Traditional & national festivals
+- 🗓️ Month grid with dual dates
+- 🧨 Tết countdown
 
-### App
+### 🧰 Tools
 
-- Local notes (AsyncStorage)
-- JSON backup / restore (share sheet)
-- Light / dark / system theme
-- Haptics toggle
-- Fully offline
+| | Tool | Description |
+| --- | --- | --- |
+| 🔍 | Search | Days, festivals, solar terms |
+| 🍀 | Lucky days | Wedding, opening, travel… |
+| 📌 | Personal events | Birthdays & reminders (on-device) |
+| 🧮 | Memorial calculator | Đầy tháng, 49 days, giỗ… |
+| 👪 | Family roster | Birth years / zodiac locally |
+| 🧭 | Feng shui | Profile from birth year |
+| 🌌 | Astronomy | Moon, eclipses, meteor showers |
+| 🙏 | Văn khấn | Prayer templates + profile fill |
+| 👤 | My profile | Name, birth, hometown (native) |
 
-## Stack
+### 📱 App experience
+
+- 📝 Local notes (AsyncStorage)
+- 💾 JSON backup / restore
+- 🌓 Light / dark / system theme
+- 📳 Haptics toggle
+- 🔌 Fully offline
+
+---
+
+## 🛠️ Stack
 
 | Piece | Version |
 | --- | --- |
 | Expo | SDK 56 |
 | React Native | 0.85 |
 | Expo Router | 56 |
-| Web | Expo Web (`react-native-web`) · core + read-only tools |
-| Typeface | Google Sans Flex (app + web) |
+| Web | Expo Web (`react-native-web`) |
+| Typeface | Google Sans Flex |
 | State | Zustand + AsyncStorage |
 
-Home-screen widgets need a **development build** — not available in Expo Go.
+---
 
-Android widgets use `react-native-android-widget` (Glance/RemoteViews). Five widgets:
+## 🧩 Home screen widgets (Android)
 
-| Widget name | Size | Content |
+Requires a **development / release build** — not available in Expo Go.
+
+| Widget | Size | Content |
 | --- | --- | --- |
 | DayLore | Medium | Quote / festival + lunar header |
 | MonthSmall | Small | Month grid |
@@ -59,68 +72,83 @@ Android widgets use `react-native-android-widget` (Glance/RemoteViews). Five wid
 | Combo | Medium | Day + month grid |
 | DayDetail | Large | Full today: solar/lunar, can chi, hoàng đạo |
 
-Tap Day Lore / Date Minimal / Day Detail → day detail; Month / Combo → calendar. Theme follows system light/dark.
-
-After changing widget config, re-run native build:
+Theme follows system light/dark. After changing widget config:
 
 ```bash
 npx expo prebuild --clean
 npx expo run:android
 ```
 
-Web omits family, personal events, notes, backup, and native notifications (use the mobile app for those).
+> Web omits family, personal events, notes, backup, profile editing, and native notifications. Văn khấn is available on web (read-only fill).
 
-## Run
+---
+
+## 🚀 Getting started
 
 ```bash
 npm install
 npx expo start
 ```
 
-Then press `a` (Android), `i` (iOS simulator), or scan the QR code with **Expo Go for SDK 56**.
+Press `a` (Android), `i` (iOS), or scan the QR with **Expo Go (SDK 56)**.
 
-### Web
+### 🌐 Web
 
 ```bash
 npm run web
 ```
 
-Opens the Expo web app in the browser. Desktop (≥960px) uses a left sidebar; narrower viewports keep bottom tabs.
-
-Static export:
+Desktop (≥960px) uses a left sidebar; narrower viewports keep bottom tabs.
 
 ```bash
-npm run build:web
-```
-
-Output lands in `dist/` (or the Expo export folder shown in the CLI). Host that folder on any static host (GitHub Pages, Netlify, Cloudflare Pages, nginx).
-
-```bash
+npm run build:web   # static export → dist/
 npm run typecheck
 ```
 
-## Project structure
+### 📦 Android APK
+
+```bash
+npx expo prebuild --platform android
+cd android && .\gradlew.bat assembleRelease
+```
+
+APK output: `android/app/build/outputs/apk/release/app-release.apk`
+
+First public build is published on [GitHub Releases](https://github.com/hongducdev/canchi/releases) as **v1.0.0**.
+
+---
+
+## 📁 Project structure
 
 ```
 app/                 Expo Router screens
-  (tabs)/            Home, Calendar, Events, Settings
+  (tabs)/            Home · Calendar · Events · Settings
   day/[date].tsx     Day detail + notes + lore
-  lucky.tsx          Lucky-day finder
-  personal.tsx       Personal events
-  memorial.tsx       Memorial calculator
-  family.tsx         Family roster
-  fengshui.tsx       Feng shui profile
-  astronomy.tsx      Astronomy catalog
-  search.tsx         Search
+  van-khan/          Prayer catalog & detail
+  profile.tsx        User profile (native)
 src/
-  lib/               Lunar engine, Can Chi, day lore, zodiac, tools
-  data/              Festivals
-  components/        UI (TodayHero, ZodiacIcon, MonthGrid, …)
-  store/             Settings, notes, personal events, family
+  lib/               Lunar engine, Can Chi, tools
+  data/              festivals, quotes, vankhan.json
+  components/        UI kit
+  store/             Zustand + AsyncStorage
   theme/             Design tokens
-docs/superpowers/    Design specs & implementation plans
+  widgets/           Android widget payloads
+docs/
+  vi.md              Vietnamese user guide
+  superpowers/       Design specs & plans
 ```
 
-## Privacy
+---
 
-All computation and storage happen on-device. There are no analytics SDKs, login flows, or cloud sync.
+## 🔒 Privacy
+
+All computation and storage stay on-device.  
+No analytics SDKs · No login · No cloud sync.
+
+---
+
+## 📄 License
+
+MIT — see [LICENSE](./LICENSE) for details.
+
+Private / personal project unless otherwise stated in individual files.

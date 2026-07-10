@@ -1,4 +1,4 @@
-package com.licham.app
+package com.canchi.app
 
 import android.app.Application
 import android.content.res.Configuration

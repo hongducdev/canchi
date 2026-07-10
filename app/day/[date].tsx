@@ -1,5 +1,5 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { Stack, useLocalSearchParams } from 'expo-router';
+import { router, Stack, useLocalSearchParams } from 'expo-router';
 import React, { useMemo, useState } from 'react';
 import {
   Alert,
@@ -15,9 +15,12 @@ import { SectionHeader } from '../../src/components/SectionHeader';
 import { ZodiacIcon } from '../../src/components/ZodiacIcon';
 import { buildDayInfo, formatLunarLong, formatSolarLong } from '../../src/lib/dayInfo';
 import { dailyActivityScores, overallDayScore } from '../../src/lib/dailyScore';
+import { scoreDayForPerson } from '../../src/lib/dayPersonScore';
 import { parseDateKey, isValidSolarDate } from '../../src/lib/lunar';
 import { isWeb } from '../../src/lib/platform';
+import { profileToFillContext } from '../../src/lib/vanKhan';
 import { useNotesStore } from '../../src/store/notes';
+import { useUserProfileStore } from '../../src/store/userProfile';
 import { syncWidgets } from '../../src/widgets/syncWidgets';
 import { useTheme } from '../../src/hooks/useTheme';
 import { font, radius, space } from '../../src/theme/spacing';
@@ -29,6 +32,7 @@ export default function DayDetailScreen() {
   const notes = useNotesStore((s) => s.notes);
   const addNote = useNotesStore((s) => s.addNote);
   const deleteNote = useNotesStore((s) => s.deleteNote);
+  const profile = useUserProfileStore((s) => s.profile);
 
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
@@ -56,6 +60,10 @@ export default function DayDetailScreen() {
     [info]
   );
   const dayScore = useMemo(() => (info ? overallDayScore(info) : 0), [info]);
+  const personScore = useMemo(() => {
+    if (!info) return null;
+    return scoreDayForPerson(info, profileToFillContext(profile));
+  }, [info, profile]);
 
   if (!info || !solar) {
     return (
@@ -250,6 +258,46 @@ export default function DayDetailScreen() {
               last={i === arr.length - 1}
             />
           ))}
+        </Card>
+
+        <SectionHeader
+          title="Điểm hợp"
+          subtitle="Theo hồ sơ của bạn · tham khảo"
+        />
+        <Card>
+          {personScore ? (
+            <>
+              <View style={styles.personScoreHero}>
+                <AppText style={[styles.personScoreNum, { color: colors.jade }]}>
+                  {personScore.score}
+                </AppText>
+                <AppText style={[styles.personScoreUnit, { color: colors.textMuted }]}>
+                  / 100
+                </AppText>
+              </View>
+              {personScore.reasons.map((r, i) => (
+                <AppText
+                  key={`${r}-${i}`}
+                  style={[styles.personReason, { color: colors.textSecondary }]}
+                >
+                  · {r}
+                </AppText>
+              ))}
+              <AppText style={[styles.personDisclaimer, { color: colors.textMuted }]}>
+                Ước lượng văn hóa theo can chi và lịch ngày — không thay thế tư vấn chuyên môn.
+              </AppText>
+            </>
+          ) : !isWeb ? (
+            <Pressable onPress={() => router.push('/profile')}>
+              <AppText style={{ color: colors.accentText, fontWeight: '600' }}>
+                Thiết lập hồ sơ (năm sinh) để xem điểm hợp →
+              </AppText>
+            </Pressable>
+          ) : (
+            <AppText style={{ color: colors.textMuted, fontSize: font.sm }}>
+              Điểm hợp theo hồ sơ chỉ có trên app (cần năm sinh).
+            </AppText>
+          )}
         </Card>
 
         <SectionHeader title="Giờ Hoàng Đạo" subtitle="Giờ tốt trong ngày" />
@@ -501,5 +549,30 @@ const styles = StyleSheet.create({
     marginTop: space.sm,
     fontSize: font.sm,
     lineHeight: 20,
+  },
+  personScoreHero: {
+    flexDirection: 'row',
+    alignItems: 'baseline',
+    marginBottom: space.md,
+  },
+  personScoreNum: {
+    fontSize: 40,
+    fontWeight: '200',
+    letterSpacing: -1,
+  },
+  personScoreUnit: {
+    fontSize: font.md,
+    fontWeight: '600',
+    marginLeft: 6,
+  },
+  personReason: {
+    fontSize: font.sm,
+    lineHeight: 20,
+    marginBottom: 4,
+  },
+  personDisclaimer: {
+    fontSize: font.xs,
+    lineHeight: 18,
+    marginTop: space.md,
   },
 });

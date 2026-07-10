@@ -12,6 +12,7 @@ import { useFamilyStore } from '../src/store/family';
 import { useNotesStore } from '../src/store/notes';
 import { usePersonalEventsStore } from '../src/store/personalEvents';
 import { useSettingsStore } from '../src/store/settings';
+import { useUserProfileStore } from '../src/store/userProfile';
 import {
   enableGoogleSansFlexWeb,
   googleSansFlexFaces,
@@ -29,6 +30,7 @@ function RootNav() {
   const setNotesHydrated = useNotesStore((s) => s.setHydrated);
   const setPersonalHydrated = usePersonalEventsStore((s) => s.setHydrated);
   const setFamilyHydrated = useFamilyStore((s) => s.setHydrated);
+  const setProfileHydrated = useUserProfileStore((s) => s.setHydrated);
 
   useEffect(() => {
     // Fallback if rehydrate callback already fired before mount
@@ -37,9 +39,16 @@ function RootNav() {
       setNotesHydrated(true);
       setPersonalHydrated(true);
       setFamilyHydrated(true);
+      setProfileHydrated(true);
     }, 50);
     return () => clearTimeout(t);
-  }, [setFamilyHydrated, setNotesHydrated, setPersonalHydrated, setSettingsHydrated]);
+  }, [
+    setFamilyHydrated,
+    setNotesHydrated,
+    setPersonalHydrated,
+    setProfileHydrated,
+    setSettingsHydrated,
+  ]);
 
   useEffect(() => {
     syncWidgets();
@@ -74,6 +83,9 @@ function RootNav() {
           <Stack.Screen name="memorial" options={{ title: 'Tính ngày lễ' }} />
           <Stack.Screen name="family" options={{ title: 'Gia đình' }} />
           <Stack.Screen name="astronomy" options={{ title: 'Thiên văn' }} />
+          <Stack.Screen name="van-khan" options={{ title: 'Văn khấn' }} />
+          <Stack.Screen name="van-khan/[id]" options={{ title: 'Chi tiết văn khấn' }} />
+          <Stack.Screen name="profile" options={{ title: 'Hồ sơ của tôi' }} />
         </Stack>
       </WebShell>
     </>

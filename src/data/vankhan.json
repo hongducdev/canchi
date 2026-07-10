@@ -1,0 +1,909 @@
+[
+    {
+        "id": "tho-cong-gia-tien-mung-mot-ram",
+        "slug": "tho-cong-gia-tien-mung-mot-ram",
+        "title": "Văn khấn Thổ Công và Gia Tiên mùng 1, ngày Rằm",
+        "shortTitle": "Thổ Công, Gia Tiên (Mùng 1, Rằm)",
+        "category": {
+            "id": "dinh-ky",
+            "name": "Định kỳ tháng"
+        },
+        "occasion": "Ngày mùng 1 và ngày Rằm âm lịch hằng tháng",
+        "type": "lunar-monthly",
+        "language": "vi",
+        "region": "Việt Nam",
+        "keywords": [
+            "mùng 1",
+            "ngày rằm",
+            "thổ công",
+            "gia tiên",
+            "thắp hương"
+        ],
+        "recommendedTime": ["05:00-09:00", "16:00-19:00"],
+        "lunarDate": "1, 15",
+        "solarDate": null,
+        "offerings": [
+            { "name": "Hương, hoa tươi", "required": true },
+            { "name": "Trầu cau, rượu, nước sạch", "required": true },
+            { "name": "Trái cây ngũ quả", "required": true },
+            { "name": "Cỗ mặn hoặc cỗ chay", "required": false }
+        ],
+        "preparation": [
+            "Lau dọn bàn thờ sạch sẽ.",
+            "Bày biện lễ vật cân đối.",
+            "Trang phục chỉnh tề."
+        ],
+        "ritualSteps": [
+            "Thắp 3 nén hương.",
+            "Vái 3 vái.",
+            "Đọc văn khấn.",
+            "Vái 3 vái sau khi đọc xong."
+        ],
+        "prayer": {
+            "title": "Văn khấn Thổ Công và Gia Tiên mùng 1, ngày Rằm",
+            "content": [
+                "Nam mô A Di Đà Phật (3 lần).",
+                "",
+                "Con lạy chín phương Trời, mười phương Chư Phật.",
+                "Con kính lạy Hoàng thiên Hậu Thổ chư vị Tôn thần.",
+                "Con kính lạy Ngài Bản cảnh Thành hoàng, Ngài Bản xứ Thổ địa, Bản gia Táo quân chư vị Thần linh.",
+                "Con kính lạy Tổ tiên, Hiển khảo, Hiển tỷ, chư vị Hương linh.",
+                "",
+                "Tín chủ con là: [...] Ngụ tại: [...]",
+                "",
+                "Hôm nay là ngày: [...]",
+                "Tín chủ thành tâm sửa biện hương hoa, trà quả, thắp nén tâm hương dâng lên trước án.",
+                "",
+                "Cúi xin chư vị Tôn thần, Tổ tiên gia tộc giáng lâm trước án, chứng giám lòng thành, thụ hưởng lễ vật. Phù hộ độ trì cho toàn gia mạnh khỏe, an khang thịnh vượng, vạn sự tốt lành.",
+                "",
+                "Nam mô A Di Đà Phật (3 lần)."
+            ]
+        },
+        "meaning": "Tạ ơn thần linh thổ địa che chở và tưởng nhớ tổ tiên cứu giúp gia đình.",
+        "notes": [
+            "Thắp hương Thổ Công trước, Gia tiên sau.",
+            "Cần giữ tâm thanh tịnh."
+        ],
+        "relatedPrayers": ["tat-nien", "ram-thang-gieng"],
+        "version": 1
+    },
+    {
+        "id": "van-khan-than-tai",
+        "slug": "van-khan-than-tai",
+        "title": "Văn khấn Thần Tài cầu tài lộc hằng ngày",
+        "shortTitle": "Văn khấn Thần Tài",
+        "category": {
+            "id": "tai-loc",
+            "name": "Tài lộc"
+        },
+        "occasion": "Thờ cúng hằng ngày hoặc ngày mùng 10 âm lịch",
+        "type": "daily",
+        "language": "vi",
+        "region": "Việt Nam",
+        "keywords": ["thần tài", "thổ địa", "cầu tài", "kinh doanh", "mùng 10"],
+        "recommendedTime": ["06:00-08:00"],
+        "lunarDate": null,
+        "solarDate": null,
+        "offerings": [
+            { "name": "Hương", "required": true },
+            { "name": "Nước sạch, cà phê hoặc rượu", "required": true },
+            { "name": "Bánh kẹo, hoa quả", "required": false },
+            { "name": "Thịt heo quay, trứng (ngày vía)", "required": false }
+        ],
+        "preparation": [
+            "Lau sạch ban thờ Thần Tài.",
+            "Thay nước mới.",
+            "Đốt trầm hương tạo khí thế."
+        ],
+        "ritualSteps": [
+            "Thắp hương.",
+            "Khấn cầu thành tâm.",
+            "Xin lộc, đổi nước."
+        ],
+        "prayer": {
+            "title": "Văn khấn Thần Tài",
+            "content": [
+                "Nam mô A Di Đà Phật (3 lần).",
+                "",
+                "Con kính lạy chín phương Trời, mười phương Chư Phật.",
+                "Con kính lạy Hoàng thiên Hậu Thổ chư vị Tôn thần.",
+                "Con kính lạy Ngài Thần Tài vị tiền, Ngài Thổ Địa vị tiền.",
+                "",
+                "Tín chủ con là: [...] Kinh doanh tại địa chỉ: [...]",
+                "",
+                "Hôm nay ngày: [...] Tín chủ thành tâm sửa biện lễ vật, hương hoa, kim ngân dâng lên trước án Thần Tài.",
+                "",
+                "Cúi xin Thần Tài thương xót, giáng lâm chứng giám, phù hộ độ trì cho công việc hanh thông, buôn may bán đắt, tài lộc dồi dào, sở cầu tất ứng.",
+                "",
+                "Nam mô A Di Đà Phật (3 lần)."
+            ]
+        },
+        "meaning": "Cầu xin Thần Tài ban tài lộc, may mắn cho công việc kinh doanh buôn bán.",
+        "notes": [
+            "Giữ khu vực ban thờ sạch sẽ.",
+            "Nên khấn vào buổi sáng trước khi mở cửa hàng."
+        ],
+        "relatedPrayers": ["khai-truong"],
+        "version": 1
+    },
+    {
+        "id": "giao-thua-trong-nha",
+        "slug": "giao-thua-trong-nha",
+        "title": "Văn khấn lễ Giao thừa trong nhà",
+        "shortTitle": "Giao thừa trong nhà",
+        "category": {
+            "id": "tet",
+            "name": "Tết Nguyên Đán"
+        },
+        "occasion": "Đêm giao thừa 30 Tết",
+        "type": "yearly",
+        "language": "vi",
+        "region": "Việt Nam",
+        "keywords": ["giao thừa", "trong nhà", "tết", "năm mới"],
+        "recommendedTime": ["00:00-00:30"],
+        "lunarDate": "30-12",
+        "solarDate": null,
+        "offerings": [
+            { "name": "Hương, hoa, đèn nến", "required": true },
+            { "name": "Mâm cỗ mặn ngày Tết", "required": true },
+            { "name": "Bánh chưng, mứt Tết", "required": true }
+        ],
+        "preparation": [
+            "Chuẩn bị mâm cỗ tươm tất dâng ban thờ gia tiên.",
+            "Đợi đúng thời khắc giao thừa."
+        ],
+        "ritualSteps": [
+            "Thắp hương bàn thờ trong nhà.",
+            "Chắp tay kính cẩn đọc bài khấn.",
+            "Vái tạ."
+        ],
+        "prayer": {
+            "title": "Văn khấn Giao Thừa trong nhà",
+            "content": [
+                "Nam mô A Di Đà Phật (3 lần).",
+                "",
+                "Con kính lạy chín phương Trời, mười phương Chư Phật.",
+                "Con kính lạy Hoàng thiên Hậu Thổ chư vị Tôn thần.",
+                "Con kính lạy Ngài Cựu niên Hành khiển, Ngài Tân niên Hành khiển, Bản cảnh Thành hoàng, Bản xứ Thổ địa.",
+                "Con kính lạy Tổ tiên nội ngoại gia tộc.",
+                "",
+                "Tín chủ con là: [...] Ngụ tại: [...]",
+                "",
+                "Phút giao thừa vừa tới, năm cũ qua đi, năm mới đón lại, tiết xuân sang, người người vui đón. Tín chủ sửa biện hương hoa, phẩm vật dâng lên trước án.",
+                "",
+                "Cúi xin chư vị Tôn thần, Tổ tiên giáng lâm chứng giám, trừ tai cấu, ban phúc lành, độ trì toàn gia năm mới an khang thịnh vượng, vạn sự hanh thông.",
+                "",
+                "Nam mô A Di Đà Phật (3 lần)."
+            ]
+        },
+        "meaning": "Tiễn năm cũ đón năm mới, cầu gia đình bình an trong năm mới.",
+        "notes": ["Làm lễ ngoài trời trước rồi mới làm lễ trong nhà."],
+        "relatedPrayers": ["giao-thua-ngoai-troi", "mung-1-tet"],
+        "version": 1
+    },
+    {
+        "id": "le-nhap-trach",
+        "slug": "le-nhap-trach",
+        "title": "Văn khấn lễ Nhập Trạch về nhà mới",
+        "shortTitle": "Lễ Nhập Trạch",
+        "category": {
+            "id": "su-kien",
+            "name": "Sự kiện gia đình"
+        },
+        "occasion": "Khi chuyển dọn vào nhà mới xây hoặc mới mua",
+        "type": "special",
+        "language": "vi",
+        "region": "Việt Nam",
+        "keywords": ["nhập trạch", "nhà mới", "vào nhà mới", "tân gia"],
+        "recommendedTime": ["Chọn giờ hoàng đạo"],
+        "lunarDate": null,
+        "solarDate": null,
+        "offerings": [
+            { "name": "Bếp lửa hoặc bếp ga", "required": true },
+            { "name": "Gạo, muối, nước sạch", "required": true },
+            { "name": "Mâm ngũ quả, hoa tươi", "required": true },
+            { "name": "Mâm cỗ mặn", "required": true }
+        ],
+        "preparation": [
+            "Chọn ngày lành tháng tốt.",
+            "Chủ nhà mang chiếu, bếp lửa vào trước.",
+            "Sắp lễ lên ban thờ tạm hoặc ban thờ chính."
+        ],
+        "ritualSteps": [
+            "Chủ nhà thắp hương, đọc văn khấn.",
+            "Khai lửa bếp nấu nước pha trà."
+        ],
+        "prayer": {
+            "title": "Văn khấn Nhập Trạch",
+            "content": [
+                "Nam mô A Di Đà Phật (3 lần).",
+                "",
+                "Con kính lạy chín phương Trời, mười phương Chư Phật.",
+                "Con kính lạy Hoàng thiên Hậu Thổ chư vị Tôn thần.",
+                "Con kính lạy các tôn thần bản xứ, Thổ địa, Táo quân, Long mạch.",
+                "",
+                "Tín chủ con là: [...]",
+                "",
+                "Hôm nay ngày lành tháng tốt, tín chủ thành tâm sắm sửa lễ vật, hương hoa, cáo yết chư vị Thần linh, chính thức chuyển dọn vào nhà mới tại địa chỉ: [...]",
+                "",
+                "Cúi xin chư vị Thần linh định cư an lạc, chứng giám lòng thành, phù hộ độ trì cho gia đình từ nay cư trú an ninh, mạnh khỏe, làm ăn phát đạt, gia đạo hòa thuận.",
+                "",
+                "Nam mô A Di Đà Phật (3 lần)."
+            ]
+        },
+        "meaning": "Xin phép thần linh cai quản thổ địa cho gia đình chuyển vào sinh sống.",
+        "notes": ["Người mang thai không nên phụ dọn dẹp khi nhập trạch."],
+        "relatedPrayers": ["dong-tho"],
+        "version": 1
+    },
+    {
+        "id": "tat-nien",
+        "slug": "tat-nien",
+        "title": "Văn khấn lễ Tất niên cuối năm",
+        "shortTitle": "Tất niên",
+        "category": {
+            "id": "tet",
+            "name": "Tết Nguyên Đán"
+        },
+        "occasion": "Chiều 29 hoặc 30 Tết",
+        "type": "yearly",
+        "language": "vi",
+        "region": "Việt Nam",
+        "keywords": ["tất niên", "cuối năm", "tết"],
+        "recommendedTime": ["16:00-18:30"],
+        "lunarDate": "30-12",
+        "solarDate": null,
+        "offerings": [
+            { "name": "Hương hoa, đèn nến", "required": true },
+            { "name": "Mâm cỗ mặn Tất niên", "required": true },
+            { "name": "Giấy tiền vàng mã Tất niên", "required": false }
+        ],
+        "preparation": [
+            "Dọn dẹp nhà cửa, ban thờ sạch sẽ.",
+            "Chuẩn bị mâm cỗ cúng chiều cuối năm."
+        ],
+        "ritualSteps": [
+            "Thắp hương ban thờ.",
+            "Đọc văn khấn kính cáo thần linh, gia tiên."
+        ],
+        "prayer": {
+            "title": "Văn khấn Tất niên",
+            "content": [
+                "Nam mô A Di Đà Phật (3 lần).",
+                "",
+                "Con kính lạy chín phương Trời, mười phương Chư Phật.",
+                "Con kính lạy Thần linh bản xứ, Bản gia Cao Tằng Tổ Khảo, Cao Tằng Tổ Tỷ.",
+                "",
+                "Tín chủ con là: [...] Ngụ tại: [...]",
+                "",
+                "Hôm nay ngày cuối năm, tín chủ sắm sửa hương hoa, cỗ bàn dâng lên trước án, tạ ơn Chư vị Thần linh, Gia tiên phù hộ độ trì năm qua. Cúi xin chứng giám.",
+                "",
+                "Nam mô A Di Đà Phật (3 lần)."
+            ]
+        },
+        "meaning": "Tạ ơn thần linh tổ tiên che chở suốt năm cũ.",
+        "notes": ["Gia đình sum họp ăn uống sau khi hạ lễ."],
+        "relatedPrayers": ["giao-thua-trong-nha"],
+        "version": 1
+    },
+    {
+        "id": "giao-thua-ngoai-troi",
+        "slug": "giao-thua-ngoai-troi",
+        "title": "Văn khấn Giao thừa ngoài trời",
+        "shortTitle": "Giao thừa ngoài trời",
+        "category": {
+            "id": "tet",
+            "name": "Tết Nguyên Đán"
+        },
+        "occasion": "Đêm giao thừa 30 Tết",
+        "type": "yearly",
+        "language": "vi",
+        "region": "Việt Nam",
+        "keywords": ["giao thừa", "ngoài trời", "trừ tịch"],
+        "recommendedTime": ["00:00-00:30"],
+        "lunarDate": "30-12",
+        "solarDate": null,
+        "offerings": [
+            { "name": "Hương nến, hoa tươi", "required": true },
+            { "name": "Gà trống luộc hoặc thủ lợn", "required": true },
+            { "name": "Xôi, bánh chưng, rượu", "required": true }
+        ],
+        "preparation": [
+            "Đặt bàn cúng trước cửa nhà hoặc sân thượng.",
+            "Sắp đồ cúng hướng ra đường lớn."
+        ],
+        "ritualSteps": [
+            "Đúng 12 giờ đêm thắp hương.",
+            "Đứng trước bàn lễ đọc bài khấn hướng ra ngoài trời."
+        ],
+        "prayer": {
+            "title": "Văn khấn Giao thừa ngoài trời",
+            "content": [
+                "Nam mô A Di Đà Phật (3 lần).",
+                "",
+                "Con kính lạy chín phương Trời, mười phương Chư Phật.",
+                "Con kính lạy Cựu niên Hành khiển, Tân niên Hành khiển, Thần linh bản xứ.",
+                "",
+                "Tín chủ con là: [...] Ngụ tại: [...]",
+                "",
+                "Phút giao thừa, tín chủ sửa biện lễ vật ngoài trời, cung kính tiễn đưa cựu vương, đón chào tân vương. Cúi xin phù hộ toàn gia năm mới bình an, may mắn.",
+                "",
+                "Nam mô A Di Đà Phật (3 lần)."
+            ]
+        },
+        "meaning": "Tiễn vị hành khiển năm cũ, đón vị hành khiển năm mới cai quản hạ giới.",
+        "notes": ["Cần làm trước lễ trong nhà."],
+        "relatedPrayers": ["giao-thua-trong-nha"],
+        "version": 1
+    },
+    {
+        "id": "mung-1-tet",
+        "slug": "mung-1-tet",
+        "title": "Văn khấn sáng Mùng 1 Tết",
+        "shortTitle": "Mùng 1 Tết",
+        "category": {
+            "id": "tet",
+            "name": "Tết Nguyên Đán"
+        },
+        "occasion": "Sáng mùng 1 Tết Nguyên Đán",
+        "type": "yearly",
+        "language": "vi",
+        "region": "Việt Nam",
+        "keywords": ["mùng 1 tết", "đầu năm", "tân xuân"],
+        "recommendedTime": ["06:00-10:00"],
+        "lunarDate": "01-01",
+        "solarDate": null,
+        "offerings": [
+            { "name": "Hương hoa, nước sạch", "required": true },
+            { "name": "Mâm cỗ tết chay hoặc mặn", "required": true },
+            { "name": "Bánh chưng, mứt kẹo tết", "required": true }
+        ],
+        "preparation": ["Sửa soạn ban thờ gia tiên trang nghiêm đầu năm mới."],
+        "ritualSteps": [
+            "Trưởng gia thắp hương lên ban thờ.",
+            "Toàn gia quyến thành tâm lễ bái, đọc lời khấn."
+        ],
+        "prayer": {
+            "title": "Văn khấn Mùng 1 Tết",
+            "content": [
+                "Nam mô A Di Đà Phật (3 lần).",
+                "",
+                "Con kính lạy Thần linh bản xứ, Tổ tiên nội ngoại gia tộc.",
+                "",
+                "Tín chủ con là: [...] Ngụ tại: [...]",
+                "",
+                "Hôm nay mùng 1 tháng Giêng, nguyên đán đầu năm. Tín chủ thành tâm dâng lễ vật, hương hoa, cát khánh mừng năm mới. Cầu xin toàn gia mạnh khỏe, vạn sự cát tường.",
+                "",
+                "Nam mô A Di Đà Phật (3 lần)."
+            ]
+        },
+        "meaning": "Chào đón năm mới, cầu chúc tổ tiên ban phước lành đầu năm.",
+        "notes": ["Trang phục màu sắc tươi sáng, rực rỡ."],
+        "relatedPrayers": ["hoa-vang"],
+        "version": 1
+    },
+    {
+        "id": "hoa-vang",
+        "slug": "hoa-vang",
+        "title": "Văn khấn lễ Hóa vàng tiễn Tết",
+        "shortTitle": "Lễ Hóa vàng",
+        "category": {
+            "id": "tet",
+            "name": "Tết Nguyên Đán"
+        },
+        "occasion": "Ngày mùng 3 đến mùng 5 Tết",
+        "type": "yearly",
+        "language": "vi",
+        "region": "Việt Nam",
+        "keywords": ["hóa vàng", "tiễn tết", "mùng 3 tết"],
+        "recommendedTime": ["08:00-11:30"],
+        "lunarDate": "03-01",
+        "solarDate": null,
+        "offerings": [
+            { "name": "Hương hoa, trầu cau", "required": true },
+            { "name": "Mâm cỗ mặn, mâm ngũ quả", "required": true },
+            { "name": "Tiền vàng mã, sớ hóa vàng", "required": true }
+        ],
+        "preparation": [
+            "Sắp mâm cơm cúng tiễn.",
+            "Chuẩn bị sân, lò hóa vàng mã."
+        ],
+        "ritualSteps": [
+            "Thắp hương, đọc văn khấn.",
+            "Hương tàn thì đem vàng mã đi đốt."
+        ],
+        "prayer": {
+            "title": "Văn khấn Hóa vàng",
+            "content": [
+                "Nam mô A Di Đà Phật (3 lần).",
+                "",
+                "Con kính lạy Thần linh bản xứ, Gia tiên tiền tổ.",
+                "",
+                "Tín chủ con là: [...] Ngụ tại: [...]",
+                "",
+                "Tết xuân đã mãn, nay tín chủ lễ tạ, hóa vàng bạc, tiền tài, tiễn đưa Tổ tiên về âm giới. Cúi xin phù hộ trì cho con cháu hậu thế bình an, hưng vượng.",
+                "",
+                "Nam mô A Di Đà Phật (3 lần)."
+            ]
+        },
+        "meaning": "Tiễn tổ tiên về âm giới sau những ngày ăn Tết cùng con cháu.",
+        "notes": ["Đốt vàng mã cần cẩn thận phòng cháy."],
+        "relatedPrayers": ["mung-1-tet"],
+        "version": 1
+    },
+    {
+        "id": "ram-thang-gieng",
+        "slug": "ram-thang-gieng",
+        "title": "Văn khấn Tết Nguyên Tiêu (Rằm tháng Giêng)",
+        "shortTitle": "Rằm tháng Giêng",
+        "category": {
+            "id": "le-tiet",
+            "name": "Lễ tiết quanh năm"
+        },
+        "occasion": "Ngày 15 tháng 1 âm lịch",
+        "type": "lunar-yearly",
+        "language": "vi",
+        "region": "Việt Nam",
+        "keywords": ["rằm tháng giêng", "nguyên tiêu", "cúng rằm"],
+        "recommendedTime": ["09:00-11:30", "17:00-19:00"],
+        "lunarDate": "15-01",
+        "solarDate": null,
+        "offerings": [
+            { "name": "Hương hoa, đèn nến", "required": true },
+            { "name": "Bánh trôi nước", "required": true },
+            {
+                "name": "Cỗ chay dâng Phật, cỗ mặn dâng gia tiên",
+                "required": true
+            }
+        ],
+        "preparation": [
+            "Chuẩn bị đồ cúng rằm đầu tiên trong năm.",
+            "Lau dọn đồ thờ."
+        ],
+        "ritualSteps": [
+            "Thắp hương lễ Phật trước (nếu có), lễ thần linh gia tiên sau.",
+            "Đọc lời bài khấn."
+        ],
+        "prayer": {
+            "title": "Văn khấn Rằm tháng Giêng",
+            "content": [
+                "Nam mô A Di Đà Phật (3 lần).",
+                "",
+                "Con kính lạy Thần linh bản xứ, Tổ tiên nội ngoại.",
+                "",
+                "Tín chủ con là: [...] Ngụ tại: [...]",
+                "",
+                "Hôm nay Rằm tháng Giêng, Tết Nguyên Tiêu. Tín chủ sắm lễ chay mặn, dâng lên ban thờ. Cầu mong đầu năm thông suốt, cả năm an lành, tiêu tai hưởng phúc.",
+                "",
+                "Nam mô A Di Đà Phật (3 lần)."
+            ]
+        },
+        "meaning": "Cầu bình an, may mắn trọn vẹn cho cả năm mới.",
+        "notes": [
+            "Dân gian có câu: Cúng quanh năm không bằng rằm tháng Giêng."
+        ],
+        "relatedPrayers": ["tho-cong-gia-tien-mung-mot-ram"],
+        "version": 1
+    },
+    {
+        "id": "thanh-minh",
+        "slug": "thanh-minh",
+        "title": "Văn khấn lễ Thanh minh tại mộ",
+        "shortTitle": "Thanh minh tại mộ",
+        "category": {
+            "id": "le-tiet",
+            "name": "Lễ tiết quanh năm"
+        },
+        "occasion": "Tiết Thanh minh tháng 3 âm lịch",
+        "type": "lunar-yearly",
+        "language": "vi",
+        "region": "Việt Nam",
+        "keywords": ["thanh minh", "tảo mộ", "mộ phần"],
+        "recommendedTime": ["07:00-11:00"],
+        "lunarDate": null,
+        "solarDate": null,
+        "offerings": [
+            { "name": "Hương hoa, trầu cau", "required": true },
+            { "name": "Tiền vàng bạc mã", "required": true },
+            { "name": "Xôi chè hoặc đĩa cỗ mặn nhỏ", "required": false }
+        ],
+        "preparation": [
+            "Nhổ cỏ dại, đắp thêm đất mới cho mộ phần.",
+            "Bày biện lễ vật trước bia mộ."
+        ],
+        "ritualSteps": [
+            "Thắp hương ở miếu thần linh thổ địa nơi nghĩa trang trước.",
+            "Thắp hương tại mộ người thân rồi đọc khấn."
+        ],
+        "prayer": {
+            "title": "Văn khấn lễ Thanh minh tại mộ",
+            "content": [
+                "Nam mô A Di Đà Phật (3 lần).",
+                "",
+                "Con kính lạy Thần linh bản xứ, hậu thổ Long mạch nơi mộ phần. Kính lạy Hương linh cốt nhục tiền nhân.",
+                "",
+                "Tín chủ con là: [...]",
+                "",
+                "Tiết Thanh minh, con cháu sửa sửa lễ vật, tảo mộ hương hoa, dâng lên trước mộ. Xin Thần linh che chở, Hương linh an nghỉ, ban phúc lộc cho con cháu.",
+                "",
+                "Nam mô A Di Đà Phật (3 lần)."
+            ]
+        },
+        "meaning": "Thể hiện lòng hiếu thảo, sửa sang nhà cửa cho tổ tiên dưới âm phần.",
+        "notes": ["Giữ thái độ trang nghiêm, không cười đùa ở nghĩa trang."],
+        "relatedPrayers": ["cung-gio"],
+        "version": 1
+    },
+    {
+        "id": "ram-thang-bay-gia-tien",
+        "slug": "ram-thang-bay-gia-tien",
+        "title": "Văn khấn Vu Lan báo hiếu Gia tiên",
+        "shortTitle": "Rằm tháng Bảy (Gia tiên)",
+        "category": {
+            "id": "le-tiet",
+            "name": "Lễ tiết quanh năm"
+        },
+        "occasion": "Ngày 15 tháng 7 âm lịch",
+        "type": "lunar-yearly",
+        "language": "vi",
+        "region": "Việt Nam",
+        "keywords": ["rằm tháng bảy", "vu lan", "báo hiếu"],
+        "recommendedTime": ["10:00-11:30"],
+        "lunarDate": "15-07",
+        "solarDate": null,
+        "offerings": [
+            { "name": "Hương hoa, quả tươi", "required": true },
+            { "name": "Mâm cỗ mặn hoặc chay tùy gia đình", "required": true },
+            {
+                "name": "Vàng mã quần áo, giày dép cho tổ tiên",
+                "required": false
+            }
+        ],
+        "preparation": ["Lau dọn ban thờ.", "Nấu cỗ dâng tổ tiên ban ngày."],
+        "ritualSteps": [
+            "Thắp hương, chắp tay thành kính.",
+            "Đọc văn khấn cầu siêu tổ tiên."
+        ],
+        "prayer": {
+            "title": "Văn khấn Vu Lan Gia tiên",
+            "content": [
+                "Nam mô A Di Đà Phật (3 lần).",
+                "",
+                "Con kính lạy Thần linh bản xứ, Tổ tiên nội ngoại ngày Vu Lan.",
+                "",
+                "Tín chủ con là: [...] Ngụ tại: [...]",
+                "",
+                "Tiết Trung nguyên, Vu Lan báo hiếu, tín chủ sửa sửa lễ vật dâng lên bàn thờ, tưởng nhớ công ơn sinh thành dưỡng dục. Cúi xin chứng giám thụ hưởng.",
+                "",
+                "Nam mô A Di Đà Phật (3 lần)."
+            ]
+        },
+        "meaning": "Bày tỏ lòng biết ơn, hiếu thảo với cha mẹ, tổ tiên nhiều đời.",
+        "notes": ["Nên làm lễ cúng gia tiên trước khi cúng chúng sinh."],
+        "relatedPrayers": ["ram-thang-bay-chung-sinh"],
+        "version": 1
+    },
+    {
+        "id": "ram-thang-bay-chung-sinh",
+        "slug": "ram-thang-bay-chung-sinh",
+        "title": "Văn khấn cúng chúng sinh cô hồn ngoài sân",
+        "shortTitle": "Cúng chúng sinh",
+        "category": {
+            "id": "le-tiet",
+            "name": "Lễ tiết quanh năm"
+        },
+        "occasion": "Chiều ngày 14 hoặc 15 tháng 7 âm lịch",
+        "type": "lunar-yearly",
+        "language": "vi",
+        "region": "Việt Nam",
+        "keywords": ["cúng chúng sinh", "cô hồn", "tháng bảy", "bố thí"],
+        "recommendedTime": ["17:00-19:00"],
+        "lunarDate": "15-07",
+        "solarDate": null,
+        "offerings": [
+            { "name": "Cháo loãng nấu loãng (12 chén)", "required": true },
+            {
+                "name": "Bỏng ngô, khoai lang luộc, ngô luộc, bánh kẹo",
+                "required": true
+            },
+            { "name": "Tiền trần, vàng mã cô hồn, nước sạch", "required": true }
+        ],
+        "preparation": [
+            "Mâm lễ đặt ngoài cửa, ngoài sân hoặc vỉa hè. Không đặt trong nhà."
+        ],
+        "ritualSteps": [
+            "Thắp hương, vái bốn phương tám hướng.",
+            "Đọc văn khấn bố thí.",
+            "Vẩy cháo, rắc gạo muối ra đường sau khi cúng xong."
+        ],
+        "prayer": {
+            "title": "Văn khấn cúng chúng sinh",
+            "content": [
+                "Nam mô A Di Đà Phật (3 lần).",
+                "",
+                "Con lạy chư Phật, kính lạy bản xứ Thần linh. Cô hồn cát bụi, không nơi nương tựa vị tiền.",
+                "",
+                "Tín chủ con là: [...]",
+                "",
+                "Hôm nay Trung nguyên, sắm lễ cháo loãng, bỏng ngô, khoai luộc, tiền vàng bố thí chúng sinh. Nhận lễ vật này, siêu sinh tịnh độ, không quấy nhiễu nhân gian.",
+                "",
+                "Nam mô A Di Đà Phật (3 lần)."
+            ]
+        },
+        "meaning": "Lòng thương xót bố thí thức ăn cho linh hồn cô đơn, không nhà cửa.",
+        "notes": ["Không dùng xôi gà mặn cúng chúng sinh, chỉ dùng đồ chay."],
+        "relatedPrayers": ["ram-thang-bay-gia-tien"],
+        "version": 1
+    },
+    {
+        "id": "tet-trung-thu",
+        "slug": "tet-trung-thu",
+        "title": "Văn khấn Tết Trung thu Rằm tháng Tám",
+        "shortTitle": "Tết Trung thu",
+        "category": {
+            "id": "le-tiet",
+            "name": "Lễ tiết quanh năm"
+        },
+        "occasion": "Tối ngày 15 tháng 8 âm lịch",
+        "type": "lunar-yearly",
+        "language": "vi",
+        "region": "Việt Nam",
+        "keywords": ["trung thu", "rằm tháng tám", "phá cỗ"],
+        "recommendedTime": ["18:00-20:00"],
+        "lunarDate": "15-08",
+        "solarDate": null,
+        "offerings": [
+            { "name": "Bánh nướng, bánh dẻo", "required": true },
+            { "name": "Hương hoa, mâm quả gồm bưởi, hồng", "required": true },
+            { "name": "Trà xanh", "required": false }
+        ],
+        "preparation": [
+            "Sắp lễ lên ban thờ gia tiên.",
+            "Chuẩn bị mâm phá cỗ cho trẻ nhỏ dưới trăng."
+        ],
+        "ritualSteps": [
+            "Thắp hương ban thờ, đọc khấn.",
+            "Hạ lễ cùng con cháu phá cỗ trung thu."
+        ],
+        "prayer": {
+            "title": "Văn khấn Tết Trung thu",
+            "content": [
+                "Nam mô A Di Đà Phật (3 lần).",
+                "",
+                "Con kính lạy Thần linh bản xứ, Tổ tiên gia tộc.",
+                "",
+                "Tín chủ con là: [...] Ngụ tại: [...]",
+                "",
+                "Rằm tháng Tám, tiết Trung thu, tín chủ sắm sửa bánh trái, trà quả dâng lên Tổ tiên, cầu gia đình đoàn viên, trẻ nhỏ chăm ngoan, học hành tiến bộ.",
+                "",
+                "Nam mô A Di Đà Phật (3 lần)."
+            ]
+        },
+        "meaning": "Cầu gia quyến đoàn viên, tỏ lòng biết ơn tổ tiên bồi đắp gia đạo.",
+        "notes": ["Kết hợp mâm cúng trông trăng ngoài trời rất tốt."],
+        "relatedPrayers": ["tho-cong-gia-tien-mung-mot-ram"],
+        "version": 1
+    },
+    {
+        "id": "cung-gio",
+        "slug": "cung-gio",
+        "title": "Văn khấn ngày lễ Cúng Giỗ người thân",
+        "shortTitle": "Cúng Giỗ",
+        "category": {
+            "id": "su-kien",
+            "name": "Sự kiện gia đình"
+        },
+        "occasion": "Ngày kỷ niệm người thân qua đời hằng năm",
+        "type": "yearly",
+        "language": "vi",
+        "region": "Việt Nam",
+        "keywords": ["cúng giỗ", "ngày giỗ", "húy nhật"],
+        "recommendedTime": ["09:00-11:00"],
+        "lunarDate": null,
+        "solarDate": null,
+        "offerings": [
+            { "name": "Hương hoa, trầu cau, chén nước", "required": true },
+            { "name": "Mâm cỗ mặn thịnh soạn", "required": true },
+            { "name": "Đồ mã áo quần cho người quá cố", "required": false }
+        ],
+        "preparation": [
+            "Họ hàng họp mặt nấu cỗ giỗ.",
+            "Lau dọn di ảnh người được cúng giỗ."
+        ],
+        "ritualSteps": [
+            "Con cháu thắp hương, trưởng họ đứng chủ lễ bái.",
+            "Đọc văn khấn gọi tên người khuất về hưởng lễ."
+        ],
+        "prayer": {
+            "title": "Văn khấn Cúng Giỗ",
+            "content": [
+                "Nam mô A Di Đà Phật (3 lần).",
+                "",
+                "Con kính lạy Thần linh bản xứ, kính lạy Hương linh: [...].",
+                "",
+                "Tín chủ con là: [...] Ngụ tại: [...]",
+                "",
+                "Nay ngày húy nhật kính nhớ người xưa, con cháu sắm sửa cỗ bàn, thắp nén hương thơm. Cúi xin hương linh giáng lâm thụ hưởng, độ trì con cháu mạnh khỏe.",
+                "",
+                "Nam mô A Di Đà Phật (3 lần)."
+            ]
+        },
+        "meaning": "Tưởng nhớ ngày mất, thể hiện đạo lý uống nước nhớ nguồn.",
+        "notes": [
+            "Ghi rõ tên, chức vị hoặc vai vế người khuất vào phần trống."
+        ],
+        "relatedPrayers": ["thanh-minh"],
+        "version": 1
+    },
+    {
+        "id": "dong-tho",
+        "slug": "dong-tho",
+        "title": "Văn khấn lễ Động thổ khởi công xây dựng",
+        "shortTitle": "Lễ Động thổ",
+        "category": {
+            "id": "su-kien",
+            "name": "Sự kiện gia đình"
+        },
+        "occasion": "Ngày khởi công đào móng, sửa nhà xây dựng",
+        "type": "special",
+        "language": "vi",
+        "region": "Việt Nam",
+        "keywords": ["động thổ", "làm nhà", "xây dựng", "khởi công"],
+        "recommendedTime": ["Chọn theo giờ hoàng đạo hợp tuổi chủ nhà"],
+        "lunarDate": null,
+        "solarDate": null,
+        "offerings": [
+            {
+                "name": "Bộ tam sên (thịt luộc, tôm, trứng luộc)",
+                "required": true
+            },
+            { "name": "Gà trống luộc, xôi hoặc bánh chưng", "required": true },
+            { "name": "Hương hoa, mâm ngũ quả, hũ muối gạo", "required": true }
+        ],
+        "preparation": [
+            "Đặt mâm lễ trên bàn giữa khu đất định xây nhà.",
+            "Chuẩn bị sẵn cuốc hoặc xẻng động thổ."
+        ],
+        "ritualSteps": [
+            "Chủ nhà hoặc người mượn tuổi thắp hương, khấn vái.",
+            "Đọc xong bài khấn, cuốc nhát đất đầu tiên để xin phép."
+        ],
+        "prayer": {
+            "title": "Văn khấn lễ Động thổ",
+            "content": [
+                "Nam mô A Di Đà Phật (3 lần).",
+                "",
+                "Con kính lạy Hoàng thiên Hậu Thổ chư vị Tôn thần, Thần linh bản xứ, Long mạch tôn thần.",
+                "",
+                "Tín chủ con là: [...] Địa chỉ xây dựng: [...]",
+                "",
+                "Hôm nay ngày lành, tín chủ khởi công động thổ xây nhà. Sắm lễ cáo yết tôn thần. Xin phép đào đất, xây dựng hanh thông, an toàn, bền vững.",
+                "",
+                "Nam mô A Di Đà Phật (3 lần)."
+            ]
+        },
+        "meaning": "Báo cáo thần linh thổ địa, xin phép động chạm đất đai mạch đất.",
+        "notes": [
+            "Nếu mượn tuổi làm nhà, người được mượn tuổi phải làm chủ lễ."
+        ],
+        "relatedPrayers": ["le-nhap-trach"],
+        "version": 1
+    },
+    {
+        "id": "khai-truong",
+        "slug": "khai-truong",
+        "title": "Văn khấn lễ Khai trương cửa hàng công ty",
+        "shortTitle": "Lễ Khai trương",
+        "category": {
+            "id": "su-kien",
+            "name": "Sự kiện gia đình"
+        },
+        "occasion": "Ngày bắt đầu mở cửa kinh doanh hoặc đầu năm mới",
+        "type": "special",
+        "language": "vi",
+        "region": "Việt Nam",
+        "keywords": ["khai trương", "mở hàng", "kinh doanh", "công ty"],
+        "recommendedTime": ["Giờ tốt hợp tuổi giám đốc, chủ quán"],
+        "lunarDate": null,
+        "solarDate": null,
+        "offerings": [
+            { "name": "Hương hoa tươi, đèn nến", "required": true },
+            { "name": "Mâm ngũ quả, trầu cau", "required": true },
+            { "name": "Gà luộc hoặc heo quay, xôi", "required": true },
+            { "name": "Rượu, trà, nước sạch", "required": true }
+        ],
+        "preparation": [
+            "Đặt mâm cúng trang trọng trước cửa chính công ty, cửa hàng hướng ra ngoài."
+        ],
+        "ritualSteps": [
+            "Chủ doanh nghiệp thắp hương.",
+            "Đọc văn khấn cầu tài lộc.",
+            "Hạ lễ, mời người hợp tuổi mở hàng mua mở màn."
+        ],
+        "prayer": {
+            "title": "Văn khấn Khai trương",
+            "content": [
+                "Nam mô A Di Đà Phật (3 lần).",
+                "",
+                "Con kính lạy Thần linh bản xứ, Thần Tài vị tiền.",
+                "",
+                "Tín chủ con là: [...] Cửa hàng tại: [...]",
+                "",
+                "Hôm nay ngày tốt, mở cửa khai trương làm ăn. Sắm lễ dâng lên chư vị Thần linh. Cầu xin buôn bán thuận lợi, khách hàng đông đúc, tài lộc dồi dào.",
+                "",
+                "Nam mô A Di Đà Phật (3 lần)."
+            ]
+        },
+        "meaning": "Cầu xin thần linh, các vong linh khuất mặt hộ thuẫn kinh doanh phát đạt.",
+        "notes": ["Tránh cãi vã, đổ vỡ đồ đạc trong ngày khai trương."],
+        "relatedPrayers": ["van-khan-than-tai"],
+        "version": 1
+    },
+    {
+        "id": "ong-cong-ong-tao",
+        "slug": "ong-cong-ong-tao",
+        "title": "Văn khấn ngày Tết Ông Công Ông Táo",
+        "shortTitle": "Ông Công Ông Táo",
+        "category": {
+            "id": "tet",
+            "name": "Tết Nguyên Đán"
+        },
+        "occasion": "Ngày 23 tháng Chạp âm lịch",
+        "type": "lunar-yearly",
+        "language": "vi",
+        "region": "Việt Nam",
+        "keywords": [
+            "ông công",
+            "ông táo",
+            "táo quân",
+            "23 tháng chạp",
+            "tiễn táo quân"
+        ],
+        "recommendedTime": ["07:00-11:30"],
+        "lunarDate": "23-12",
+        "solarDate": null,
+        "offerings": [
+            {
+                "name": "Ba bộ mũ áo mũ Táo Quân (hai mũ đàn ông, một mũ đàn bà)",
+                "required": true
+            },
+            { "name": "Cá chép sống (3 con)", "required": true },
+            { "name": "Hương hoa, oản, quả, trầu cau", "required": true },
+            { "name": "Mâm cỗ mặn hoặc cỗ chay", "required": true }
+        ],
+        "preparation": [
+            "Lau dọn ban thờ và khu vực bếp sạch sẽ.",
+            "Chuẩn bị mâm cỗ cúng và cá chép sống trong chậu nước."
+        ],
+        "ritualSteps": [
+            "Thắp hương ban thờ Táo Quân hoặc ban thờ chính.",
+            "Đọc văn khấn tiễn Táo Quân chầu trời.",
+            "Hương tàn đem hóa vàng mã.",
+            "Đem cá chép ra sông, hồ phóng sinh."
+        ],
+        "prayer": {
+            "title": "Văn khấn Ông Công Ông Táo",
+            "content": [
+                "Nam mô A Di Đà Phật (3 lần).",
+                "",
+                "Con kính lạy chín phương Trời, mười phương Chư Phật.",
+                "Con kính lạy Ngài Đông Trù Tư Mệnh Táo Phủ Thần Quân.",
+                "",
+                "Tín chủ con là: [...] Ngụ tại: [...]",
+                "",
+                "Hôm nay ngày 23 tháng Chạp, tín chủ sửa biện hương hoa, phẩm vật, mũ áo, cát lộc dâng lên trước án, sửa lễ kính tiễn Thần Quân về trời thổ lộ bộc bạch.",
+                "",
+                "Cúi xin Thần Quân từ bi xá tội sai sót năm qua, tâu lên Thượng Đế ban phúc lành cho gia đình, năm mới mạnh khỏe, an khang, vạn sự cát tường.",
+                "",
+                "Nam mô A Di Đà Phật (3 lần)."
+            ]
+        },
+        "meaning": "Tiễn các vị thần bếp về trời báo cáo việc lớn nhỏ của gia đạo trong năm.",
+        "notes": [
+            "Nên cúng trước 12 giờ trưa ngày 23 tháng Chạp.",
+            "Thả cá chép nhẹ nhàng, không vứt túi nilon xuống nước."
+        ],
+        "relatedPrayers": ["tat-nien", "giao-thua-trong-nha"],
+        "version": 1
+    }
+]
