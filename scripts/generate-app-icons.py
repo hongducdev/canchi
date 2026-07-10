@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate Can Chi calendar-style app icons (static + lunar days 1–30)."""
+"""Generate Can Chi calendar-style app icons (squircle + circular + lunar days 1–30)."""
 
 from __future__ import annotations
 
@@ -39,8 +39,25 @@ def load_font(size: int, bold: bool = False) -> ImageFont.ImageFont:
     return ImageFont.load_default()
 
 
+def _draw_day_centered(
+    draw: ImageDraw.ImageDraw,
+    day_text: str,
+    font: ImageFont.ImageFont,
+    cx: float,
+    body_top: float,
+    body_bottom: float,
+) -> None:
+    ink_l, ink_t, ink_r, ink_b = font.getbbox(day_text)
+    ink_w = ink_r - ink_l
+    ink_h = ink_b - ink_t
+    body_h = body_bottom - body_top
+    day_x = cx - ink_w / 2 - ink_l
+    day_y = body_top + (body_h - ink_h) / 2 - ink_t
+    draw.text((day_x, day_y), day_text, font=font, fill=INK)
+
+
 def draw_calendar(size: int, day: int, *, pad_ratio: float = 0.0) -> Image.Image:
-    """Calendar tile. pad_ratio>0 insets the tile (adaptive foreground safe zone)."""
+    """Squircle / rounded-rect calendar (default launcher + adaptive foreground)."""
     img = Image.new("RGBA", (size, size), TRANSPARENT)
     draw = ImageDraw.Draw(img)
 
@@ -52,7 +69,6 @@ def draw_calendar(size: int, day: int, *, pad_ratio: float = 0.0) -> Image.Image
 
     draw.rounded_rectangle((left, top, right, bottom), radius=radius, fill=PAPER)
 
-    # Vermillion header with matching top corners
     header = Image.new("RGBA", (size, size), TRANSPARENT)
     hd = ImageDraw.Draw(header)
     hd.rounded_rectangle((left, top, right, bottom), radius=radius, fill=VERMILLION)
@@ -75,22 +91,58 @@ def draw_calendar(size: int, day: int, *, pad_ratio: float = 0.0) -> Image.Image
 
     day_text = str(day)
     font_day = load_font(max(14, int(size * (0.36 if pad_ratio else 0.42))), bold=True)
-    body_top = top + header_h
-    body_h = bottom - body_top
-    # Center by actual glyph ink box (not em-box / baseline)
-    ink_l, ink_t, ink_r, ink_b = font_day.getbbox(day_text)
-    ink_w = ink_r - ink_l
-    ink_h = ink_b - ink_t
-    day_x = cx - ink_w / 2 - ink_l
-    day_y = body_top + (body_h - ink_h) / 2 - ink_t
-    draw.text((day_x, day_y), day_text, font=font_day, fill=INK)
+    _draw_day_centered(draw, day_text, font_day, cx, top + header_h, bottom)
+    return img
+
+
+def draw_calendar_round(size: int, day: int) -> Image.Image:
+    """True circular calendar for launchers that mask icons as circles."""
+    img = Image.new("RGBA", (size, size), TRANSPARENT)
+
+    # Keep a hair of transparent margin so OEM circular masks don't clip AA edges
+    margin = max(1, int(size * 0.03))
+    box = (margin, margin, size - margin - 1, size - margin - 1)
+    inner = size - 2 * margin
+    # Header chord ~32% of diameter — stays readable inside the circle
+    header_ratio = 0.32
+    chord_y = margin + int(inner * header_ratio)
+
+    # Flat vermillion / paper split, then circular mask
+    base = Image.new("RGBA", (size, size), TRANSPARENT)
+    bd = ImageDraw.Draw(base)
+    bd.rectangle((0, 0, size, chord_y), fill=VERMILLION)
+    bd.rectangle((0, chord_y, size, size), fill=PAPER)
+
+    mask = Image.new("L", (size, size), 0)
+    ImageDraw.Draw(mask).ellipse(box, fill=255)
+    r, g, b, _ = base.split()
+    base = Image.merge("RGBA", (r, g, b, mask))
+
+    img = Image.alpha_composite(img, base)
+    draw = ImageDraw.Draw(img)
+    cx = size / 2
+
+    # Label sits in the vermillion cap; keep clear of left/right circle edges
+    label = "Can Chi"
+    font_header = load_font(max(8, int(size * 0.10)), bold=True)
+    header_cy = margin + (chord_y - margin) / 2
+    draw.text((cx, header_cy), label, font=font_header, fill=PAPER, anchor="mm")
+
+    day_text = str(day)
+    # Slightly smaller than squircle so digits clear the circular rim
+    font_day = load_font(max(12, int(size * 0.36)), bold=True)
+    # Optical center in the circular segment (weight sits a bit low visually)
+    body_top = chord_y + int(inner * 0.04)
+    body_bottom = size - margin - int(inner * 0.06)
+    _draw_day_centered(draw, day_text, font_day, cx, body_top, body_bottom)
     return img
 
 
 def save_assets(day: int = 15) -> None:
     ASSETS.mkdir(parents=True, exist_ok=True)
     draw_calendar(1024, day).save(ASSETS / "icon.png")
-    draw_calendar(1024, day, pad_ratio=0.12).save(ASSETS / "adaptive-icon.png")
+    # Adaptive foreground: circular-safe content in center (OEM may mask circle)
+    draw_calendar_round(1024, day).save(ASSETS / "adaptive-icon.png")
     splash = Image.new("RGBA", (1024, 1024), SPLASH_BG)
     tile = draw_calendar(640, day)
     splash.paste(tile, ((1024 - 640) // 2, (1024 - 640) // 2), tile)
@@ -103,19 +155,22 @@ def save_android_days() -> None:
     for density, size in DENSITIES.items():
         folder = ANDROID_RES / f"mipmap-{density}"
         folder.mkdir(parents=True, exist_ok=True)
-        # Drop legacy webp launchers so PNG replacements don't duplicate resources
         for legacy in folder.glob("ic_launcher*.webp"):
             legacy.unlink()
         for day in range(1, 31):
             draw_calendar(size, day).save(folder / f"ic_launcher_day_{day:02d}.png")
+            draw_calendar_round(size, day).save(
+                folder / f"ic_launcher_day_{day:02d}_round.png"
+            )
         draw_calendar(size, 15).save(folder / "ic_launcher.png")
-        draw_calendar(size, 15).save(folder / "ic_launcher_round.png")
-        draw_calendar(size, 15, pad_ratio=0.12).save(folder / "ic_launcher_foreground.png")
+        draw_calendar_round(size, 15).save(folder / "ic_launcher_round.png")
+        # Adaptive FG: round design so circle/squircle OEM masks look intentional
+        draw_calendar_round(size, 15).save(folder / "ic_launcher_foreground.png")
 
         drawable = ANDROID_RES / f"drawable-{density}"
         drawable.mkdir(parents=True, exist_ok=True)
         draw_calendar(size, 15).save(drawable / "splashscreen_logo.png")
-    print("Wrote Android mipmaps days 01–30 + splash logos")
+    print("Wrote Android mipmaps (squircle + round) days 01–30")
 
 
 def main() -> None:
