@@ -29,6 +29,10 @@ class MainApplication : Application(), ReactApplication {
 
   override fun onCreate() {
     super.onCreate()
+    runCatching {
+      LauncherIconUpdater.updateToToday(this)
+      LauncherIconScheduler.scheduleNext(this)
+    }
     DefaultNewArchitectureEntryPoint.releaseLevel = try {
       ReleaseLevel.valueOf(BuildConfig.REACT_NATIVE_RELEASE_LEVEL.uppercase())
     } catch (e: IllegalArgumentException) {

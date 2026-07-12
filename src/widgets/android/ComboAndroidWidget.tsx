@@ -1,12 +1,17 @@
 'use no memo';
 
 import React from 'react';
-import { FlexWidget, TextWidget } from 'react-native-android-widget';
+import { FlexWidget } from 'react-native-android-widget';
 import type { ComboWidgetProps } from '../types';
 import { MonthGridAndroid } from './MonthGridAndroid';
 import { WIDGET_PAD, WIDGET_RADIUS, widgetPalette, type WidgetScheme } from './theme';
+import { WidgetText } from './WidgetText';
+import type { AndroidWidgetLayout } from './widgetLayout';
 
-type Props = ComboWidgetProps & { scheme: WidgetScheme };
+type Props = ComboWidgetProps & {
+  scheme: WidgetScheme;
+  layout: AndroidWidgetLayout;
+};
 
 export function ComboAndroidWidget({
   monthLabel,
@@ -16,8 +21,10 @@ export function ComboAndroidWidget({
   weekdayLabels = [],
   cells = [],
   scheme,
+  layout,
 }: Props) {
   const c = widgetPalette(scheme);
+  const { compact, roomyTypography, showLunarGrid } = layout;
 
   return (
     <FlexWidget
@@ -27,10 +34,11 @@ export function ComboAndroidWidget({
         height: 'match_parent',
         width: 'match_parent',
         backgroundColor: c.bg,
-        padding: WIDGET_PAD,
+        padding: compact ? 8 : WIDGET_PAD,
         flexDirection: 'row',
         alignItems: 'center',
         borderRadius: WIDGET_RADIUS,
+        overflow: 'hidden',
       }}
     >
       <FlexWidget
@@ -39,29 +47,48 @@ export function ComboAndroidWidget({
           flex: 2,
           flexDirection: 'column',
           justifyContent: 'center',
-          paddingRight: 8,
+          paddingRight: compact ? 5 : 8,
         }}
       >
-        <TextWidget
+        <WidgetText
           text={monthLabel}
-          style={{ fontSize: 12, fontWeight: '600', color: c.muted }}
+          style={{
+            fontSize: compact && !roomyTypography ? 9 : 16,
+            fontWeight: '600',
+            color: c.muted,
+          }}
+          maxLines={1}
+          truncate="END"
         />
-        <TextWidget
+        <WidgetText
           text={String(day)}
-          style={{ fontSize: 44, fontWeight: '200', color: c.text }}
+          style={{
+            fontSize: compact && !roomyTypography ? 34 : 50,
+            fontWeight: '200',
+            color: c.text,
+          }}
+          maxLines={1}
         />
-        <TextWidget
+        <WidgetText
           text={weekdayName}
-          style={{ fontSize: 13, fontWeight: '600', color: c.text }}
+          style={{
+            fontSize: compact && !roomyTypography ? 10 : 17,
+            fontWeight: '600',
+            color: c.text,
+          }}
+          maxLines={1}
+          truncate="END"
         />
-        <TextWidget
+        <WidgetText
           text={lunarShort}
           style={{
-            fontSize: 12,
+            fontSize: compact && !roomyTypography ? 10 : 16,
             fontWeight: '700',
             color: c.accent,
-            marginTop: 4,
+            marginTop: compact ? 1 : 4,
           }}
+          maxLines={1}
+          truncate="END"
         />
       </FlexWidget>
 
@@ -77,7 +104,10 @@ export function ComboAndroidWidget({
           weekdayLabels={weekdayLabels}
           cells={cells}
           scheme={scheme}
-          compact
+          compact={compact}
+          showLunar={showLunarGrid}
+          centerCompactRows
+          roomyTypography={roomyTypography}
         />
       </FlexWidget>
     </FlexWidget>
