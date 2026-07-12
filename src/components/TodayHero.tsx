@@ -4,7 +4,7 @@ import React from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { resolveQuote } from '../data/quotes';
 import type { DayInfo } from '../lib/types';
-import { formatLunarLong } from '../lib/dayInfo';
+import { formatSolarLong } from '../lib/dayInfo';
 import { dateKey } from '../lib/lunar';
 import { useTheme } from '../hooks/useTheme';
 import { font, radius, space } from '../theme/spacing';
@@ -56,17 +56,16 @@ export function TodayHero({ info }: Props) {
         </View>
 
         <AppText style={[styles.weekday, { color: weekday }]}>{info.weekdayName}</AppText>
-        <AppText style={[styles.solarDay, { color: primary }]}>{info.solar.day}</AppText>
+        <AppText style={[styles.solarDay, { color: primary }]}>{info.lunar.day}</AppText>
         <AppText style={[styles.solarMonth, { color: secondary }]}>
-          Tháng {info.solar.month}, {info.solar.year}
+          {info.canChiMonth}{info.lunar.leap ? ' (nhuận)' : ''}, {info.canChiYear}
         </AppText>
 
         <View style={[styles.divider, { backgroundColor: divider }]} />
 
-        <AppText style={[styles.lunar, { color: primary }]}>{formatLunarLong(info)}</AppText>
+        <AppText style={[styles.lunar, { color: primary }]}>{formatSolarLong(info.solar)}</AppText>
         <View style={styles.chips}>
           <Chip label={`Ngày ${info.canChiDay}`} tone="accent" />
-          <Chip label={`Con giáp ngày · ${info.lore.zodiacDay}`} tone="jade" />
           <Chip label={info.tietKhi} tone="gold" />
         </View>
 

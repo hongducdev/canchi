@@ -119,7 +119,6 @@ export default function CalendarScreen() {
         </View>
         <View style={styles.chips}>
           <Chip label={info.canChiDay} tone="accent" />
-          <Chip label={`Con giáp · ${info.lore.zodiacDay}`} tone="jade" />
           <Chip label={info.tietKhi} tone="gold" />
         </View>
         {info.festivals.length > 0 ? (

@@ -9,7 +9,6 @@ import { SectionHeader } from '../src/components/SectionHeader';
 import { ZodiacIcon } from '../src/components/ZodiacIcon';
 import { useTheme } from '../src/hooks/useTheme';
 import { buildFengShuiProfile } from '../src/lib/fengShui';
-import { ZODIAC_LABEL_VI, zodiacKeyFromYear } from '../src/lib/zodiac';
 import { font, radius, space } from '../src/theme/spacing';
 import { AppText, AppTextInput } from '../src/components/AppText';
 
@@ -58,7 +57,7 @@ export default function FengShuiScreen() {
                   {profile.canChi}
                 </AppText>
                 <AppText style={[styles.zodiacTitle, { color: colors.text }]}>
-                  {ZODIAC_LABEL_VI[zodiacKeyFromYear(profile.birthYear)]}
+                  {profile.canChi.split(' ')[1]}
                 </AppText>
                 <AppText style={[styles.zodiacSub, { color: colors.textSecondary }]}>
                   Mệnh {profile.menhLabel}
@@ -67,11 +66,6 @@ export default function FengShuiScreen() {
             </View>
             <Row label="Năm" value={String(profile.birthYear)} colors={colors} />
             <Row label="Can Chi" value={profile.canChi} colors={colors} />
-            <Row
-              label="Con giáp"
-              value={ZODIAC_LABEL_VI[zodiacKeyFromYear(profile.birthYear)]}
-              colors={colors}
-            />
             <Row label="Nạp âm" value={profile.napAm} colors={colors} />
             <Row label="Mệnh" value={profile.menhLabel} colors={colors} last />
           </Card>

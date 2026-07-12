@@ -154,20 +154,18 @@ export default function DayDetailScreen() {
             <ZodiacIcon chi={lore.diaChi} size={52} />
             <View style={styles.zodiacCopy}>
               <AppText style={[styles.zodiacEyebrow, { color: colors.textMuted }]}>
-                Con giáp ngày · {info.canChiDay}
+                Địa Chi ngày · {info.canChiDay}
               </AppText>
               <AppText style={[styles.zodiacTitle, { color: colors.text }]}>
-                {lore.zodiacDay}
+                {lore.diaChi}
               </AppText>
               <AppText style={[styles.zodiacSub, { color: colors.textSecondary }]}>
-                Năm {lore.zodiacYear} · {info.canChiYear}
+                Năm {info.canChiYear}
               </AppText>
             </View>
           </View>
           <Row label="Thiên Can" value={lore.thienCan} colors={colors} />
           <Row label="Địa Chi ngày" value={lore.diaChi} colors={colors} />
-          <Row label="Con giáp ngày" value={lore.zodiacDay} colors={colors} />
-          <Row label="Năm con giáp" value={lore.zodiacYear} colors={colors} />
           <Row label="Ngũ Hành" value={lore.nguHanh} colors={colors} />
           <Row label="Năm" value={info.canChiYear} colors={colors} />
           <Row label="Tháng" value={info.canChiMonth} colors={colors} />

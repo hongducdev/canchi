@@ -46,12 +46,12 @@ export default function HomeScreen() {
         <View style={styles.yearRow}>
           <ZodiacIcon chi={info.lore.diaChi} size={44} />
           <View style={styles.yearCopy}>
-            <AppText style={[styles.yearLabel, { color: colors.textMuted }]}>Con giáp ngày</AppText>
+            <AppText style={[styles.yearLabel, { color: colors.textMuted }]}>Địa Chi ngày</AppText>
             <AppText style={[styles.yearValue, { color: colors.text }]}>
-              {info.lore.zodiacDay} · {info.canChiDay}
+              {info.lore.diaChi} · {info.canChiDay}
             </AppText>
             <AppText style={[styles.yearHint, { color: colors.textMuted }]}>
-              Năm {info.lore.zodiacYear} ({info.canChiYear})
+              Năm {info.canChiYear}
             </AppText>
           </View>
         </View>

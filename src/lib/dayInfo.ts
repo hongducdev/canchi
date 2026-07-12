@@ -68,8 +68,7 @@ export function formatSolarLong(d: SolarDate): string {
 
 export function formatLunarLong(info: DayInfo): string {
   const leap = info.lunar.leap ? ' (nhuận)' : '';
-  const monthName = MONTH_NAMES_VI[info.lunar.month] ?? `Tháng ${info.lunar.month}`;
-  return `${info.lunar.day} ${monthName}${leap} năm ${info.canChiYear}`;
+  return `Ngày ${info.lunar.day} tháng ${info.lunar.month}${leap} năm ${info.lunar.year}`;
 }
 
 export function formatLunarShort(info: DayInfo): string {
