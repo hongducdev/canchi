@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   StyleSheet,
   View
@@ -6,6 +6,7 @@ import {
 import { Card } from '../../src/components/Card';
 import { FestivalRow } from '../../src/components/FestivalRow';
 import { Screen } from '../../src/components/Screen';
+import { PageHeader } from '../../src/components/PageHeader';
 import { SectionHeader } from '../../src/components/SectionHeader';
 import { TetCountdownCard } from '../../src/components/TetCountdownCard';
 import { TodayHero } from '../../src/components/TodayHero';
@@ -17,41 +18,62 @@ import { useTheme } from '../../src/hooks/useTheme';
 import { font, space } from '../../src/theme/spacing';
 import { HourStrip } from '../../src/components/HourStrip';
 import { AppText } from '../../src/components/AppText';
+import { getDeviceWeather } from '../../src/lib/weather';
+import type { DeviceWeatherResult } from '../../src/lib/weather';
+
+type WeatherState =
+  | { status: 'loading' }
+  | { status: 'ready'; data: DeviceWeatherResult }
+  | { status: 'error' };
 
 export default function HomeScreen() {
   const { colors } = useTheme();
   const today = todaySolar();
-  const info = useMemo(() => buildDayInfo(today), [today.day, today.month, today.year]);
-  const upcoming = useMemo(() => upcomingFestivals(today, 5), [today.day, today.month, today.year]);
-  const tet = useMemo(() => tetCountdown(today), [today.day, today.month, today.year]);
+  const { day, month, year } = today;
+  const info = useMemo(() => buildDayInfo({ day, month, year }), [day, month, year]);
+  const upcoming = useMemo(
+    () => upcomingFestivals({ day, month, year }, 5),
+    [day, month, year]
+  );
+  const tet = useMemo(() => tetCountdown({ day, month, year }), [day, month, year]);
+  const [weatherState, setWeatherState] = useState<WeatherState>({ status: 'loading' });
+
+  useEffect(() => {
+    let active = true;
+    getDeviceWeather()
+      .then((data) => {
+        if (active) setWeatherState({ status: 'ready', data });
+      })
+      .catch(() => {
+        if (active) setWeatherState({ status: 'error' });
+      });
+    return () => {
+      active = false;
+    };
+  }, []);
 
   return (
     <Screen>
-      <View style={styles.header}>
-        <AppText style={[styles.greeting, { color: colors.textMuted }]}>
-          Lịch Việt · Offline
-        </AppText>
-        <AppText style={[styles.title, { color: colors.text }]}>Hôm nay</AppText>
-      </View>
+      <PageHeader title="Hôm nay" />
 
-      <TodayHero info={info} />
+      <TodayHero info={info} weatherState={weatherState} />
       <View style={{ height: space.md }} />
       <TetCountdownCard
         days={tet.days}
         dateLabel={`${tet.solar.day}/${tet.solar.month}/${tet.solar.year}`}
       />
 
-      <SectionHeader title="Can Chi" subtitle="Năm · Tháng · Ngày · Giờ" />
+      <SectionHeader title="Can Chi" subtitle="Ngày, tháng, năm và giờ" />
       <Card>
         <View style={styles.yearRow}>
           <ZodiacIcon chi={info.lore.diaChi} size={44} />
           <View style={styles.yearCopy}>
-            <AppText style={[styles.yearLabel, { color: colors.textMuted }]}>Địa Chi ngày</AppText>
+            <AppText style={[styles.yearLabel, { color: colors.textMuted }]}>Can Chi ngày</AppText>
             <AppText style={[styles.yearValue, { color: colors.text }]}>
-              {info.lore.diaChi} · {info.canChiDay}
+              {info.canChiDay}
             </AppText>
             <AppText style={[styles.yearHint, { color: colors.textMuted }]}>
-              Năm {info.canChiYear}
+              Địa chi {info.lore.diaChi}
             </AppText>
           </View>
         </View>
@@ -59,7 +81,6 @@ export default function HomeScreen() {
         <View style={styles.metaGrid}>
           <Meta label="Năm" value={info.canChiYear} colors={colors} />
           <Meta label="Tháng" value={info.canChiMonth} colors={colors} />
-          <Meta label="Ngày" value={info.canChiDay} colors={colors} />
           <Meta label="Giờ" value={info.canChiHour} colors={colors} />
         </View>
         <View style={[styles.sep, { backgroundColor: colors.border }]} />
@@ -104,22 +125,6 @@ function Meta({
 }
 
 const styles = StyleSheet.create({
-  header: {
-    marginTop: space.sm,
-    marginBottom: space.xl,
-  },
-  greeting: {
-    fontSize: font.sm,
-    fontWeight: '600',
-    letterSpacing: 0.6,
-    textTransform: 'uppercase',
-  },
-  title: {
-    fontSize: font.xxl,
-    fontWeight: '700',
-    letterSpacing: -0.5,
-    marginTop: 4,
-  },
   metaGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -149,8 +154,10 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   metaItem: {
-    width: '50%',
+    flex: 1,
+    minWidth: 88,
     paddingVertical: space.sm,
+    paddingRight: space.sm,
   },
   metaLabel: {
     fontSize: font.xs,

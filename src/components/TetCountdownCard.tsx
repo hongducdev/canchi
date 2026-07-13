@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View
-} from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { useTheme } from '../hooks/useTheme';
 import { font, radius, space } from '../theme/spacing';
 import { AppText } from './AppText';
@@ -20,25 +17,22 @@ export function TetCountdownCard({ days, dateLabel }: Props) {
       style={[
         styles.card,
         {
-          backgroundColor: colors.bgCard,
-          borderColor: colors.borderStrong,
+          backgroundColor: colors.accentSoft,
+          borderColor: colors.border,
         },
       ]}
     >
-      <View style={[styles.accent, { backgroundColor: colors.accent }]} />
-      <View style={styles.body}>
-        <AppText style={[styles.eyebrow, { color: colors.accentText }]}>Đếm ngược Tết</AppText>
-        <View style={styles.row}>
-          <AppText style={[styles.days, { color: colors.text }]}>
-            {days === 0 ? 'Hôm nay' : days}
-          </AppText>
-          {days > 0 ? (
-            <AppText style={[styles.unit, { color: colors.textMuted }]}>ngày</AppText>
-          ) : null}
-        </View>
-        <AppText style={[styles.sub, { color: colors.textSecondary }]}>
-          Tết Nguyên Đán · {dateLabel}
+      <View style={styles.valueBlock}>
+        <AppText style={[styles.days, { color: colors.accentText }]}>
+          {days === 0 ? 'Nay' : days}
         </AppText>
+        {days > 0 ? (
+          <AppText style={[styles.unit, { color: colors.accentText }]}>ngày</AppText>
+        ) : null}
+      </View>
+      <View style={styles.body}>
+        <AppText style={[styles.title, { color: colors.text }]}>Tết Nguyên Đán</AppText>
+        <AppText style={[styles.sub, { color: colors.textSecondary }]}>Còn lại đến {dateLabel}</AppText>
       </View>
     </View>
   );
@@ -47,45 +41,36 @@ export function TetCountdownCard({ days, dateLabel }: Props) {
 const styles = StyleSheet.create({
   card: {
     flexDirection: 'row',
-    borderRadius: radius.md,
-    borderWidth: 1,
-    overflow: 'hidden',
-    marginBottom: space.xl,
+    alignItems: 'center',
+    borderRadius: radius.lg,
+    borderWidth: StyleSheet.hairlineWidth,
+    padding: space.lg,
   },
-  accent: {
-    width: 3,
+  valueBlock: {
+    minWidth: 62,
+    alignItems: 'center',
   },
   body: {
     flex: 1,
-    paddingVertical: space.lg,
-    paddingHorizontal: space.lg,
+    marginLeft: space.lg,
   },
-  eyebrow: {
-    fontSize: font.xs,
+  title: {
+    fontSize: font.md,
     fontWeight: '700',
-    letterSpacing: 0.8,
-    textTransform: 'uppercase',
-    marginBottom: space.sm,
-  },
-  row: {
-    flexDirection: 'row',
-    alignItems: 'baseline',
-    gap: space.sm,
   },
   days: {
-    fontSize: font.display,
-    fontWeight: '200',
-    letterSpacing: -2,
-    lineHeight: 64,
+    fontSize: font.xxl,
+    fontWeight: '700',
+    letterSpacing: -1,
+    lineHeight: 30,
   },
   unit: {
     fontSize: font.sm,
-    fontWeight: '700',
-    letterSpacing: 0.6,
-    textTransform: 'uppercase',
+    fontWeight: '600',
   },
   sub: {
     fontSize: font.sm,
     marginTop: space.xs,
+    lineHeight: 19,
   },
 });

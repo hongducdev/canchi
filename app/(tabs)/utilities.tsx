@@ -2,6 +2,7 @@ import { router, type Href } from 'expo-router';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { AppText } from '../../src/components/AppText';
+import { PageHeader } from '../../src/components/PageHeader';
 import { Screen } from '../../src/components/Screen';
 import { ToolTile } from '../../src/components/ToolTile';
 import { useTheme } from '../../src/hooks/useTheme';
@@ -17,12 +18,7 @@ export default function UtilitiesScreen() {
 
   return (
     <Screen>
-      <View style={styles.header}>
-        <AppText style={[styles.title, { color: colors.text }]}>Tiện ích</AppText>
-        <AppText style={[styles.sub, { color: colors.textMuted }]}>
-          Công cụ lịch âm & phong tục
-        </AppText>
-      </View>
+      <PageHeader title="Tiện ích" subtitle="Công cụ lịch âm và phong tục" />
 
       <AppText style={[styles.group, { color: colors.textMuted }]}>TRA CỨU</AppText>
       <View style={styles.toolsGrid}>
@@ -116,20 +112,6 @@ export default function UtilitiesScreen() {
 }
 
 const styles = StyleSheet.create({
-  header: {
-    marginTop: space.sm,
-    marginBottom: space.lg,
-  },
-  title: {
-    fontSize: font.xxl,
-    fontWeight: '700',
-    letterSpacing: -0.5,
-  },
-  sub: {
-    fontSize: font.sm,
-    marginTop: space.xs,
-    lineHeight: 20,
-  },
   group: {
     fontSize: font.xs,
     fontWeight: '700',

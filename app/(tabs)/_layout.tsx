@@ -1,6 +1,7 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Tabs } from 'expo-router';
 import React from 'react';
+import { StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useWebDesktop } from '../../src/hooks/useWebDesktop';
 import { useTheme } from '../../src/hooks/useTheme';
@@ -20,14 +21,15 @@ export default function TabsLayout() {
     <Tabs
       screenOptions={{
         headerShown: false,
+        tabBarHideOnKeyboard: true,
         tabBarActiveTintColor: colors.tabActive,
         tabBarInactiveTintColor: colors.tabInactive,
         tabBarStyle: desktopWeb
           ? { display: 'none' }
           : {
-              backgroundColor: colors.tabBar,
+              backgroundColor: colors.bgElevated,
               borderTopColor: colors.border,
-              borderTopWidth: 1,
+              borderTopWidth: StyleSheet.hairlineWidth,
               height: tabBarHeight,
               paddingTop: 6,
               paddingBottom: tabPaddingBottom,
@@ -43,8 +45,8 @@ export default function TabsLayout() {
         name="index"
         options={{
           title: 'Hôm nay',
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="today-outline" size={size} color={color} />
+          tabBarIcon: ({ color, size, focused }) => (
+            <Ionicons name={focused ? 'today' : 'today-outline'} size={size} color={color} />
           ),
         }}
       />
@@ -52,8 +54,8 @@ export default function TabsLayout() {
         name="calendar"
         options={{
           title: 'Lịch',
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="calendar-outline" size={size} color={color} />
+          tabBarIcon: ({ color, size, focused }) => (
+            <Ionicons name={focused ? 'calendar' : 'calendar-outline'} size={size} color={color} />
           ),
         }}
       />
@@ -61,8 +63,8 @@ export default function TabsLayout() {
         name="utilities"
         options={{
           title: 'Tiện ích',
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="apps-outline" size={size} color={color} />
+          tabBarIcon: ({ color, size, focused }) => (
+            <Ionicons name={focused ? 'apps' : 'apps-outline'} size={size} color={color} />
           ),
         }}
       />
@@ -70,8 +72,8 @@ export default function TabsLayout() {
         name="events"
         options={{
           title: 'Lễ hội',
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="sparkles-outline" size={size} color={color} />
+          tabBarIcon: ({ color, size, focused }) => (
+            <Ionicons name={focused ? 'sparkles' : 'sparkles-outline'} size={size} color={color} />
           ),
         }}
       />
@@ -79,8 +81,8 @@ export default function TabsLayout() {
         name="settings"
         options={{
           title: 'Cài đặt',
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="settings-outline" size={size} color={color} />
+          tabBarIcon: ({ color, size, focused }) => (
+            <Ionicons name={focused ? 'settings' : 'settings-outline'} size={size} color={color} />
           ),
         }}
       />

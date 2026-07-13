@@ -1,9 +1,42 @@
 /**
- * Vietnamese traditional & national festivals (offline static data).
+ * Vietnamese traditional, national, and international observances (offline static data).
  */
 
 import { addDays, solarToLunar, todaySolar } from '../lib/lunar';
 import type { Festival, LunarDate, SolarDate } from '../lib/types';
+
+/** Curated fixed-date observances from the international calendar. */
+const INTERNATIONAL_OBSERVANCES: Festival[] = [
+  { id: 'quoc-te-giao-duc', name: 'Ngày Quốc tế Giáo dục', solarDay: 24, solarMonth: 1, category: 'khac' },
+  { id: 'tieng-me-de', name: 'Ngày Tiếng mẹ đẻ Quốc tế', solarDay: 21, solarMonth: 2, category: 'khac' },
+  { id: 'quoc-te-hanh-phuc', name: 'Ngày Quốc tế Hạnh phúc', solarDay: 20, solarMonth: 3, category: 'khac' },
+  { id: 'nuoc-the-gioi', name: 'Ngày Nước Thế giới', solarDay: 22, solarMonth: 3, category: 'khac' },
+  { id: 'nhan-thuc-tu-ky', name: 'Ngày Thế giới Nhận thức Tự kỷ', solarDay: 2, solarMonth: 4, category: 'khac' },
+  { id: 'suc-khoe-the-gioi', name: 'Ngày Sức khỏe Thế giới', solarDay: 7, solarMonth: 4, category: 'khac' },
+  { id: 'me-trai-dat', name: 'Ngày Quốc tế Mẹ Trái Đất', solarDay: 22, solarMonth: 4, category: 'khac' },
+  { id: 'sach-ban-quyen', name: 'Ngày Sách và Bản quyền Thế giới', solarDay: 23, solarMonth: 4, category: 'khac' },
+  { id: 'tu-do-bao-chi', name: 'Ngày Tự do Báo chí Thế giới', solarDay: 3, solarMonth: 5, category: 'khac' },
+  { id: 'da-dang-sinh-hoc', name: 'Ngày Quốc tế Đa dạng Sinh học', solarDay: 22, solarMonth: 5, category: 'khac' },
+  { id: 'khong-thuoc-la', name: 'Ngày Thế giới Không Thuốc lá', solarDay: 31, solarMonth: 5, category: 'khac' },
+  { id: 'dai-duong-the-gioi', name: 'Ngày Đại dương Thế giới', solarDay: 8, solarMonth: 6, category: 'khac' },
+  { id: 'hien-mau-the-gioi', name: 'Ngày Hiến máu Thế giới', solarDay: 14, solarMonth: 6, category: 'khac' },
+  { id: 'quoc-te-yoga', name: 'Ngày Quốc tế Yoga', solarDay: 21, solarMonth: 6, category: 'khac' },
+  { id: 'dan-so-the-gioi', name: 'Ngày Dân số Thế giới', solarDay: 11, solarMonth: 7, category: 'khac' },
+  { id: 'huu-nghi-quoc-te', name: 'Ngày Hữu nghị Quốc tế', solarDay: 30, solarMonth: 7, category: 'khac' },
+  { id: 'thanh-thieu-nien-quoc-te', name: 'Ngày Quốc tế Thanh Thiếu niên', solarDay: 12, solarMonth: 8, category: 'khac' },
+  { id: 'quoc-te-biet-chu', name: 'Ngày Quốc tế Biết chữ', solarDay: 8, solarMonth: 9, category: 'khac' },
+  { id: 'du-lich-the-gioi', name: 'Ngày Du lịch Thế giới', solarDay: 27, solarMonth: 9, category: 'khac' },
+  { id: 'nha-giao-the-gioi', name: 'Ngày Nhà giáo Thế giới', solarDay: 5, solarMonth: 10, category: 'khac' },
+  { id: 'luong-thuc-the-gioi', name: 'Ngày Lương thực Thế giới', solarDay: 16, solarMonth: 10, category: 'khac' },
+  { id: 'lien-hop-quoc', name: 'Ngày Liên Hợp Quốc', solarDay: 24, solarMonth: 10, category: 'khac' },
+  { id: 'dai-thao-duong-the-gioi', name: 'Ngày Thế giới Phòng chống Đái tháo đường', solarDay: 14, solarMonth: 11, category: 'khac' },
+  { id: 'quoc-te-nam-gioi', name: 'Ngày Quốc tế Nam giới', solarDay: 19, solarMonth: 11, category: 'khac' },
+  { id: 'thieu-nhi-the-gioi', name: 'Ngày Thiếu nhi Thế giới', solarDay: 20, solarMonth: 11, category: 'khac' },
+  { id: 'phong-chong-aids', name: 'Ngày Thế giới Phòng chống AIDS', solarDay: 1, solarMonth: 12, category: 'khac' },
+  { id: 'nguoi-khuyet-tat', name: 'Ngày Quốc tế Người khuyết tật', solarDay: 3, solarMonth: 12, category: 'khac' },
+  { id: 'tinh-nguyen-quoc-te', name: 'Ngày Tình nguyện Quốc tế', solarDay: 5, solarMonth: 12, category: 'khac' },
+  { id: 'nhan-quyen-quoc-te', name: 'Ngày Nhân quyền Quốc tế', solarDay: 10, solarMonth: 12, category: 'khac' },
+];
 
 export const FESTIVALS: Festival[] = [
   {
@@ -146,10 +179,10 @@ export const FESTIVALS: Festival[] = [
   },
   {
     id: 'quoc-te-phu-nu',
-    name: 'Quốc tế Phụ nữ',
+    name: 'Ngày Quốc tế Phụ nữ',
     solarDay: 8,
     solarMonth: 3,
-    category: 'quoc-gia',
+    category: 'khac',
   },
   {
     id: 'giai-phong',
@@ -167,10 +200,42 @@ export const FESTIVALS: Festival[] = [
   },
   {
     id: 'quoc-te-thieu-nhi',
-    name: 'Quốc tế Thiếu nhi',
+    name: 'Ngày Quốc tế Thiếu nhi',
     solarDay: 1,
     solarMonth: 6,
-    category: 'quoc-gia',
+    category: 'khac',
+  },
+  {
+    id: 'quoc-te-gia-dinh',
+    name: 'Ngày Quốc tế Gia đình',
+    description: 'Ngày nâng cao nhận thức về các vấn đề liên quan đến gia đình',
+    solarDay: 15,
+    solarMonth: 5,
+    category: 'khac',
+  },
+  {
+    id: 'moi-truong-the-gioi',
+    name: 'Ngày Môi trường Thế giới',
+    description: 'Ngày hành động vì môi trường trên toàn cầu',
+    solarDay: 5,
+    solarMonth: 6,
+    category: 'khac',
+  },
+  {
+    id: 'quoc-te-hoa-binh',
+    name: 'Ngày Quốc tế Hòa bình',
+    description: 'Ngày thúc đẩy hòa bình và chấm dứt bạo lực',
+    solarDay: 21,
+    solarMonth: 9,
+    category: 'khac',
+  },
+  {
+    id: 'quoc-te-nguoi-cao-tuoi',
+    name: 'Ngày Quốc tế Người cao tuổi',
+    description: 'Ngày ghi nhận đóng góp và quyền của người cao tuổi',
+    solarDay: 1,
+    solarMonth: 10,
+    category: 'khac',
   },
   {
     id: 'quoc-khanh',
@@ -262,6 +327,7 @@ export const FESTIVALS: Festival[] = [
     solarMonth: 12,
     category: 'quoc-gia',
   },
+  ...INTERNATIONAL_OBSERVANCES,
 ];
 
 function matchesLunar(f: Festival, lunar: LunarDate): boolean {
@@ -338,9 +404,7 @@ export function upcomingFestivals(
   for (let i = 0; i < 400 && out.length < limit; i++) {
     const solar = addDays(from, i);
     const lunar = solarToLunar(solar.day, solar.month, solar.year);
-    const list = getFestivalsForDay(solar, lunar).filter(
-      (f) => f.category === 'tet' || f.category === 'le' || f.category === 'quoc-gia'
-    );
+    const list = getFestivalsForDay(solar, lunar).filter((f) => f.category !== 'ram');
     for (const f of list) {
       const key = `${f.id}-${solar.year}-${solar.month}-${solar.day}`;
       if (seen.has(key)) continue;

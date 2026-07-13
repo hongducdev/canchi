@@ -3,6 +3,7 @@ export type AndroidWidgetName =
   | 'MonthSmall'
   | 'DateMinimal'
   | 'Combo'
+  | 'CalendarWeather'
   | 'DayDetail';
 
 export type AndroidWidgetSize = {
@@ -103,6 +104,14 @@ export function getWidgetLayout(
         showLunarGrid: true,
         roomyTypography: !isBelow(size.height, 150),
       };
+    case 'CalendarWeather': {
+      const compact = isBelow(size.width, 250) || isBelow(size.height, 125);
+      return {
+        compact,
+        showLunarGrid: false,
+        roomyTypography: !compact,
+      };
+    }
     case 'DayDetail': {
       const compact =
         isBelow(size.width, 260) || isBelow(size.height, 300);

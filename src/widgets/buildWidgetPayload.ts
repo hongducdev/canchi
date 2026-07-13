@@ -28,7 +28,7 @@ import type {
 
 const WEEKDAY_LABELS_MON = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'] as const;
 
-const FESTIVAL_CATEGORIES = new Set(['tet', 'le', 'quoc-gia']);
+const FESTIVAL_CATEGORIES = new Set(['tet', 'le', 'quoc-gia', 'khac']);
 
 function nextLocalMidnight(from: Date): Date {
   const d = new Date(from);

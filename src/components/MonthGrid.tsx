@@ -103,7 +103,10 @@ export function MonthGrid({
             showFestivals &&
             info.festivals.some(
               (f) =>
-                f.category === 'tet' || f.category === 'le' || f.category === 'quoc-gia'
+                f.category === 'tet' ||
+                f.category === 'le' ||
+                f.category === 'quoc-gia' ||
+                f.category === 'khac'
             );
           const isRam = lunar.day === 1 || lunar.day === 15;
           const isSunday = new Date(d.year, d.month - 1, d.day).getDay() === 0;

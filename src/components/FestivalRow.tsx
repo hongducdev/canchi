@@ -1,10 +1,11 @@
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { router } from 'expo-router';
 import React, { useMemo } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { CATEGORY_LABEL } from '../data/festivals';
+import { useTheme } from '../hooks/useTheme';
 import { dateKey, getJulianDay, todaySolar } from '../lib/lunar';
 import type { Festival, LunarDate, SolarDate } from '../lib/types';
-import { useTheme } from '../hooks/useTheme';
 import { font, radius, space } from '../theme/spacing';
 import { AppText } from './AppText';
 
@@ -30,41 +31,23 @@ export function FestivalRow({ festival, solar, lunar }: Props) {
 
   return (
     <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={`${festival.name}, ${solar.day} tháng ${solar.month}, ${isToday ? 'hôm nay' : `còn ${daysLeft} ngày`}`}
       onPress={() => router.push(`/day/${key}`)}
-      style={({ pressed }) =>
-        StyleSheet.flatten([
-          styles.row,
-          {
-            backgroundColor: colors.bgCard,
-            borderColor: colors.borderStrong,
-            opacity: pressed ? 0.92 : 1,
-          },
-        ])
-      }
+      style={({ pressed }) => [
+        styles.row,
+        {
+          borderBottomColor: colors.border,
+          backgroundColor: pressed ? colors.bgMuted : 'transparent',
+        },
+      ]}
     >
-      <View style={[styles.accent, { backgroundColor: colors.accent }]} />
+      <View style={[styles.date, { backgroundColor: colors.bgMuted }]}>
+        <AppText style={[styles.day, { color: colors.text }]}>{solar.day}</AppText>
+        <AppText style={[styles.month, { color: colors.textMuted }]}>TH. {solar.month}</AppText>
+      </View>
 
       <View style={styles.content}>
-        <View style={styles.topLine}>
-          <AppText style={[styles.dateLine, { color: colors.text }]}>
-            {solar.day}
-            <AppText style={[styles.monthInline, { color: colors.textMuted }]}>
-              {'  '}THÁNG {solar.month}
-            </AppText>
-          </AppText>
-
-          {isToday ? (
-            <AppText style={[styles.todayLabel, { color: colors.accentText }]}>Hôm nay</AppText>
-          ) : (
-            <AppText style={[styles.countdownLine, { color: colors.text }]}>
-              {daysLeft}
-              <AppText style={[styles.countdownUnit, { color: colors.textMuted }]}> ngày</AppText>
-            </AppText>
-          )}
-        </View>
-
-        <View style={[styles.rule, { backgroundColor: colors.border }]} />
-
         <AppText style={[styles.category, { color: colors.accentText }]}>
           {CATEGORY_LABEL[festival.category]}
         </AppText>
@@ -72,10 +55,23 @@ export function FestivalRow({ festival, solar, lunar }: Props) {
           {festival.name}
         </AppText>
         <AppText style={[styles.meta, { color: colors.textMuted }]} numberOfLines={1}>
-          {lunar ? `Âm ${lunar.day}/${lunar.month}` : ''}
-          {lunar ? ' · ' : ''}
+          {lunar ? `Âm ${lunar.day}/${lunar.month}, ` : ''}
           {solar.day}/{solar.month}/{solar.year}
         </AppText>
+      </View>
+
+      <View style={styles.trailing}>
+        {isToday ? (
+          <AppText style={[styles.today, { color: colors.accentText }]}>Hôm nay</AppText>
+        ) : (
+          <View style={styles.countdownBlock}>
+            <AppText style={[styles.countdownValue, { color: colors.accentText }]}>
+              {daysLeft}
+            </AppText>
+            <AppText style={[styles.countdownUnit, { color: colors.textMuted }]}>ngày</AppText>
+          </View>
+        )}
+        <Ionicons name="chevron-forward" size={16} color={colors.textMuted} />
       </View>
     </Pressable>
   );
@@ -83,75 +79,70 @@ export function FestivalRow({ festival, solar, lunar }: Props) {
 
 const styles = StyleSheet.create({
   row: {
+    minHeight: 92,
     flexDirection: 'row',
-    alignItems: 'stretch',
-    borderRadius: radius.md,
-    borderWidth: 1,
-    marginBottom: space.xl,
-    overflow: 'hidden',
-  },
-  accent: {
-    width: 3,
-  },
-  content: {
-    flex: 1,
-    paddingVertical: space.lg,
-    paddingHorizontal: space.lg,
-  },
-  topLine: {
-    flexDirection: 'row',
-    alignItems: 'baseline',
-    justifyContent: 'space-between',
+    alignItems: 'center',
     gap: space.md,
+    paddingVertical: space.md,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderRadius: radius.sm,
   },
-  dateLine: {
+  date: {
+    width: 52,
+    height: 60,
+    borderRadius: radius.md,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  day: {
     fontSize: font.xxl,
-    fontWeight: '200',
-    letterSpacing: -1,
-    lineHeight: 32,
+    fontWeight: '600',
+    letterSpacing: -0.8,
+    lineHeight: 29,
   },
-  monthInline: {
+  month: {
     fontSize: font.xs,
     fontWeight: '700',
-    letterSpacing: 0.8,
   },
-  countdownLine: {
-    fontSize: font.xxl,
-    fontWeight: '200',
-    letterSpacing: -1,
-    lineHeight: 32,
-  },
-  countdownUnit: {
-    fontSize: font.xs,
-    fontWeight: '700',
-    letterSpacing: 0.4,
-  },
-  todayLabel: {
-    fontSize: font.sm,
-    fontWeight: '700',
-    letterSpacing: 0.3,
-  },
-  rule: {
-    height: StyleSheet.hairlineWidth,
-    marginTop: space.md,
-    marginBottom: space.md,
-  },
+  content: { flex: 1 },
   category: {
     fontSize: font.xs,
     fontWeight: '700',
-    letterSpacing: 0.8,
-    textTransform: 'uppercase',
-    marginBottom: 4,
+    marginBottom: 3,
   },
   name: {
-    fontSize: font.lg,
+    fontSize: font.md,
     fontWeight: '700',
-    letterSpacing: -0.3,
-    lineHeight: 22,
+    lineHeight: 20,
   },
   meta: {
     fontSize: font.xs,
-    marginTop: 6,
-    letterSpacing: 0.2,
+    marginTop: 4,
+  },
+  trailing: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: space.xs,
+  },
+  countdownBlock: {
+    minWidth: 44,
+    alignItems: 'flex-end',
+  },
+  countdownValue: {
+    fontSize: font.xxl,
+    fontWeight: '700',
+    letterSpacing: -1,
+    lineHeight: 29,
+  },
+  countdownUnit: {
+    fontSize: font.xs,
+    fontWeight: '600',
+  },
+  today: {
+    maxWidth: 44,
+    fontSize: font.sm,
+    fontWeight: '700',
+    lineHeight: 18,
+    textAlign: 'right',
   },
 });

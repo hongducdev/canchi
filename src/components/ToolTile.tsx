@@ -22,14 +22,19 @@ export function ToolTile({ title, subtitle, icon, onPress }: Props) {
 
   return (
     <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={`${title}. ${subtitle}`}
       onPress={onPress}
       style={({ pressed }) =>
-        StyleSheet.flatten([styles.pressable, { opacity: pressed ? 0.7 : 1 }])
+        StyleSheet.flatten([
+          styles.pressable,
+          { opacity: pressed ? 0.82 : 1, transform: [{ scale: pressed ? 0.985 : 1 }] },
+        ])
       }
     >
       <Card style={styles.card}>
         <View
-          style={[styles.iconChip, { backgroundColor: colors.accentSoft }]}
+          style={[styles.iconChip, { backgroundColor: colors.bgMuted }]}
         >
           <Ionicons name={icon} size={20} color={colors.accentText} />
         </View>
@@ -50,23 +55,23 @@ export function ToolTile({ title, subtitle, icon, onPress }: Props) {
 const styles = StyleSheet.create({
   pressable: {
     width: '48%',
-    minHeight: 112,
+    minHeight: 120,
   },
   card: {
     flex: 1,
-    padding: space.md,
+    padding: space.lg,
     gap: space.sm,
   },
   iconChip: {
-    width: 36,
-    height: 36,
-    borderRadius: radius.sm,
+    width: 34,
+    height: 34,
+    borderRadius: radius.md,
     alignItems: 'center',
     justifyContent: 'center',
   },
   title: {
     fontSize: font.md,
-    fontWeight: '600',
+    fontWeight: '700',
     letterSpacing: -0.1,
   },
   subtitle: {

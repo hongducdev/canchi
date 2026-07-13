@@ -2,7 +2,11 @@
     "expo": {
         "name": "Can Chi",
         "slug": "canchi",
-        "version": "1.3.1",
+        "version": "1.4.1",
+        "platforms": [
+            "ios",
+            "android"
+        ],
         "orientation": "portrait",
         "icon": "./assets/icon.png",
         "scheme": "canchi",
@@ -25,16 +29,17 @@
                 "android.permission.REQUEST_INSTALL_PACKAGES"
             ]
         },
-        "web": {
-            "bundler": "metro",
-            "output": "single",
-            "favicon": "./assets/favicon.png"
-        },
         "plugins": [
             "expo-router",
             "expo-font",
             "expo-asset",
             "expo-notifications",
+            [
+                "expo-location",
+                {
+                    "locationWhenInUsePermission": "Cho phép Can Chi sử dụng vị trí của bạn để hiển thị thời tiết tại nơi hiện tại."
+                }
+            ],
             [
                 "@react-native-google-signin/google-signin",
                 {
@@ -101,6 +106,18 @@
                             "targetCellHeight": 2,
                             "resizeMode": "horizontal|vertical",
                             "previewImage": "./assets/widget-preview/combo.png",
+                            "updatePeriodMillis": 1800000
+                        },
+                        {
+                            "name": "CalendarWeather",
+                            "label": "Lịch & Thời tiết · Can Chi",
+                            "description": "Ngày dương, ngày âm và thời tiết hiện tại",
+                            "minWidth": "250dp",
+                            "minHeight": "110dp",
+                            "targetCellWidth": 4,
+                            "targetCellHeight": 2,
+                            "resizeMode": "horizontal|vertical",
+                            "previewImage": "./assets/widget-preview/calendar-weather.png",
                             "updatePeriodMillis": 1800000
                         },
                         {

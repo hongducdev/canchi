@@ -9,6 +9,7 @@ import {
 import { Card } from '../../src/components/Card';
 import { Chip } from '../../src/components/Chip';
 import { MonthGrid } from '../../src/components/MonthGrid';
+import { PageHeader } from '../../src/components/PageHeader';
 import { Screen } from '../../src/components/Screen';
 import { ZodiacIcon } from '../../src/components/ZodiacIcon';
 import { buildDayInfo, formatLunarLong } from '../../src/lib/dayInfo';
@@ -53,15 +54,18 @@ export default function CalendarScreen() {
 
   return (
     <Screen>
-      <View style={styles.header}>
-        <AppText style={[styles.title, { color: colors.text }]}>Lịch tháng</AppText>
-        <Pressable
-          onPress={goToday}
-          style={[styles.todayBtn, { backgroundColor: colors.accentSoft }]}
-        >
-          <AppText style={[styles.todayBtnText, { color: colors.accentText }]}>Hôm nay</AppText>
-        </Pressable>
-      </View>
+      <PageHeader
+        title="Lịch tháng"
+        subtitle="Xem ngày dương và âm lịch"
+        right={
+          <Pressable
+            onPress={goToday}
+            style={[styles.todayBtn, { backgroundColor: colors.accentSoft }]}
+          >
+            <AppText style={[styles.todayBtnText, { color: colors.accentText }]}>Hôm nay</AppText>
+          </Pressable>
+        }
+      />
 
       <Card>
         <View style={styles.nav}>
@@ -133,18 +137,6 @@ export default function CalendarScreen() {
 }
 
 const styles = StyleSheet.create({
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginTop: space.sm,
-    marginBottom: space.xl,
-  },
-  title: {
-    fontSize: font.xxl,
-    fontWeight: '700',
-    letterSpacing: -0.5,
-  },
   todayBtn: {
     paddingHorizontal: space.md,
     paddingVertical: space.sm,

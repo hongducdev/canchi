@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { AppText, AppTextInput } from '../../src/components/AppText';
 import { Card } from '../../src/components/Card';
+import { PageHeader } from '../../src/components/PageHeader';
 import { Screen } from '../../src/components/Screen';
 import { SettingRow } from '../../src/components/SettingRow';
 import { useTheme } from '../../src/hooks/useTheme';
@@ -298,14 +299,14 @@ export default function SettingsScreen() {
 
   return (
     <Screen>
-      <View style={styles.header}>
-        <AppText style={[styles.title, { color: colors.text }]}>Cài đặt</AppText>
-        <AppText style={[styles.sub, { color: colors.textMuted }]}>
-          {isWeb
-            ? 'Lịch âm trên trình duyệt · dữ liệu cá nhân chỉ trên app'
-            : 'Mọi dữ liệu chỉ lưu trên thiết bị'}
-        </AppText>
-      </View>
+      <PageHeader
+        title="Cài đặt"
+        subtitle={
+          isWeb
+            ? 'Lịch âm trên trình duyệt, dữ liệu cá nhân chỉ có trên app'
+            : 'Mọi dữ liệu chỉ lưu trên thiết bị'
+        }
+      />
 
       {!isWeb ? (
         <>
@@ -565,19 +566,6 @@ export default function SettingsScreen() {
 }
 
 const styles = StyleSheet.create({
-  header: {
-    marginTop: space.sm,
-    marginBottom: space.lg,
-  },
-  title: {
-    fontSize: font.xxl,
-    fontWeight: '700',
-    letterSpacing: -0.5,
-  },
-  sub: {
-    fontSize: font.sm,
-    marginTop: 4,
-  },
   group: {
     fontSize: font.xs,
     fontWeight: '700',

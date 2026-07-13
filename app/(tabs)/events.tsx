@@ -5,6 +5,7 @@ import {
   View
 } from 'react-native';
 import { FestivalRow } from '../../src/components/FestivalRow';
+import { PageHeader } from '../../src/components/PageHeader';
 import { Screen } from '../../src/components/Screen';
 import { upcomingFestivals } from '../../src/data/festivals';
 import { todaySolar } from '../../src/lib/lunar';
@@ -20,27 +21,24 @@ const FILTERS: { key: Filter; label: string }[] = [
   { key: 'tet', label: 'Tết' },
   { key: 'le', label: 'Lễ hội' },
   { key: 'quoc-gia', label: 'Quốc gia' },
+  { key: 'khac', label: 'Quốc tế' },
 ];
 
 export default function EventsScreen() {
   const { colors } = useTheme();
   const [filter, setFilter] = useState<Filter>('all');
   const today = todaySolar();
+  const { day, month, year } = today;
 
   const items = useMemo(() => {
-    const list = upcomingFestivals(today, 40);
+    const list = upcomingFestivals({ day, month, year }, 120);
     if (filter === 'all') return list;
     return list.filter((i) => i.festival.category === filter);
-  }, [today.day, today.month, today.year, filter]);
+  }, [day, month, year, filter]);
 
   return (
     <Screen>
-      <View style={styles.header}>
-        <AppText style={[styles.title, { color: colors.text }]}>Lễ hội</AppText>
-        <AppText style={[styles.sub, { color: colors.textMuted }]}>
-          Sự kiện Âm lịch & ngày lễ (offline)
-        </AppText>
-      </View>
+      <PageHeader title="Lễ hội" subtitle="Sự kiện âm lịch và ngày lễ, dùng được offline" />
 
       <View style={styles.filters}>
         {FILTERS.map((f) => {
@@ -92,19 +90,6 @@ export default function EventsScreen() {
 }
 
 const styles = StyleSheet.create({
-  header: {
-    marginTop: space.sm,
-    marginBottom: space.lg,
-  },
-  title: {
-    fontSize: font.xxl,
-    fontWeight: '700',
-    letterSpacing: -0.5,
-  },
-  sub: {
-    fontSize: font.sm,
-    marginTop: 4,
-  },
   filters: {
     flexDirection: 'row',
     flexWrap: 'wrap',

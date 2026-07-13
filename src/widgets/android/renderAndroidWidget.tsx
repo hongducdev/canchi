@@ -1,8 +1,10 @@
 "use no memo";
 
 import { buildWidgetPayload } from "../buildWidgetPayload";
+import { buildCalendarWeatherWidgetProps } from "../buildCalendarWeatherWidgetProps";
 import type { WidgetPayload } from "../types";
 import { ComboAndroidWidget } from "./ComboAndroidWidget";
+import { CalendarWeatherAndroidWidget } from "./CalendarWeatherAndroidWidget";
 import { DateMinimalAndroidWidget } from "./DateMinimalAndroidWidget";
 import { DayDetailAndroidWidget } from "./DayDetailAndroidWidget";
 import { DayLoreAndroidWidget } from "./DayLoreAndroidWidget";
@@ -155,6 +157,14 @@ export async function renderAndroidWidgetFamily(
     widgetName: string,
     options: RenderAndroidWidgetOptions = {},
 ) {
+    if (widgetName === "CalendarWeather") {
+        const props = await buildCalendarWeatherWidgetProps(options.now ?? new Date());
+        const layout = getWidgetLayout("CalendarWeather", options.size ?? FALLBACK_SIZE);
+        return {
+            light: <CalendarWeatherAndroidWidget {...props} layout={layout} />,
+            dark: <CalendarWeatherAndroidWidget {...props} layout={layout} />,
+        };
+    }
     const payload = await buildWidgetPayload(options.now ?? new Date());
     return familyFromPayload(
         widgetName,
@@ -168,5 +178,6 @@ export const ANDROID_WIDGET_NAMES = [
     "MonthSmall",
     "DateMinimal",
     "Combo",
+    "CalendarWeather",
     "DayDetail",
 ] as const;

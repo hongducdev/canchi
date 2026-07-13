@@ -1,12 +1,14 @@
 /** Serializable props for expo-widgets (isolated widget runtime). */
 
+import type { WeatherVisualKind } from '../lib/weather';
+
 export type WidgetMonthCell = {
   day: number | null;
   /** Preformatted lunar label: `d` normally, `d/m` (or `d/mN` leap) on lunar 1 & 15 */
   lunarLabel: string | null;
   isToday: boolean;
   isWeekend: boolean;
-  /** Traditional / national festival (tet, le, quoc-gia) */
+  /** Traditional, national, or international festival */
   isFestival: boolean;
   /** User has at least one local note on this solar day */
   hasNote: boolean;
@@ -40,6 +42,19 @@ export type ComboWidgetProps = {
   lunarShort: string;
   weekdayLabels: string[];
   cells: WidgetMonthCell[];
+};
+
+export type CalendarWeatherWidgetProps = {
+  monthLabel: string;
+  day: number;
+  weekdayName: string;
+  lunarShort: string;
+  dateKey: string;
+  temperatureC: number | null;
+  humidityPercent: number | null;
+  weatherLabel: string;
+  weatherKind: WeatherVisualKind;
+  locationLabel: string;
 };
 
 /** Full today card — solar, lunar, can chi, hoàng đạo */

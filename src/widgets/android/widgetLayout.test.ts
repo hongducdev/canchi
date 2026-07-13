@@ -38,6 +38,14 @@ describe('getWidgetLayout', () => {
       roomyTypography: true,
     });
   });
+
+  it('uses roomy typography for the calendar and weather widget at 4x2', () => {
+    expect(getWidgetLayout('CalendarWeather', { width: 300, height: 140 })).toEqual({
+      compact: false,
+      showLunarGrid: false,
+      roomyTypography: true,
+    });
+  });
 });
 
 describe('getCompactMonthGridMetrics', () => {

@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View
-} from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { useTheme } from '../hooks/useTheme';
 import { font, space } from '../theme/spacing';
 import { AppText } from './AppText';
@@ -13,14 +10,15 @@ type Props = {
   right?: React.ReactNode;
 };
 
-export function SectionHeader({ title, subtitle, right }: Props) {
+export function PageHeader({ title, subtitle, right }: Props) {
   const { colors } = useTheme();
+
   return (
-    <View style={styles.row}>
-      <View style={styles.left}>
+    <View style={styles.header}>
+      <View style={styles.copy}>
         <AppText style={[styles.title, { color: colors.text }]}>{title}</AppText>
         {subtitle ? (
-          <AppText style={[styles.sub, { color: colors.textMuted }]}>{subtitle}</AppText>
+          <AppText style={[styles.subtitle, { color: colors.textMuted }]}>{subtitle}</AppText>
         ) : null}
       </View>
       {right}
@@ -29,22 +27,24 @@ export function SectionHeader({ title, subtitle, right }: Props) {
 }
 
 const styles = StyleSheet.create({
-  row: {
+  header: {
     flexDirection: 'row',
-    alignItems: 'flex-end',
+    alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: space.md,
-    marginTop: space.xxxl,
+    gap: space.lg,
+    marginTop: space.sm,
+    marginBottom: space.xxl,
   },
-  left: { flex: 1, paddingRight: space.md },
+  copy: { flex: 1 },
   title: {
-    fontSize: font.xl,
+    fontSize: font.xxl,
     fontWeight: '700',
-    letterSpacing: -0.4,
+    letterSpacing: -0.7,
+    lineHeight: 34,
   },
-  sub: {
+  subtitle: {
     fontSize: font.sm,
-    marginTop: 4,
-    lineHeight: 19,
+    lineHeight: 20,
+    marginTop: space.xs,
   },
 });
