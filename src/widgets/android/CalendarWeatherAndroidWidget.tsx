@@ -4,7 +4,11 @@ import React from 'react';
 import { FlexWidget, ImageWidget, type ImageWidgetSource } from 'react-native-android-widget';
 import type { WeatherVisualKind } from '../../lib/weather';
 import type { CalendarWeatherWidgetProps } from '../types';
-import { WIDGET_RADIUS } from './theme';
+import {
+  WIDGET_RADIUS,
+  widgetPalette,
+  type WidgetScheme,
+} from './theme';
 import type { AndroidWidgetLayout } from './widgetLayout';
 import { WidgetText } from './WidgetText';
 
@@ -22,6 +26,7 @@ const WEATHER_IMAGES: Record<WeatherVisualKind, ImageWidgetSource> = {
 };
 
 type Props = CalendarWeatherWidgetProps & {
+  scheme: WidgetScheme;
   layout: AndroidWidgetLayout;
 };
 
@@ -35,8 +40,10 @@ export function CalendarWeatherAndroidWidget({
   humidityPercent,
   weatherLabel,
   weatherKind,
+  scheme,
   layout,
 }: Props) {
+  const c = widgetPalette(scheme);
   const compact = layout.compact;
   const iconSize = compact ? 30 : 38;
   const detail = humidityPercent === null
@@ -50,7 +57,7 @@ export function CalendarWeatherAndroidWidget({
       style={{
         height: 'match_parent',
         width: 'match_parent',
-        backgroundColor: '#07090C',
+        backgroundColor: c.bg,
         borderRadius: WIDGET_RADIUS,
         overflow: 'hidden',
         paddingHorizontal: compact ? 12 : 16,
@@ -72,7 +79,7 @@ export function CalendarWeatherAndroidWidget({
         <WidgetText
           text={String(day)}
           style={{
-            color: '#F7F4EE',
+            color: c.text,
             fontSize: compact ? 38 : 48,
             fontWeight: '300',
           }}
@@ -81,7 +88,7 @@ export function CalendarWeatherAndroidWidget({
         <WidgetText
           text={monthLabel}
           style={{
-            color: '#A8B0BA',
+            color: c.muted,
             fontSize: compact ? 10 : 12,
             fontWeight: '600',
             marginTop: compact ? -1 : 1,
@@ -92,7 +99,7 @@ export function CalendarWeatherAndroidWidget({
         <WidgetText
           text={weekdayName}
           style={{
-            color: '#747E8A',
+            color: c.muted,
             fontSize: compact ? 9 : 11,
             fontWeight: '500',
             marginTop: 2,
@@ -103,7 +110,7 @@ export function CalendarWeatherAndroidWidget({
         <WidgetText
           text={lunarShort}
           style={{
-            color: '#F5A623',
+            color: c.accent,
             fontSize: compact ? 9 : 11,
             fontWeight: '700',
             marginTop: compact ? 3 : 5,
@@ -132,7 +139,7 @@ export function CalendarWeatherAndroidWidget({
         <WidgetText
           text={temperatureC === null ? '--°' : `${Math.round(temperatureC)}°`}
           style={{
-            color: '#F7F4EE',
+            color: c.text,
             fontSize: compact ? 24 : 30,
             fontWeight: '700',
           }}
@@ -141,7 +148,7 @@ export function CalendarWeatherAndroidWidget({
         <WidgetText
           text={detail}
           style={{
-            color: '#A8B0BA',
+            color: c.muted,
             fontSize: compact ? 8 : 10,
             fontWeight: '500',
             marginTop: 1,
@@ -152,7 +159,7 @@ export function CalendarWeatherAndroidWidget({
         <WidgetText
           text="MET Norway"
           style={{
-            color: '#5F6873',
+            color: c.muted,
             fontSize: compact ? 7 : 8,
             fontWeight: '500',
             marginTop: 2,

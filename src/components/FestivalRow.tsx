@@ -15,7 +15,11 @@ type Props = {
   lunar?: LunarDate;
 };
 
-export function FestivalRow({ festival, solar, lunar }: Props) {
+export const FestivalRow = React.memo(function FestivalRow({
+  festival,
+  solar,
+  lunar,
+}: Props) {
   const { colors } = useTheme();
   const key = dateKey(solar);
 
@@ -75,7 +79,7 @@ export function FestivalRow({ festival, solar, lunar }: Props) {
       </View>
     </Pressable>
   );
-}
+});
 
 const styles = StyleSheet.create({
   row: {

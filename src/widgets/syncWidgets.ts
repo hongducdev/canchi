@@ -21,6 +21,7 @@ export async function syncWidgets(now = new Date()): Promise<void> {
                         renderAndroidWidgetFamily(widgetName, {
                             now,
                             size: widgetInfo,
+                            widgetId: widgetInfo.widgetId,
                         }),
                 }),
             ),

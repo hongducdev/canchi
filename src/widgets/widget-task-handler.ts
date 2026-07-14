@@ -1,5 +1,6 @@
 import type { WidgetTaskHandlerProps } from "react-native-android-widget";
 import { renderAndroidWidgetFamily } from "./android/renderAndroidWidget";
+import { deleteAnniversaryWidgetConfig } from "./anniversaryConfig";
 
 export async function widgetTaskHandler({
     widgetInfo,
@@ -13,10 +14,15 @@ export async function widgetTaskHandler({
             renderWidget(
                 await renderAndroidWidgetFamily(widgetInfo.widgetName, {
                     size: widgetInfo,
+                    widgetId: widgetInfo.widgetId,
                 }),
             );
             break;
         case "WIDGET_DELETED":
+            if (widgetInfo.widgetName === "Anniversary") {
+                await deleteAnniversaryWidgetConfig(widgetInfo.widgetId);
+            }
+            break;
         case "WIDGET_CLICK":
             break;
         default: {

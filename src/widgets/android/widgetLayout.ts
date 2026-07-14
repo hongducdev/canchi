@@ -4,6 +4,7 @@ export type AndroidWidgetName =
   | 'DateMinimal'
   | 'Combo'
   | 'CalendarWeather'
+  | 'Anniversary'
   | 'DayDetail';
 
 export type AndroidWidgetSize = {
@@ -106,6 +107,14 @@ export function getWidgetLayout(
       };
     case 'CalendarWeather': {
       const compact = isBelow(size.width, 250) || isBelow(size.height, 125);
+      return {
+        compact,
+        showLunarGrid: false,
+        roomyTypography: !compact,
+      };
+    }
+    case 'Anniversary': {
+      const compact = isBelow(size.width, 220) || isBelow(size.height, 125);
       return {
         compact,
         showLunarGrid: false,

@@ -10,6 +10,10 @@ import './suppressExpoNotificationsWarnings';
 import Constants, { ExecutionEnvironment } from 'expo-constants';
 import { Platform } from 'react-native';
 import { PERSONAL_KIND_LABEL } from '../store/personalEvents';
+import {
+  buildLunarPrayerReminderPlan,
+  MONTHLY_PRAYER_NOTIFICATION_KIND,
+} from './lunarPrayerReminders';
 import { lunarToSolar, todaySolar } from './lunar';
 import type { PersonalEvent } from './types';
 
@@ -135,7 +139,7 @@ export async function schedulePersonalEventReminder(
     content: {
       title: event.title,
       body: `${PERSONAL_KIND_LABEL[event.kind]} · ${when.getDate()}/${when.getMonth() + 1}`,
-      data: { eventId: event.id },
+      data: { kind: 'personal-event', eventId: event.id },
       ...(Platform.OS === 'android' ? { channelId: CHANNEL_ID } : {}),
     },
     trigger: {
@@ -151,10 +155,86 @@ export async function cancelAllLichAmNotifications(): Promise<void> {
   await Notifications.cancelAllScheduledNotificationsAsync();
 }
 
+async function cancelScheduledNotificationsWhere(
+  predicate: (data: Record<string, unknown>) => boolean,
+): Promise<void> {
+  const Notifications = await getNotifications();
+  const scheduled = await Notifications.getAllScheduledNotificationsAsync();
+  await Promise.all(
+    scheduled
+      .filter((item) => predicate(item.content.data ?? {}))
+      .map((item) => Notifications.cancelScheduledNotificationAsync(item.identifier)),
+  );
+}
+
+export async function cancelMonthlyPrayerReminders(): Promise<void> {
+  await cancelScheduledNotificationsWhere(
+    (data) => data.kind === MONTHLY_PRAYER_NOTIFICATION_KIND,
+  );
+}
+
+export async function scheduleMonthlyPrayerReminders(
+  requestPermission = true,
+): Promise<number | null> {
+  const Notifications = await getNotifications();
+  let granted = (await Notifications.getPermissionsAsync()).granted;
+  if (!granted && requestPermission) {
+    granted = await ensureNotificationPermissions();
+  }
+  if (!granted) return null;
+
+  if (Platform.OS === 'android') {
+    await Notifications.setNotificationChannelAsync(CHANNEL_ID, {
+      name: 'Nhắc Can Chi',
+      importance: Notifications.AndroidImportance.DEFAULT,
+    });
+  }
+
+  await cancelMonthlyPrayerReminders();
+  const plan = buildLunarPrayerReminderPlan();
+  for (const reminder of plan) {
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: reminder.title,
+        body: reminder.body,
+        data: reminder.data,
+        ...(Platform.OS === 'android' ? { channelId: CHANNEL_ID } : {}),
+      },
+      trigger: {
+        type: Notifications.SchedulableTriggerInputTypes.DATE,
+        date: reminder.when,
+      },
+    });
+  }
+  return plan.length;
+}
+
+export async function subscribeMonthlyPrayerNotificationResponses(
+  onPrayer: (prayerId: string) => void,
+): Promise<() => void> {
+  const Notifications = await getNotifications();
+  const openFromResponse = (response: import('expo-notifications').NotificationResponse | null) => {
+    const data = response?.notification.request.content.data;
+    if (
+      data?.kind === MONTHLY_PRAYER_NOTIFICATION_KIND &&
+      typeof data.prayerId === 'string'
+    ) {
+      onPrayer(data.prayerId);
+      void Notifications.clearLastNotificationResponseAsync();
+    }
+  };
+
+  const subscription = Notifications.addNotificationResponseReceivedListener(openFromResponse);
+  openFromResponse(await Notifications.getLastNotificationResponseAsync());
+  return () => subscription.remove();
+}
+
 export async function rescheduleAllPersonalReminders(
   events: PersonalEvent[]
 ): Promise<number> {
-  await cancelAllLichAmNotifications();
+  await cancelScheduledNotificationsWhere(
+    (data) => data.kind === 'personal-event' || typeof data.eventId === 'string',
+  );
   let count = 0;
   for (const e of events) {
     if (e.kind === 'note') continue;

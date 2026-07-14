@@ -1,8 +1,11 @@
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import {
+  FlatList,
+  Platform,
   Pressable,
   StyleSheet,
-  View
+  View,
+  type ListRenderItemInfo,
 } from 'react-native';
 import { FestivalRow } from '../../src/components/FestivalRow';
 import { PageHeader } from '../../src/components/PageHeader';
@@ -15,6 +18,7 @@ import { font, radius, space } from '../../src/theme/spacing';
 import { AppText } from '../../src/components/AppText';
 
 type Filter = 'all' | Festival['category'];
+type FestivalOccurrence = ReturnType<typeof upcomingFestivals>[number];
 
 const FILTERS: { key: Filter; label: string }[] = [
   { key: 'all', label: 'Tất cả' },
@@ -30,66 +34,97 @@ export default function EventsScreen() {
   const today = todaySolar();
   const { day, month, year } = today;
 
-  const items = useMemo(() => {
-    const list = upcomingFestivals({ day, month, year }, 120);
-    if (filter === 'all') return list;
-    return list.filter((i) => i.festival.category === filter);
-  }, [day, month, year, filter]);
+  const allItems = useMemo(
+    () => upcomingFestivals({ day, month, year }, 120),
+    [day, month, year],
+  );
+  const items = useMemo(
+    () =>
+      filter === 'all'
+        ? allItems
+        : allItems.filter((item) => item.festival.category === filter),
+    [allItems, filter],
+  );
+
+  const renderItem = useCallback(
+    ({ item: { festival, solar, lunar } }: ListRenderItemInfo<FestivalOccurrence>) => (
+      <FestivalRow festival={festival} solar={solar} lunar={lunar} />
+    ),
+    [],
+  );
+
+  const keyExtractor = useCallback(
+    ({ festival, solar }: FestivalOccurrence) =>
+      `${festival.id}-${solar.year}-${solar.month}-${solar.day}`,
+    [],
+  );
 
   return (
-    <Screen>
-      <PageHeader title="Lễ hội" subtitle="Sự kiện âm lịch và ngày lễ, dùng được offline" />
-
-      <View style={styles.filters}>
-        {FILTERS.map((f) => {
-          const active = filter === f.key;
-          return (
-            <Pressable
-              key={f.key}
-              onPress={() => setFilter(f.key)}
-              style={[
-                styles.pill,
-                {
-                  backgroundColor: active ? colors.accentSoft : colors.bgMuted,
-                  borderColor: active ? colors.accent : colors.border,
-                  borderWidth: StyleSheet.hairlineWidth,
-                },
-              ]}
-            >
-              <AppText
-                style={[
-                  styles.pillText,
-                  { color: active ? colors.accentText : colors.textSecondary },
-                ]}
-              >
-                {f.label}
-              </AppText>
-            </Pressable>
-          );
-        })}
-      </View>
-
-      {items.length === 0 ? (
-        <View style={styles.empty}>
-          <AppText style={[styles.emptyText, { color: colors.textMuted }]}>
-            Không có sự kiện phù hợp.
-          </AppText>
-        </View>
-      ) : (
-        items.map(({ festival, solar, lunar }) => (
-          <FestivalRow
-            key={`${festival.id}-${solar.year}-${solar.month}-${solar.day}`}
-            festival={festival}
-            solar={solar}
-            lunar={lunar}
-          />
-        ))
-      )}
+    <Screen scroll={false}>
+      <FlatList
+        data={items}
+        renderItem={renderItem}
+        keyExtractor={keyExtractor}
+        ListHeaderComponent={
+          <>
+            <PageHeader
+              title="Lễ hội"
+              subtitle="Sự kiện âm lịch và ngày lễ, dùng được offline"
+            />
+            <View style={styles.filters}>
+              {FILTERS.map((f) => {
+                const active = filter === f.key;
+                return (
+                  <Pressable
+                    key={f.key}
+                    onPress={() => setFilter(f.key)}
+                    style={[
+                      styles.pill,
+                      {
+                        backgroundColor: active ? colors.accentSoft : colors.bgMuted,
+                        borderColor: active ? colors.accent : colors.border,
+                        borderWidth: StyleSheet.hairlineWidth,
+                      },
+                    ]}
+                  >
+                    <AppText
+                      style={[
+                        styles.pillText,
+                        { color: active ? colors.accentText : colors.textSecondary },
+                      ]}
+                    >
+                      {f.label}
+                    </AppText>
+                  </Pressable>
+                );
+              })}
+            </View>
+          </>
+        }
+        ListEmptyComponent={
+          <View style={styles.empty}>
+            <AppText style={[styles.emptyText, { color: colors.textMuted }]}>
+              {'Không có sự kiện phù hợp.'}
+            </AppText>
+          </View>
+        }
+        contentContainerStyle={styles.listContent}
+        showsVerticalScrollIndicator={false}
+        initialNumToRender={8}
+        maxToRenderPerBatch={8}
+        updateCellsBatchingPeriod={24}
+        windowSize={7}
+        removeClippedSubviews={Platform.OS === 'android'}
+      />
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
+  listContent: {
+    paddingHorizontal: space.lg,
+    paddingBottom: 100,
+  },
   filters: {
     flexDirection: 'row',
     flexWrap: 'wrap',

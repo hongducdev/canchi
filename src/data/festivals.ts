@@ -330,6 +330,34 @@ export const FESTIVALS: Festival[] = [
   ...INTERNATIONAL_OBSERVANCES,
 ];
 
+function festivalDateKey(day: number, month: number): string {
+  return `${month}-${day}`;
+}
+
+function indexFestivals(
+  dayField: 'solarDay' | 'lunarDay',
+  monthField: 'solarMonth' | 'lunarMonth',
+): Map<string, Festival[]> {
+  const index = new Map<string, Festival[]>();
+  for (const festival of FESTIVALS) {
+    const day = festival[dayField];
+    const month = festival[monthField];
+    if (day == null || month == null) continue;
+    const key = festivalDateKey(day, month);
+    const current = index.get(key);
+    if (current) current.push(festival);
+    else index.set(key, [festival]);
+  }
+  return index;
+}
+
+const SOLAR_FESTIVAL_INDEX = indexFestivals('solarDay', 'solarMonth');
+const LUNAR_FESTIVAL_INDEX = indexFestivals('lunarDay', 'lunarMonth');
+const TAT_NIEN_FESTIVAL = FESTIVALS.find((festival) => festival.id === 'tat-nien');
+const FESTIVAL_ORDER = new Map(
+  FESTIVALS.map((festival, index) => [festival.id, index]),
+);
+
 function matchesLunar(f: Festival, lunar: LunarDate): boolean {
   if (f.lunarDay == null || f.lunarMonth == null) return false;
   if (f.ignoreLeap && lunar.leap) return false;
@@ -351,23 +379,37 @@ export function getFestivalsForDay(solar: SolarDate, lunar: LunarDate): Festival
   const result: Festival[] = [];
   const seen = new Set<string>();
 
-  for (const f of FESTIVALS) {
-    let hit = matchesSolar(f, solar) || matchesLunar(f, lunar);
-    if (
-      !hit &&
-      f.id === 'tat-nien' &&
-      lunar.month === 12 &&
-      !lunar.leap &&
-      (lunar.day === 29 || lunar.day === 30) &&
-      isLastDayOfLunarMonth(lunar, solar)
-    ) {
-      hit = true;
-    }
-    if (hit && !seen.has(f.id)) {
-      seen.add(f.id);
-      result.push(f);
-    }
+  const addFestival = (festival: Festival) => {
+    if (seen.has(festival.id)) return;
+    seen.add(festival.id);
+    result.push(festival);
+  };
+
+  for (const festival of SOLAR_FESTIVAL_INDEX.get(
+    festivalDateKey(solar.day, solar.month),
+  ) ?? []) {
+    if (matchesSolar(festival, solar)) addFestival(festival);
   }
+  for (const festival of LUNAR_FESTIVAL_INDEX.get(
+    festivalDateKey(lunar.day, lunar.month),
+  ) ?? []) {
+    if (matchesLunar(festival, lunar)) addFestival(festival);
+  }
+
+  if (
+    TAT_NIEN_FESTIVAL &&
+    !seen.has(TAT_NIEN_FESTIVAL.id) &&
+    lunar.month === 12 &&
+    !lunar.leap &&
+    (lunar.day === 29 || lunar.day === 30) &&
+    isLastDayOfLunarMonth(lunar, solar)
+  ) {
+    addFestival(TAT_NIEN_FESTIVAL);
+  }
+
+  result.sort(
+    (a, b) => (FESTIVAL_ORDER.get(a.id) ?? 0) - (FESTIVAL_ORDER.get(b.id) ?? 0),
+  );
 
   if (lunar.day === 1 && !result.some((f) => f.lunarDay === 1)) {
     result.push({

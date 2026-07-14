@@ -46,6 +46,20 @@ describe('getWidgetLayout', () => {
       roomyTypography: true,
     });
   });
+
+  it('uses roomy typography for the anniversary widget at 4x2', () => {
+    expect(getWidgetLayout('Anniversary', { width: 300, height: 140 })).toEqual({
+      compact: false,
+      showLunarGrid: false,
+      roomyTypography: true,
+    });
+  });
+
+  it('uses compact typography for the anniversary widget at 2x2', () => {
+    expect(getWidgetLayout('Anniversary', { width: 150, height: 150 }).compact).toBe(
+      true,
+    );
+  });
 });
 
 describe('getCompactMonthGridMetrics', () => {

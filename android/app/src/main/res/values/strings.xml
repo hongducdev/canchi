@@ -6,6 +6,7 @@
   <string name="widget_dateminimal_description" translatable="false">Ngày lớn và âm lịch</string>
   <string name="widget_combo_description" translatable="false">Ngày hôm nay và lưới tháng</string>
   <string name="widget_calendarweather_description" translatable="false">Ngày dương, ngày âm và thời tiết hiện tại</string>
+  <string name="widget_anniversary_description" translatable="false">Đếm số ngày hoặc năm tháng ngày từ một mốc kỷ niệm</string>
   <string name="widget_daydetail_description" translatable="false">Đầy đủ dương/âm, can chi, hoàng đạo hôm nay</string>
   <string name="expo_splash_screen_resize_mode" translatable="false">contain</string>
 </resources>

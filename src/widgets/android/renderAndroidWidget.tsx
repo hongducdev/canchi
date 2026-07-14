@@ -2,9 +2,15 @@
 
 import { buildWidgetPayload } from "../buildWidgetPayload";
 import { buildCalendarWeatherWidgetProps } from "../buildCalendarWeatherWidgetProps";
+import {
+    buildAnniversaryWidgetProps,
+    createDefaultAnniversaryConfig,
+    getAnniversaryWidgetConfig,
+} from "../anniversaryConfig";
 import type { WidgetPayload } from "../types";
 import { ComboAndroidWidget } from "./ComboAndroidWidget";
 import { CalendarWeatherAndroidWidget } from "./CalendarWeatherAndroidWidget";
+import { AnniversaryAndroidWidget } from "./AnniversaryAndroidWidget";
 import { DateMinimalAndroidWidget } from "./DateMinimalAndroidWidget";
 import { DayDetailAndroidWidget } from "./DayDetailAndroidWidget";
 import { DayLoreAndroidWidget } from "./DayLoreAndroidWidget";
@@ -14,6 +20,7 @@ import { getWidgetLayout, type AndroidWidgetSize } from "./widgetLayout";
 type RenderAndroidWidgetOptions = {
     now?: Date;
     size?: AndroidWidgetSize;
+    widgetId?: number;
 };
 
 const FALLBACK_SIZE: AndroidWidgetSize = { width: 0, height: 0 };
@@ -157,12 +164,49 @@ export async function renderAndroidWidgetFamily(
     widgetName: string,
     options: RenderAndroidWidgetOptions = {},
 ) {
+    if (widgetName === "Anniversary") {
+        const now = options.now ?? new Date();
+        const widgetId = options.widgetId ?? -1;
+        const config =
+            (widgetId >= 0 ? await getAnniversaryWidgetConfig(widgetId) : null) ??
+            createDefaultAnniversaryConfig(widgetId, now);
+        const props = buildAnniversaryWidgetProps(config, now);
+        const layout = getWidgetLayout("Anniversary", options.size ?? FALLBACK_SIZE);
+        return {
+            light: (
+                <AnniversaryAndroidWidget
+                    {...props}
+                    scheme="light"
+                    layout={layout}
+                />
+            ),
+            dark: (
+                <AnniversaryAndroidWidget
+                    {...props}
+                    scheme="dark"
+                    layout={layout}
+                />
+            ),
+        };
+    }
     if (widgetName === "CalendarWeather") {
         const props = await buildCalendarWeatherWidgetProps(options.now ?? new Date());
         const layout = getWidgetLayout("CalendarWeather", options.size ?? FALLBACK_SIZE);
         return {
-            light: <CalendarWeatherAndroidWidget {...props} layout={layout} />,
-            dark: <CalendarWeatherAndroidWidget {...props} layout={layout} />,
+            light: (
+                <CalendarWeatherAndroidWidget
+                    {...props}
+                    scheme="light"
+                    layout={layout}
+                />
+            ),
+            dark: (
+                <CalendarWeatherAndroidWidget
+                    {...props}
+                    scheme="dark"
+                    layout={layout}
+                />
+            ),
         };
     }
     const payload = await buildWidgetPayload(options.now ?? new Date());
@@ -179,5 +223,6 @@ export const ANDROID_WIDGET_NAMES = [
     "DateMinimal",
     "Combo",
     "CalendarWeather",
+    "Anniversary",
     "DayDetail",
 ] as const;

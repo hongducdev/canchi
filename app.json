@@ -2,7 +2,7 @@
     "expo": {
         "name": "Can Chi",
         "slug": "canchi",
-        "version": "1.4.1",
+        "version": "1.4.2",
         "platforms": [
             "ios",
             "android"
@@ -26,6 +26,7 @@
             "package": "com.canchi.app",
             "permissions": [
                 "android.permission.INTERNET",
+                "android.permission.SCHEDULE_EXACT_ALARM",
                 "android.permission.REQUEST_INSTALL_PACKAGES"
             ]
         },
@@ -118,6 +119,18 @@
                             "targetCellHeight": 2,
                             "resizeMode": "horizontal|vertical",
                             "previewImage": "./assets/widget-preview/calendar-weather.png",
+                            "updatePeriodMillis": 1800000
+                        },
+                        {
+                            "name": "Anniversary",
+                            "label": "Ngày kỷ niệm · Can Chi",
+                            "description": "Đếm số ngày hoặc năm tháng ngày từ một mốc kỷ niệm",
+                            "minWidth": "110dp",
+                            "minHeight": "110dp",
+                            "targetCellWidth": 2,
+                            "targetCellHeight": 2,
+                            "resizeMode": "horizontal|vertical",
+                            "widgetFeatures": "reconfigurable",
                             "updatePeriodMillis": 1800000
                         },
                         {

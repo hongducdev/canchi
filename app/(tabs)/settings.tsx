@@ -37,8 +37,10 @@ import {
   uploadBackupToDrive,
 } from '../../src/lib/googleDriveBackup';
 import {
+  cancelMonthlyPrayerReminders,
   expoGoNotificationHint,
   rescheduleAllPersonalReminders,
+  scheduleMonthlyPrayerReminders,
   scheduleTestNotification,
 } from '../../src/lib/notifications';
 import { isWeb } from '../../src/lib/platform';
@@ -68,11 +70,15 @@ export default function SettingsScreen() {
   const showLunarInGrid = useSettingsStore((s) => s.showLunarInGrid);
   const showFestivals = useSettingsStore((s) => s.showFestivals);
   const haptics = useSettingsStore((s) => s.haptics);
+  const monthlyPrayerReminders = useSettingsStore((s) => s.monthlyPrayerReminders);
   const setThemeMode = useSettingsStore((s) => s.setThemeMode);
   const setWeekStartsOn = useSettingsStore((s) => s.setWeekStartsOn);
   const setShowLunarInGrid = useSettingsStore((s) => s.setShowLunarInGrid);
   const setShowFestivals = useSettingsStore((s) => s.setShowFestivals);
   const setHaptics = useSettingsStore((s) => s.setHaptics);
+  const setMonthlyPrayerReminders = useSettingsStore(
+    (s) => s.setMonthlyPrayerReminders,
+  );
   const notes = useNotesStore((s) => s.notes);
   const personalEvents = usePersonalEventsStore((s) => s.events);
   const userProfile = useUserProfileStore((s) => s.profile);
@@ -282,6 +288,36 @@ export default function SettingsScreen() {
     }
   };
 
+  const toggleMonthlyPrayerReminders = async (enabled: boolean) => {
+    if (!enabled) {
+      setMonthlyPrayerReminders(false);
+      await cancelMonthlyPrayerReminders();
+      return;
+    }
+
+    try {
+      const count = await scheduleMonthlyPrayerReminders();
+      if (count === null) {
+        Alert.alert(
+          'Chưa bật thông báo',
+          'Hãy cho phép Can Chi gửi thông báo trong cài đặt hệ thống.',
+        );
+        return;
+      }
+      setMonthlyPrayerReminders(true);
+      Alert.alert(
+        'Đã bật nhắc mùng 1 và Rằm',
+        `Đã lên lịch ${count} thông báo: 18:00 hôm trước và 07:00 đúng ngày.`,
+      );
+    } catch (e) {
+      setMonthlyPrayerReminders(false);
+      Alert.alert(
+        'Không lên lịch được',
+        e instanceof Error ? e.message : 'Vui lòng thử lại.',
+      );
+    }
+  };
+
   const testNotif = async () => {
     try {
       await scheduleTestNotification();
@@ -378,6 +414,14 @@ export default function SettingsScreen() {
           <AppText style={[styles.group, { color: colors.textMuted }]}>THÔNG BÁO</AppText>
           <Card padded={false} style={styles.card}>
             <View style={styles.pad}>
+              <SettingRow
+                title="Nhắc mùng 1 và ngày Rằm"
+                subtitle="18:00 hôm trước · 07:00 đúng ngày"
+                value={monthlyPrayerReminders}
+                onValueChange={(enabled) => {
+                  void toggleMonthlyPrayerReminders(enabled);
+                }}
+              />
               <SettingRow
                 title="Lên lịch nhắc sự kiện"
                 subtitle="Cục bộ (không dùng push) · 8:00 sáng"

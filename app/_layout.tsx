@@ -1,10 +1,10 @@
 import '../src/lib/suppressExpoNotificationsWarnings';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
+import { router, Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { WebShell } from '../src/components/WebShell';
 import { useTheme } from '../src/hooks/useTheme';
@@ -21,6 +21,10 @@ import {
 import { syncWidgets } from '../src/widgets/syncWidgets';
 import { maybeAutoCheckUpdate } from '../src/lib/appUpdate';
 import { syncLauncherIconToLunarDay } from '../src/lib/launcherIcon';
+import {
+  scheduleMonthlyPrayerReminders,
+  subscribeMonthlyPrayerNotificationResponses,
+} from '../src/lib/notifications';
 
 SplashScreen.preventAutoHideAsync().catch(() => {
   // Splash may already be hidden in some environments (e.g. web).
@@ -29,10 +33,16 @@ SplashScreen.preventAutoHideAsync().catch(() => {
 function RootNav() {
   const { colors, isDark } = useTheme();
   const setSettingsHydrated = useSettingsStore((s) => s.setHydrated);
+  const settingsHydrated = useSettingsStore((s) => s.hydrated);
+  const monthlyPrayerReminders = useSettingsStore((s) => s.monthlyPrayerReminders);
+  const setMonthlyPrayerReminders = useSettingsStore(
+    (s) => s.setMonthlyPrayerReminders,
+  );
   const setNotesHydrated = useNotesStore((s) => s.setHydrated);
   const setPersonalHydrated = usePersonalEventsStore((s) => s.setHydrated);
   const setFamilyHydrated = useFamilyStore((s) => s.setHydrated);
   const setProfileHydrated = useUserProfileStore((s) => s.setHydrated);
+  const refreshedMonthlyPrayerReminders = useRef(false);
 
   useEffect(() => {
     // Fallback if rehydrate callback already fired before mount
@@ -57,6 +67,38 @@ function RootNav() {
     void syncLauncherIconToLunarDay();
     void maybeAutoCheckUpdate();
   }, []);
+
+  useEffect(() => {
+    let unsubscribe: (() => void) | undefined;
+    let active = true;
+    void subscribeMonthlyPrayerNotificationResponses((prayerId) => {
+      router.push({
+        pathname: '/van-khan/[id]',
+        params: { id: prayerId },
+      });
+    })
+      .then((cleanup) => {
+        if (active) unsubscribe = cleanup;
+        else cleanup();
+      })
+      .catch(() => {});
+    return () => {
+      active = false;
+      unsubscribe?.();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!settingsHydrated || refreshedMonthlyPrayerReminders.current) return;
+    if (monthlyPrayerReminders) {
+      refreshedMonthlyPrayerReminders.current = true;
+      void scheduleMonthlyPrayerReminders(false)
+        .then((count) => {
+          if (count === null) setMonthlyPrayerReminders(false);
+        })
+        .catch(() => {});
+    }
+  }, [monthlyPrayerReminders, setMonthlyPrayerReminders, settingsHydrated]);
 
   return (
     <>
@@ -91,6 +133,7 @@ function RootNav() {
           <Stack.Screen name="memorial" options={{ title: 'Tính ngày lễ' }} />
           <Stack.Screen name="family" options={{ title: 'Gia đình' }} />
           <Stack.Screen name="astronomy" options={{ title: 'Thiên văn' }} />
+          <Stack.Screen name="date-since" options={{ title: 'Đếm ngày từ mốc' }} />
           <Stack.Screen name="van-khan" options={{ title: 'Văn khấn' }} />
           <Stack.Screen name="van-khan/[id]" options={{ title: 'Chi tiết văn khấn' }} />
           <Stack.Screen name="profile" options={{ title: 'Hồ sơ của tôi' }} />

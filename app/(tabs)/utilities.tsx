@@ -70,6 +70,12 @@ export default function UtilitiesScreen() {
 
       <AppText style={[styles.group, { color: colors.textMuted }]}>CÁ NHÂN</AppText>
       <View style={styles.toolsGrid}>
+        <ToolTile
+          title="Đếm ngày từ mốc"
+          subtitle="Ngày · tuần · tháng · năm đã qua"
+          icon="hourglass-outline"
+          onPress={() => router.push('/date-since' as Href)}
+        />
         {!isWeb ? (
           <ToolTile
             title="Sự kiện cá nhân"
